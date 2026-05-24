@@ -10,9 +10,19 @@ from agent.tool_registry import TOOL_REGISTRY
 
 
 OPTIONAL_ARGS = {
+    "target_relationship_analysis": {"top_n"},
+    "global_relationship_analysis": {"cols", "top_n"},
+    "outlier_analysis": {"method"},
     "numeric_summary": {"columns"},
     "categorical_summary": {"columns", "top_n"},
     "correlation_analysis": {"columns"},
+    "numeric_distribution_plot": {"bins"},
+    "scatter_plot": {"max_points"},
+    "top_correlation_plots": {"cols", "top_n", "max_points"},
+    "group_mean_bar_chart": {"top_n"},
+    "missing_value_bar_chart": {"include_zero"},
+    "regression_plot": {"max_points"},
+    "outlier_detection": {"method"},
 }
 
 REQUIRED_ARGS = {
@@ -76,8 +86,18 @@ def _validate_arg_types(tool: str, args: dict[str, Any], errors: list[str]) -> N
     if "columns" in args and not _is_list_of_strings(args["columns"]):
         errors.append("Arg columns must be a list of strings")
 
-    if "top_n" in args and not isinstance(args["top_n"], int):
-        errors.append("Arg top_n must be an integer")
+    if "cols" in args and not _is_list_of_strings(args["cols"]):
+        errors.append("Arg cols must be a list of strings")
+
+    for int_arg in ("top_n", "bins", "max_points"):
+        if int_arg in args and not isinstance(args[int_arg], int):
+            errors.append(f"Arg {int_arg} must be an integer")
+
+    if "include_zero" in args and not isinstance(args["include_zero"], bool):
+        errors.append("Arg include_zero must be a boolean")
+
+    if "method" in args and not isinstance(args["method"], str):
+        errors.append("Arg method must be a string")
 
 
 def _validate_tool_semantics(
@@ -88,6 +108,59 @@ def _validate_tool_semantics(
     warnings: list[str],
 ) -> None:
     if tool == "missing_analysis":
+        return
+
+    if tool == "missingness_analysis":
+        return
+
+    if tool == "distribution_analysis":
+        column = args.get("column")
+        _validate_column_exists(df, column, "column", errors)
+        if column in df.columns and not _is_numeric_or_coercible(df, column):
+            errors.append(f"column must be numeric: {column}")
+        return
+
+    if tool == "relationship_analysis":
+        x_col = args.get("x_col")
+        y_col = args.get("y_col")
+        _validate_column_exists(df, x_col, "x_col", errors)
+        _validate_column_exists(df, y_col, "y_col", errors)
+        if x_col in df.columns and not _is_numeric_or_coercible(df, x_col):
+            errors.append(f"x_col must be numeric: {x_col}")
+        if y_col in df.columns and not _is_numeric_or_coercible(df, y_col):
+            errors.append(f"y_col must be numeric: {y_col}")
+        return
+
+    if tool == "target_relationship_analysis":
+        target_col = args.get("target_col")
+        _validate_column_exists(df, target_col, "target_col", errors)
+        return
+
+    if tool == "global_relationship_analysis":
+        columns = args.get("cols")
+        target_columns = columns if columns is not None else _numeric_columns(df)
+        _validate_column_list_exists(df, target_columns, errors)
+        for column in target_columns:
+            if column in df.columns and not _is_numeric_or_coercible(df, column):
+                errors.append(f"Column must be numeric for global_relationship_analysis: {column}")
+        if len([column for column in target_columns if column in df.columns]) < 2:
+            errors.append("global_relationship_analysis requires at least two numeric columns")
+        return
+
+    if tool == "group_comparison_analysis":
+        group_col = args.get("group_col")
+        value_col = args.get("value_col")
+        _validate_column_exists(df, group_col, "group_col", errors)
+        _validate_column_exists(df, value_col, "value_col", errors)
+        if value_col in df.columns and not _is_numeric_or_coercible(df, value_col):
+            errors.append(f"value_col must be numeric: {value_col}")
+        return
+
+    if tool == "outlier_analysis":
+        column = args.get("column")
+        _validate_column_exists(df, column, "column", errors)
+        if column in df.columns and not _is_numeric_or_coercible(df, column):
+            errors.append(f"column must be numeric: {column}")
         return
 
     if tool in {"numeric_summary", "correlation_analysis"}:
@@ -154,13 +227,73 @@ def _validate_tool_semantics(
             errors.append(f"value_col must be numeric: {value_col}")
         if group_col in df.columns and _non_missing_unique_count(df[group_col]) != 2:
             errors.append(f"group_col must contain exactly two non-missing groups: {group_col}")
+        return
+
+    if tool == "anova_by_group":
+        group_col = args.get("group_col")
+        value_col = args.get("value_col")
+        _validate_column_exists(df, group_col, "group_col", errors)
+        _validate_column_exists(df, value_col, "value_col", errors)
+        if value_col in df.columns and not _is_numeric(df, value_col):
+            errors.append(f"value_col must be numeric: {value_col}")
+        if group_col in df.columns and _non_missing_unique_count(df[group_col]) < 3:
+            errors.append(f"group_col must contain at least three non-missing groups: {group_col}")
+        return
+
+    if tool == "numeric_distribution_plot":
+        column = args.get("column")
+        _validate_column_exists(df, column, "column", errors)
+        if column in df.columns and not _is_numeric_or_coercible(df, column):
+            errors.append(f"column must be numeric: {column}")
+        return
+
+    if tool in {"scatter_plot", "regression_plot"}:
+        x_col = args.get("x_col")
+        y_col = args.get("y_col")
+        _validate_column_exists(df, x_col, "x_col", errors)
+        _validate_column_exists(df, y_col, "y_col", errors)
+        if x_col in df.columns and not _is_numeric_or_coercible(df, x_col):
+            errors.append(f"x_col must be numeric: {x_col}")
+        if y_col in df.columns and not _is_numeric_or_coercible(df, y_col):
+            errors.append(f"y_col must be numeric: {y_col}")
+        return
+
+    if tool == "top_correlation_plots":
+        columns = args.get("cols")
+        target_columns = columns if columns is not None else _numeric_columns(df)
+        _validate_column_list_exists(df, target_columns, errors)
+        for column in target_columns:
+            if column in df.columns and not _is_numeric_or_coercible(df, column):
+                errors.append(f"Column must be numeric for top_correlation_plots: {column}")
+        if len([column for column in target_columns if column in df.columns]) < 2:
+            errors.append("top_correlation_plots requires at least two numeric columns")
+        return
+
+    if tool == "group_mean_bar_chart":
+        group_col = args.get("group_col")
+        value_col = args.get("value_col")
+        _validate_column_exists(df, group_col, "group_col", errors)
+        _validate_column_exists(df, value_col, "value_col", errors)
+        if value_col in df.columns and not _is_numeric_or_coercible(df, value_col):
+            errors.append(f"value_col must be numeric: {value_col}")
+        return
+
+    if tool == "missing_value_bar_chart":
+        return
+
+    if tool == "outlier_detection":
+        column = args.get("column")
+        _validate_column_exists(df, column, "column", errors)
+        if column in df.columns and not _is_numeric_or_coercible(df, column):
+            errors.append(f"column must be numeric: {column}")
+        return
 
 
 def _column_arg_names(tool: str) -> set[str]:
     return {
         name
         for name in TOOL_REGISTRY[tool]["args"].keys()
-        if name.endswith("_col") or name in {"col_a", "col_b", "feature_col", "target_col"}
+        if name.endswith("_col") or name in {"column", "col_a", "col_b", "feature_col", "target_col"}
     }
 
 
@@ -185,6 +318,15 @@ def _is_list_of_strings(value: Any) -> bool:
 
 def _is_numeric(df: pd.DataFrame, column: str) -> bool:
     return pd.api.types.is_numeric_dtype(df[column])
+
+
+def _is_numeric_or_coercible(df: pd.DataFrame, column: str) -> bool:
+    if _is_numeric(df, column):
+        return True
+    series = df[column]
+    coerced = pd.to_numeric(series, errors="coerce")
+    non_missing = int(series.notna().sum())
+    return non_missing > 0 and int(coerced.notna().sum()) / non_missing >= 0.9
 
 
 def _numeric_columns(df: pd.DataFrame) -> list[str]:

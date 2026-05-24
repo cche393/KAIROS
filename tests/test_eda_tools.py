@@ -4,6 +4,7 @@ import unittest
 import pandas as pd
 
 from tools.eda_tools import (
+    anova_by_group,
     categorical_summary,
     chi_square_test,
     correlation_analysis,
@@ -11,6 +12,7 @@ from tools.eda_tools import (
     missing_analysis,
     numeric_summary,
     simple_linear_regression,
+    outlier_detection,
     t_test_by_group,
     target_group_summary,
 )
@@ -136,6 +138,22 @@ class EdaToolsTests(unittest.TestCase):
         self.assertNotIn("p_value unavailable", t_test["warnings"])
         json.dumps(t_test)
 
+    def test_anova_by_group_returns_p_value_for_three_groups(self):
+        df = pd.DataFrame(
+            {
+                "department": ["A", "A", "B", "B", "C", "C"],
+                "salary": [10, 12, 20, 22, 30, 32],
+            }
+        )
+
+        result = anova_by_group(df, "department", "salary")
+
+        self.assertEqual(result["test"], "anova_by_group")
+        self.assertEqual(result["number_of_groups"], 3)
+        self.assertEqual(result["rows_used"], 6)
+        self.assertIsNotNone(result["f_statistic"])
+        self.assertIsNotNone(result["p_value"])
+
     def test_t_test_handles_non_binary_group(self):
         result = t_test_by_group(
             pd.DataFrame({"group": ["A", "B", "C"], "value": [1, 2, 3]}),
@@ -144,6 +162,16 @@ class EdaToolsTests(unittest.TestCase):
         )
 
         self.assertIn("group_col group must contain exactly two non-missing groups", result["warnings"])
+
+    def test_outlier_detection_uses_iqr_rule(self):
+        result = outlier_detection(pd.DataFrame({"salary": [10, 11, 12, 13, 100]}), "salary")
+
+        self.assertEqual(result["column"], "salary")
+        self.assertEqual(result["method"], "iqr")
+        self.assertEqual(result["count"], 1)
+        self.assertEqual(result["outliers"][0]["value"], 100)
+        self.assertIn("potential anomalies", result["warnings"][0])
+        json.dumps(result)
 
 
 if __name__ == "__main__":

@@ -250,6 +250,53 @@ class LlmPlannerTests(unittest.TestCase):
             ["missing_analysis", "numeric_summary", "categorical_summary"],
         )
 
+    def test_relationship_question_fallback_prioritizes_correlation_graph_helper(self):
+        actions = self._rich_candidate_actions() + [
+            {
+                "tool": "top_correlation_plots",
+                "args": {"cols": ["age", "income"], "top_n": 3},
+                "priority": 9,
+                "reason": "Visualize strongest numeric relationships.",
+            }
+        ]
+
+        with patch.dict(os.environ, {}, clear=True):
+            result = plan_with_llm(
+                "Show important relationships",
+                self.dataset_profile,
+                actions,
+                max_actions=3,
+            )
+
+        selected_tools = [action["tool"] for action in result["selected_actions"]]
+        self.assertIn("top_correlation_plots", selected_tools)
+
+    def test_fallback_prefers_cohesive_relationship_action_for_specific_pair(self):
+        actions = [
+            {
+                "tool": "distribution_analysis",
+                "args": {"column": "salary"},
+                "priority": 1,
+                "reason": "Summarize salary.",
+            },
+            {
+                "tool": "relationship_analysis",
+                "args": {"x_col": "years_experience", "y_col": "salary"},
+                "priority": 2,
+                "reason": "Analyze the requested pair.",
+            },
+        ]
+
+        with patch.dict(os.environ, {}, clear=True):
+            result = plan_with_llm(
+                "Is salary related to years_experience?",
+                self.dataset_profile,
+                actions,
+                max_actions=2,
+            )
+
+        self.assertEqual(result["selected_actions"][0]["tool"], "relationship_analysis")
+
     def test_llm_broad_selection_is_reordered_for_obvious_correlation_intent(self):
         actions = self._rich_candidate_actions()
         payload = json.dumps({"selected_indexes": [0, 1, 2], "reason": "Default broad checks."})

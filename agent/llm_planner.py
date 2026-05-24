@@ -116,11 +116,13 @@ def _request_llm_plan(
                     "candidate_actions": _numbered_candidates(candidate_actions),
                     "goal_relevant_candidate_indexes": _goal_relevant_indexes(goal, candidate_actions),
                     "selection_guidance": [
-                        "If the user asks about correlation, relationship, relatedness, or association between numeric variables, prioritize correlation_analysis.",
-                        "If the user asks whether one numeric variable predicts, affects, impacts, or influences another, consider simple_linear_regression and correlation_analysis.",
-                        "If the user asks about differences across groups or categories, prioritize group_summary or t_test_by_group depending on binary versus multi-category groups.",
+                        "If the user asks about one explicit numeric pair, prioritize relationship_analysis when it is available.",
+                        "If the user asks about correlation, relationship, relatedness, or association between numeric variables, prioritize relationship_analysis or global_relationship_analysis, with correlation_analysis as a lower-level fallback.",
+                        "If the user asks what predicts, affects, impacts, or influences a target variable, prioritize target_relationship_analysis when available.",
+                        "If the user asks about differences across groups or categories, prioritize group_comparison_analysis, or group_summary/t_test_by_group if cohesive analyses are unavailable.",
                         "If the user asks whether two categorical variables are related, prioritize chi_square_test.",
-                        "If the user asks a broad or vague question such as 'Explore this dataset', choose broad EDA actions such as missing_analysis, numeric_summary, and categorical_summary.",
+                        "If the user asks about one numeric variable's distribution, prioritize distribution_analysis.",
+                        "If the user asks a broad or vague question such as 'Explore this dataset', choose broad overview actions such as distribution_analysis, global_relationship_analysis, group_comparison_analysis, and missingness_analysis when available.",
                     ],
                     "response_schema": {
                         "selected_indexes": [0, 1, 2],
@@ -298,13 +300,17 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
     score = 0
 
     if tokens & {"missing", "null", "incomplete", "blank", "empty"}:
-        score += _tool_score(tool, {"missing_analysis": 120})
+        score += _tool_score(tool, {"missingness_analysis": 140, "missing_analysis": 120, "missing_value_bar_chart": 100})
 
     if tokens & {"correlation", "correlations", "relationship", "relationships", "related", "association", "associations"}:
         score += _tool_score(
             tool,
             {
+                "relationship_analysis": 170,
+                "global_relationship_analysis": 150,
                 "correlation_analysis": 140,
+                "top_correlation_plots": 135,
+                "scatter_plot": 90,
                 "simple_linear_regression": 70,
                 "numeric_summary": 30,
             },
@@ -314,10 +320,16 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
         score += _tool_score(
             tool,
             {
+                "target_relationship_analysis": 155,
+                "relationship_analysis": 145,
+                "global_relationship_analysis": 130,
                 "simple_linear_regression": 125,
+                "top_correlation_plots": 115,
                 "correlation_analysis": 105,
+                "regression_plot": 100,
                 "t_test_by_group": 95,
                 "group_summary": 85,
+                "group_mean_bar_chart": 80,
                 "numeric_summary": 25,
             },
         )
@@ -331,7 +343,9 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
         score += _tool_score(
             tool,
             {
+                "group_comparison_analysis": 150,
                 "group_summary": 130,
+                "group_mean_bar_chart": 125,
                 "t_test_by_group": 115,
                 "chi_square_test": 55,
                 "categorical_summary": 25,
@@ -342,8 +356,26 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
         score += _tool_score(
             tool,
             {
+                "distribution_analysis": 135,
                 "categorical_summary": 110,
                 "chi_square_test": 80,
+            },
+        )
+
+    if tokens & {"show", "plot", "chart", "visualize", "visualise", "graph"}:
+        score += _tool_score(
+            tool,
+            {
+                "global_relationship_analysis": 85,
+                "top_correlation_plots": 70,
+                "relationship_analysis": 65,
+                "scatter_plot": 60,
+                "group_comparison_analysis": 58,
+                "group_mean_bar_chart": 55,
+                "missing_value_bar_chart": 50,
+                "distribution_analysis": 48,
+                "numeric_distribution_plot": 45,
+                "regression_plot": 45,
             },
         )
 
@@ -351,6 +383,10 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
         score += _tool_score(
             tool,
             {
+                "distribution_analysis": 90,
+                "global_relationship_analysis": 85,
+                "group_comparison_analysis": 82,
+                "missingness_analysis": 50,
                 "missing_analysis": 80,
                 "numeric_summary": 70,
                 "categorical_summary": 60,
@@ -405,6 +441,12 @@ def _has_specific_intent(goal: str) -> bool:
         "proportions",
         "distribution",
         "distributions",
+        "show",
+        "plot",
+        "chart",
+        "visualize",
+        "visualise",
+        "graph",
     }
     return bool(tokens & specific_tokens or "by" in tokens)
 

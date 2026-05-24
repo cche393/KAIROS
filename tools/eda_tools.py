@@ -6,7 +6,7 @@ import math
 from typing import Any
 
 import pandas as pd
-from scipy.stats import chi2_contingency, ttest_ind
+from scipy.stats import chi2_contingency, f_oneway, ttest_ind
 
 
 def missing_analysis(df: pd.DataFrame) -> dict[str, Any]:
@@ -332,6 +332,114 @@ def t_test_by_group(df: pd.DataFrame, group_col: str, value_col: str) -> dict[st
     statistic, p_value = ttest_ind(series_a, series_b, equal_var=False, nan_policy="omit")
     base["t_statistic"] = _safe_number(statistic)
     base["p_value"] = _safe_number(p_value)
+    return base
+
+
+def anova_by_group(df: pd.DataFrame, group_col: str, value_col: str) -> dict[str, Any]:
+    warnings = _validate_columns(df, [group_col, value_col])
+    base = {
+        "group_col": group_col,
+        "value_col": value_col,
+        "test": "anova_by_group",
+        "f_statistic": None,
+        "p_value": None,
+        "number_of_groups": 0,
+        "rows_used": 0,
+        "groups": {},
+        "warnings": warnings,
+    }
+    if warnings:
+        return base
+    if not pd.api.types.is_numeric_dtype(df[value_col]):
+        base["warnings"].append(f"value_col {value_col} must be numeric")
+        return base
+
+    non_missing = df[[group_col, value_col]].dropna()
+    grouped_series = []
+    for group, values in non_missing.groupby(group_col, dropna=False)[value_col]:
+        numeric = pd.to_numeric(values, errors="coerce").dropna()
+        if not numeric.empty:
+            grouped_series.append(numeric)
+            base["groups"][_label(group)] = _series_stats(numeric)
+    base["number_of_groups"] = int(len(grouped_series))
+    base["rows_used"] = int(sum(len(series) for series in grouped_series))
+
+    if len(grouped_series) < 3:
+        base["warnings"].append("ANOVA requires at least three non-empty groups")
+        return base
+    if any(len(series) < 2 for series in grouped_series):
+        base["warnings"].append("Each group should have at least two numeric observations for ANOVA")
+        return base
+
+    statistic, p_value = f_oneway(*grouped_series)
+    base["f_statistic"] = _safe_number(statistic)
+    base["p_value"] = _safe_number(p_value)
+    base["warnings"].append(
+        "ANOVA assumes approximate normality and comparable variance across groups."
+    )
+    return base
+
+
+def outlier_detection(
+    df: pd.DataFrame,
+    column: str,
+    method: str = "iqr",
+    max_outliers: int = 20,
+) -> dict[str, Any]:
+    warnings = []
+    base = {
+        "column": column,
+        "method": method,
+        "count": 0,
+        "lower_bound": None,
+        "upper_bound": None,
+        "outliers": [],
+        "summary": "",
+        "warnings": warnings,
+    }
+    if column not in df.columns:
+        warnings.append(f"Column not found: {column}")
+        base["summary"] = f"Outlier detection could not run because {column} was not found."
+        return base
+    if method != "iqr":
+        warnings.append("Only method='iqr' is currently supported")
+        base["summary"] = "Outlier detection could not run because the requested method is unsupported."
+        return base
+    if not pd.api.types.is_numeric_dtype(df[column]):
+        warnings.append(f"column {column} must be numeric")
+        base["summary"] = f"Outlier detection requires numeric values in {column}."
+        return base
+
+    series = pd.to_numeric(df[column], errors="coerce").dropna()
+    if len(series) < 4:
+        warnings.append("At least four numeric values are recommended for IQR outlier detection")
+    if series.empty:
+        warnings.append(f"{column} has no non-missing numeric values")
+        base["summary"] = f"No usable numeric values were available in {column}."
+        return base
+
+    q1 = series.quantile(0.25)
+    q3 = series.quantile(0.75)
+    iqr = q3 - q1
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+    mask = (pd.to_numeric(df[column], errors="coerce") < lower) | (
+        pd.to_numeric(df[column], errors="coerce") > upper
+    )
+    outlier_rows = df.loc[mask, [column]]
+    base["count"] = int(len(outlier_rows))
+    base["lower_bound"] = _safe_number(lower)
+    base["upper_bound"] = _safe_number(upper)
+    base["outliers"] = [
+        {"row_index": str(index), "value": _safe_number(row[column])}
+        for index, row in outlier_rows.head(max(int(max_outliers), 1)).iterrows()
+    ]
+    base["summary"] = (
+        f"Found {base['count']} potential outliers in {column} using the IQR rule."
+    )
+    warnings.append(
+        "Statistical outliers are potential anomalies only. Whether they are real problems depends on domain context."
+    )
     return base
 
 

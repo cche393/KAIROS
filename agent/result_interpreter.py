@@ -21,9 +21,14 @@ def interpret_result(
         "t_test_by_group": _interpret_t_test_by_group,
         "chi_square_test": _interpret_chi_square_test,
         "simple_linear_regression": _interpret_simple_linear_regression,
+        "outlier_detection": _interpret_outlier_detection,
     }
     interpreter = interpreters.get(str(tool_name or ""))
     if interpreter is None:
+        if isinstance(result, dict) and result.get("analysis_type"):
+            return _interpret_cohesive_analysis(result)
+        if _is_chart_spec(result):
+            return _interpret_chart_spec(result)
         return _response(
             "No specialised interpretation is available for this analysis.",
             method_note="The raw structured result is available in technical details.",
@@ -221,14 +226,18 @@ def _interpret_t_test_by_group(result: Any, user_goal: str | None = None) -> dic
     if p_value is None:
         summary = f"The two-group comparison for {value_col} was computed, but no p-value is available."
     elif p_value < 0.05:
-        summary = f"The difference in {value_col} is statistically significant at the conventional 5% level."
+        summary = f"The difference in {value_col} is statistically notable under the common 0.05 threshold."
     else:
-        summary = f"The difference in {value_col} is not statistically significant at the conventional 5% level."
+        summary = f"The difference in {value_col} is not statistically notable under the common 0.05 threshold."
 
     return _response(
         summary,
         findings,
-        ["Interpret t-tests cautiously when sample sizes are small or group variances differ."],
+        [
+            "A small p-value suggests the observed group difference would be unlikely under the no-difference assumption; it does not prove causation.",
+            "Practical size should be considered separately from statistical significance.",
+            "Interpret t-tests cautiously when sample sizes are small or group variances differ.",
+        ],
         "Two-sample t-tests compare the means of exactly two groups.",
     )
 
@@ -243,9 +252,9 @@ def _interpret_chi_square_test(result: Any, user_goal: str | None = None) -> dic
     if p_value is None:
         summary = f"The chi-square statistic for {col_a} and {col_b} was computed, but no p-value is available."
     elif p_value < 0.05:
-        summary = f"The p-value suggests an association between {col_a} and {col_b} at the conventional 5% level."
+        summary = f"The p-value suggests an association between {col_a} and {col_b} that is statistically notable under the common 0.05 threshold."
     else:
-        summary = f"The p-value does not suggest a statistically significant association between {col_a} and {col_b} at the conventional 5% level."
+        summary = f"The p-value is not statistically notable under the common 0.05 threshold for association between {col_a} and {col_b}."
 
     findings = []
     if statistic is not None:
@@ -253,7 +262,10 @@ def _interpret_chi_square_test(result: Any, user_goal: str | None = None) -> dic
     return _response(
         summary,
         findings,
-        ["Association does not imply causation."],
+        [
+            "A small p-value suggests the observed pattern would be unlikely under the no-association assumption; it does not prove causation.",
+            "Practical size should be considered separately from statistical significance.",
+        ],
         "Chi-square tests compare observed categorical counts with expected counts under independence.",
     )
 
@@ -284,6 +296,106 @@ def _interpret_simple_linear_regression(result: Any, user_goal: str | None = Non
         findings,
         ["A simple linear model assumes an approximately linear relationship and does not prove causation."],
         "Simple linear regression estimates one numeric target from one numeric feature.",
+    )
+
+
+def _interpret_outlier_detection(result: Any, user_goal: str | None = None) -> dict[str, Any]:
+    data = _as_dict(result)
+    column = data.get("column", "selected column")
+    count = int(_number(data.get("count")) or 0)
+    lower = data.get("lower_bound")
+    upper = data.get("upper_bound")
+    findings = []
+    if lower is not None and upper is not None:
+        findings.append(f"IQR bounds were {lower} to {upper}.")
+    return _response(
+        f"{count} potential {_plural(count, 'outlier')} were detected in {column}.",
+        findings,
+        data.get("warnings", []) if isinstance(data.get("warnings"), list) else ["Statistical outliers are potential anomalies only."],
+        "Outlier detection uses the IQR rule by default.",
+    )
+
+
+def _interpret_chart_spec(result: Any) -> dict[str, Any]:
+    data = _as_dict(result)
+    title = data.get("title", "chart")
+    finding = data.get("finding") or data.get("topic") or f"Chart-ready data was prepared for {title}."
+    chart_type = data.get("chart_type", "chart")
+    return _response(
+        str(finding),
+        [f"{title} is ready to view as a {chart_type} chart."],
+        data.get("warnings", []) if isinstance(data.get("warnings"), list) else [],
+        "Graph helpers return deterministic chart specifications; the UI decides how to render them.",
+    )
+
+
+def _interpret_cohesive_analysis(result: Any) -> dict[str, Any]:
+    data = _as_dict(result)
+    analysis_type = str(data.get("analysis_type", "analysis"))
+    summary = str(data.get("summary") or "The analysis completed.")
+    findings = []
+
+    if analysis_type in {"relationship_analysis", "global_relationship_analysis"}:
+        relationships = _as_list(data.get("relationships"))
+        for item in relationships[:5]:
+            details = _as_dict(item)
+            if details.get("summary"):
+                findings.append(str(details["summary"]))
+            elif details.get("x_col") and details.get("y_col"):
+                findings.append(
+                    f"{details.get('x_col')} and {details.get('y_col')} have association {details.get('correlation')}."
+                )
+    elif analysis_type == "target_relationship_analysis":
+        for item in _as_list(data.get("relationships"))[:5]:
+            details = _as_dict(item)
+            if details.get("summary"):
+                findings.append(str(details["summary"]))
+            elif details.get("predictor_col"):
+                findings.append(
+                    f"{details.get('predictor_col')} has association {details.get('association')} with {data.get('target_col')}."
+                )
+    elif analysis_type == "group_comparison_analysis":
+        ranked = _as_list(data.get("ranked_groups"))
+        if ranked:
+            top = _as_dict(ranked[0])
+            bottom = _as_dict(ranked[-1])
+            findings.append(
+                f"{top.get('group')} has the highest mean; {bottom.get('group')} has the lowest."
+            )
+        test = _as_dict(data.get("inferential_test"))
+        p_value = _number(test.get("p_value"))
+        if p_value is not None:
+            if p_value < 0.05:
+                findings.append("The p-value is statistically notable under the common 0.05 threshold.")
+            else:
+                findings.append("The p-value is not statistically notable under the common 0.05 threshold.")
+    elif analysis_type == "distribution_analysis":
+        stats = _as_dict(data.get("statistics"))
+        if stats:
+            findings.append(
+                f"Mean {stats.get('mean')}; median {stats.get('median')}; range {stats.get('min')} to {stats.get('max')}."
+            )
+    elif analysis_type == "outlier_analysis":
+        findings.append(f"{data.get('count', 0)} potential outliers were flagged.")
+    elif analysis_type == "missingness_analysis":
+        ranked = _as_list(data.get("ranked_missing_columns"))
+        if ranked:
+            first = _as_dict(ranked[0])
+            findings.append(
+                f"{first.get('column')} has the highest missingness at {first.get('missing_percent')}%."
+            )
+
+    cautions = data.get("warnings", []) if isinstance(data.get("warnings"), list) else []
+    if _as_dict(data.get("inferential_test")).get("p_value") is not None:
+        cautions = cautions + [
+            "A small p-value suggests the observed group difference would be unlikely under the no-difference assumption; it does not prove causation.",
+            "Practical size should be considered separately from statistical significance.",
+        ]
+    return _response(
+        summary,
+        findings,
+        cautions,
+        str(data.get("method_note") or "This cohesive analysis combines deterministic statistics with chart-ready data."),
     )
 
 
@@ -408,15 +520,24 @@ def _response(
     method_note: str = "",
 ) -> dict[str, Any]:
     return {
-        "summary": str(summary or ""),
+        "summary": _sentence_case(str(summary or "")),
         "key_findings": [str(item) for item in (key_findings or []) if item],
         "cautions": [str(item) for item in (cautions or []) if item],
         "method_note": str(method_note or ""),
     }
 
 
+def _sentence_case(value: str) -> str:
+    return value[:1].upper() + value[1:] if value else value
+
+
 def _as_dict(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
+
+
+def _is_chart_spec(value: Any) -> bool:
+    data = _as_dict(value)
+    return {"tool_name", "chart_type", "data"}.issubset(data.keys())
 
 
 def _as_list(value: Any) -> list[Any]:

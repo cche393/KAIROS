@@ -148,7 +148,9 @@ class ResultInterpreterTests(unittest.TestCase):
 
         interpretation = interpret_result("t_test_by_group", result)
 
-        self.assertIn("statistically significant", interpretation["summary"])
+        self.assertIn("statistically notable", interpretation["summary"])
+        self.assertNotIn("prove", interpretation["summary"].lower())
+        self.assertTrue(any("practical" in caution.lower() for caution in interpretation["cautions"]))
         self.assertTrue(any("sample size" in item for item in interpretation["cautions"]))
 
     def test_chi_square_p_value_interpretation(self):
@@ -163,6 +165,7 @@ class ResultInterpreterTests(unittest.TestCase):
         interpretation = interpret_result("chi_square_test", result)
 
         self.assertIn("association", interpretation["summary"])
+        self.assertNotIn("prove", interpretation["summary"].lower())
         self.assertTrue(any("causation" in item for item in interpretation["cautions"]))
 
     def test_simple_linear_regression_stable_explanation(self):
@@ -180,11 +183,58 @@ class ResultInterpreterTests(unittest.TestCase):
         self.assertIn("positive", interpretation["summary"])
         self.assertIn("R-squared", " ".join(interpretation["key_findings"]))
 
+    def test_outlier_detection_interpretation(self):
+        interpretation = interpret_result(
+            "outlier_detection",
+            {
+                "column": "salary",
+                "count": 2,
+                "lower_bound": 10,
+                "upper_bound": 100,
+                "warnings": ["Statistical outliers are potential anomalies only."],
+            },
+        )
+
+        self.assert_stable_shape(interpretation)
+        self.assertIn("2 potential outliers", interpretation["summary"])
+        self.assertTrue(interpretation["cautions"])
+
     def test_unknown_tool_returns_stable_shape(self):
         interpretation = interpret_result("unknown_tool", {"anything": "goes"})
 
         self.assert_stable_shape(interpretation)
         self.assertIn("No specialised interpretation", interpretation["summary"])
+
+    def test_interpreter_capitalizes_cohesive_summary(self):
+        interpretation = interpret_result(
+            "relationship_analysis",
+            {
+                "analysis_type": "relationship_analysis",
+                "summary": "salary and years_experience show a strong positive association.",
+                "warnings": [],
+            },
+        )
+
+        self.assertEqual(
+            interpretation["summary"],
+            "Salary and years_experience show a strong positive association.",
+        )
+
+    def test_chart_helper_result_uses_chart_finding(self):
+        interpretation = interpret_result(
+            "top_correlation_plots",
+            {
+                "tool_name": "top_correlation_plots",
+                "title": "Top 3 strongest numeric relationships",
+                "finding": "Selected 3 numeric relationship charts.",
+                "chart_type": "scatter",
+                "data": [],
+            },
+        )
+
+        self.assert_stable_shape(interpretation)
+        self.assertIn("Selected 3 numeric relationship charts.", interpretation["summary"])
+        self.assertNotIn("chart specification", " ".join(interpretation["key_findings"]))
 
     def test_interpreter_does_not_crash_on_unexpected_structure(self):
         for tool_name, result in [

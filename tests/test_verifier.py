@@ -95,6 +95,21 @@ class VerifierTests(unittest.TestCase):
         )
 
         self.assertTrue(result["valid"])
+
+    def test_valid_anova_by_group_is_accepted(self):
+        df = pd.DataFrame(
+            {
+                "segment": ["A", "A", "B", "B", "C", "C"],
+                "age": [20, 21, 30, 31, 40, 41],
+            }
+        )
+
+        result = verify_action(
+            df,
+            {"tool": "anova_by_group", "args": {"group_col": "segment", "value_col": "age"}},
+        )
+
+        self.assertTrue(result["valid"])
         self.assertEqual(result["errors"], [])
 
     def test_invalid_parameter_types_are_rejected(self):

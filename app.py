@@ -11,13 +11,20 @@ import streamlit as st
 from agent.executor import execute_action
 from agent.llm_planner import plan_with_llm
 from agent.observer import inspect_dataset, load_csv
-from agent.planner_helper import recommend_actions
+from agent.planner_helper import describe_planning_scope, recommend_actions
 from agent.result_interpreter import interpret_result
 
 
 DEFAULT_GOAL = "Explore this dataset."
 
 ACTION_LABELS = {
+    "distribution_analysis": "Distribution analysis",
+    "relationship_analysis": "Relationship analysis",
+    "target_relationship_analysis": "Target relationship analysis",
+    "global_relationship_analysis": "Strongest relationships",
+    "group_comparison_analysis": "Group comparison",
+    "outlier_analysis": "Outlier analysis",
+    "missingness_analysis": "Missingness analysis",
     "missing_analysis": "Check missing values",
     "numeric_summary": "Summarise numeric columns",
     "categorical_summary": "Summarise categories",
@@ -27,10 +34,19 @@ ACTION_LABELS = {
     "simple_linear_regression": "Fit simple linear relationship",
     "chi_square_test": "Test relationship between categories",
     "t_test_by_group": "Compare two group means",
+    "numeric_distribution_plot": "Visualise numeric distribution",
+    "scatter_plot": "Visualise numeric relationship",
+    "top_correlation_plots": "Visualise strongest relationships",
+    "group_mean_bar_chart": "Visualise group averages",
+    "missing_value_bar_chart": "Visualise missing values",
+    "regression_plot": "Visualise fitted relationship",
+    "outlier_detection": "Detect potential outliers",
 }
 
 ARG_LABELS = {
+    "column": "Column",
     "columns": "Columns",
+    "cols": "Columns",
     "group_col": "Group column",
     "value_col": "Value column",
     "target_col": "Target column",
@@ -39,6 +55,10 @@ ARG_LABELS = {
     "y_col": "Y column",
     "col_a": "First category column",
     "col_b": "Second category column",
+    "top_n": "Maximum items",
+    "max_points": "Maximum points",
+    "bins": "Bins",
+    "include_zero": "Include complete columns",
 }
 
 
@@ -128,8 +148,11 @@ def _workspace_panel(uploaded_file: Any, effective_goal: str) -> None:
         st.info("The question has changed. Select Generate and run analysis to refresh the analysis.")
 
     _show_dataset_overview(bundle["profile"], bundle["df"])
-    _show_selected_actions(bundle["selected_actions"])
-    _show_execution_results(bundle["execution_results"], bundle.get("goal"))
+    _show_analysis_results(
+        bundle["selected_actions"],
+        bundle["execution_results"],
+        bundle.get("goal"),
+    )
     st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -150,7 +173,8 @@ def _generate_and_run(uploaded_file: Any, goal: str, max_actions: int) -> None:
     if df.empty and len(df.columns) == 0:
         st.warning("The uploaded CSV is empty or has no readable columns.")
 
-    candidate_actions = recommend_actions(df)
+    candidate_actions = recommend_actions(df, goal=goal)
+    planning_trace = describe_planning_scope(goal, df)
     plan = plan_with_llm(goal, profile, candidate_actions, max_actions=max_actions)
     selected_actions = plan["selected_actions"]
     execution_results = [execute_action(df, action) for action in selected_actions]
@@ -161,6 +185,7 @@ def _generate_and_run(uploaded_file: Any, goal: str, max_actions: int) -> None:
         "goal": goal,
         "profile": profile,
         "candidate_actions": candidate_actions,
+        "planning_trace": planning_trace,
         "plan": plan,
         "selected_actions": selected_actions,
         "execution_results": execution_results,
@@ -202,6 +227,8 @@ def _show_agent_explanation() -> None:
         st.write("Question sent to planner")
         st.code(bundle["goal"], language="text")
         st.write(f"Planner mode: `{plan.get('mode', 'unknown')}`")
+        st.write("Deterministic scope trace")
+        st.json(bundle.get("planning_trace", {}))
         st.write("Selected candidate indexes")
         st.json(_selected_candidate_indexes(bundle["candidate_actions"], selected))
         tech_tabs = st.tabs(["Candidate action list", "Planner response"])
@@ -272,11 +299,6 @@ def _show_dataset_overview(profile: dict[str, Any], df: pd.DataFrame) -> None:
         st.json(profile)
 
 
-def _show_selected_actions(actions: list[dict[str, Any]]) -> None:
-    st.markdown("### Selected analyses")
-    _show_action_cards(actions, empty_message="No analyses were selected for this dataset.")
-
-
 def _show_action_cards(actions: list[dict[str, Any]], empty_message: str) -> None:
     if not actions:
         st.info(empty_message)
@@ -310,40 +332,157 @@ def _show_friendly_uses(args: dict[str, Any]) -> None:
         st.write(f"{label}: {value_text}")
 
 
-def _show_execution_results(results: list[dict[str, Any]], user_goal: str | None = None) -> None:
-    st.markdown("### Results")
-    if not results:
-        st.info("No analyses were run.")
+def _show_analysis_results(
+    actions: list[dict[str, Any]],
+    results: list[dict[str, Any]],
+    user_goal: str | None = None,
+) -> None:
+    st.markdown("### Selected analyses and results")
+    sections = _cohesive_analysis_sections(actions, results)
+    if not sections:
+        st.info("No analyses were selected for this dataset.")
         return
 
-    for index, result in enumerate(results, start=1):
-        action = {"tool": result.get("tool")}
+    for index, section in enumerate(sections, start=1):
+        action = section["action"]
+        result = section["result"]
+        chart_action = section.get("chart_action")
+        chart_result = section.get("chart_result")
         with st.container(border=True):
-            st.markdown(f"**{index}. {_action_label(action)}**")
+            st.markdown(f"**{index}. {_section_title(action, chart_result)}**")
+            if action.get("reason"):
+                st.write(action["reason"])
+            _show_friendly_uses(action.get("args", {}))
+
+            if result is None:
+                st.warning("This analysis did not return an execution result.")
+                continue
+
             status_text = "Executed" if result["executed"] else "Not executed"
-            verification_text = "verified" if result["verification"]["valid"] else "blocked during verification"
+            verification_text = "Verified" if result["verification"]["valid"] else "Blocked during verification"
+            st.markdown("**Execution status**")
             st.caption(f"{status_text}; {verification_text}. Warnings: {len(result['warnings'])}.")
 
             _show_messages("Error", result["errors"], st.error)
             _show_messages("Warning", result["warnings"], st.warning)
-            _show_result(result.get("tool"), result["result"])
+
+            interpretation = None
             if result.get("result") is not None:
-                _show_interpretation(
-                    interpret_result(result.get("tool"), result.get("result"), user_goal=user_goal)
+                interpretation = interpret_result(
+                    result.get("tool"),
+                    result.get("result"),
+                    user_goal=user_goal,
                 )
+                _show_interpretation_summary(interpretation)
+
+            _show_result(result.get("tool"), result["result"])
+
+            if chart_result is not None:
+                st.markdown("**Chart**")
+                _show_result(chart_result.get("tool"), chart_result.get("result"))
+                _show_messages("Chart warning", chart_result.get("warnings", []), st.warning)
+
+            if interpretation is not None:
+                _show_interpretation_details(interpretation)
 
             with st.expander("Technical details", expanded=False):
-                tech_tabs = st.tabs(["Analysis request", "Verification", "Executor response"])
+                tab_names = ["Analysis request", "Verification", "Executor response"]
+                if chart_result is not None:
+                    tab_names.append("Chart response")
+                tech_tabs = st.tabs(tab_names)
                 with tech_tabs[0]:
                     st.write(f"Tool name: `{result.get('tool', 'unknown_tool')}`")
-                    if result.get("args"):
-                        st.json(result["args"])
+                    raw_args = result.get("args") or action.get("args", {})
+                    if raw_args:
+                        st.json(raw_args)
                     else:
                         st.caption("No parameters were required.")
                 with tech_tabs[1]:
                     st.json(result["verification"])
                 with tech_tabs[2]:
                     st.json(result)
+                if chart_result is not None:
+                    with tech_tabs[3]:
+                        st.write(f"Chart helper: `{chart_action.get('tool', 'unknown_tool')}`")
+                        st.json(chart_result)
+
+
+def _analysis_result_pairs(
+    actions: list[dict[str, Any]],
+    results: list[dict[str, Any]],
+) -> list[tuple[dict[str, Any], dict[str, Any] | None]]:
+    return [
+        (action, results[index] if index < len(results) else None)
+        for index, action in enumerate(actions)
+    ]
+
+
+def _cohesive_analysis_sections(
+    actions: list[dict[str, Any]],
+    results: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    pairs = _analysis_result_pairs(actions, results)
+    consumed = set()
+    sections = []
+    for index, (action, result) in enumerate(pairs):
+        if index in consumed:
+            continue
+        section = {"action": action, "result": result, "chart_action": None, "chart_result": None}
+        chart_index = _matching_chart_index(index, pairs)
+        if chart_index is not None:
+            section["chart_action"] = pairs[chart_index][0]
+            section["chart_result"] = pairs[chart_index][1]
+            consumed.add(chart_index)
+        sections.append(section)
+    return sections
+
+
+def _matching_chart_index(
+    current_index: int,
+    pairs: list[tuple[dict[str, Any], dict[str, Any] | None]],
+) -> int | None:
+    action, _ = pairs[current_index]
+    args = action.get("args", {})
+    for index, (candidate, _) in enumerate(pairs):
+        if index == current_index:
+            continue
+        candidate_args = candidate.get("args", {})
+        if _actions_bond(action, candidate, args, candidate_args):
+            return index
+    return None
+
+
+def _actions_bond(
+    action: dict[str, Any],
+    candidate: dict[str, Any],
+    args: dict[str, Any],
+    candidate_args: dict[str, Any],
+) -> bool:
+    if action.get("tool") == "group_summary" and candidate.get("tool") == "group_mean_bar_chart":
+        return (
+            candidate_args.get("group_col") == args.get("group_col")
+            and candidate_args.get("value_col") == args.get("value_col")
+        )
+    if action.get("tool") == "correlation_analysis" and candidate.get("tool") == "scatter_plot":
+        columns = args.get("columns", [])
+        return len(columns) == 2 and {candidate_args.get("x_col"), candidate_args.get("y_col")} == set(columns)
+    if action.get("tool") == "simple_linear_regression" and candidate.get("tool") == "regression_plot":
+        return (
+            candidate_args.get("x_col") == args.get("feature_col")
+            and candidate_args.get("y_col") == args.get("target_col")
+        )
+    if action.get("tool") == "numeric_summary" and candidate.get("tool") == "numeric_distribution_plot":
+        columns = args.get("columns", [])
+        return len(columns) == 1 and candidate_args.get("column") == columns[0]
+    return False
+
+
+def _section_title(action: dict[str, Any], chart_result: dict[str, Any] | None = None) -> str:
+    if chart_result and isinstance(chart_result.get("result"), dict):
+        title = chart_result["result"].get("title")
+        if title:
+            return str(title)
+    return _action_label(action)
 
 
 def _show_result(tool_name: str | None, result: Any) -> None:
@@ -358,6 +497,14 @@ def _show_result(tool_name: str | None, result: Any) -> None:
 
 
 def _show_dict_result(tool_name: str | None, result: dict[str, Any]) -> None:
+    if result.get("analysis_type"):
+        _show_cohesive_result(result)
+        return
+
+    if _is_chart_spec(result):
+        _show_chart_spec_result(result)
+        return
+
     if tool_name == "correlation_analysis":
         rows = []
         for label, direction in [("strongest_positive", "Positive"), ("strongest_negative", "Negative")]:
@@ -462,19 +609,186 @@ def _show_dict_result(tool_name: str | None, result: dict[str, Any]) -> None:
         st.json(result)
 
 
-def _show_interpretation(interpretation: dict[str, Any]) -> None:
-    findings = interpretation.get("key_findings", [])
-    summary = interpretation.get("summary", "")
-    cautions = interpretation.get("cautions", [])
-    method_note = interpretation.get("method_note", "")
+def _show_cohesive_result(result: dict[str, Any]) -> None:
+    chart = result.get("chart")
+    relationships = result.get("relationships")
 
+    if isinstance(chart, dict) and _is_chart_spec(chart):
+        _show_chart_spec_result(chart)
+
+    if isinstance(relationships, list) and relationships:
+        rows = []
+        for item in relationships:
+            if not isinstance(item, dict):
+                continue
+            rows.append(
+                {
+                    "Variable": item.get("predictor_col") or item.get("x_col"),
+                    "Compared with": item.get("target_col") or item.get("y_col"),
+                    "Association": item.get("association") or item.get("correlation"),
+                    "Type": item.get("association_type") or "correlation",
+                }
+            )
+            embedded_chart = item.get("chart")
+            if isinstance(embedded_chart, dict) and _is_chart_spec(embedded_chart):
+                st.markdown(f"**{embedded_chart.get('title', 'Relationship chart')}**")
+                _show_chart_spec_result(embedded_chart)
+        if rows:
+            with st.expander("Relationship summary table", expanded=False):
+                st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+    table = result.get("table")
+    if isinstance(table, list) and table:
+        with st.expander("Detailed result table", expanded=False):
+            st.dataframe(pd.DataFrame(table), use_container_width=True, hide_index=True)
+    elif isinstance(result.get("statistics"), dict):
+        statistics = result["statistics"]
+        if result.get("analysis_type") == "distribution_analysis":
+            st.dataframe(pd.DataFrame([_title_keys(statistics)]), use_container_width=True, hide_index=True)
+        elif result.get("analysis_type") == "group_comparison_analysis" and isinstance(statistics.get("groups"), dict):
+            rows = [{"Group": group, **_title_keys(values)} for group, values in statistics["groups"].items()]
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+    inferential_test = result.get("inferential_test")
+    if isinstance(inferential_test, dict) and inferential_test:
+        display = {
+            key.replace("_", " ").title(): value
+            for key, value in inferential_test.items()
+            if key not in {"groups", "warnings"}
+        }
+        if display:
+            with st.expander("Statistical test details", expanded=False):
+                st.dataframe(pd.DataFrame([display]), use_container_width=True, hide_index=True)
+
+
+def _is_chart_spec(result: dict[str, Any]) -> bool:
+    return {"tool_name", "chart_type", "data"}.issubset(result.keys())
+
+
+def _show_chart_spec_result(result: dict[str, Any]) -> None:
+    if result.get("topic"):
+        st.write(result["topic"])
+    if result.get("finding"):
+        st.caption(result["finding"])
+
+    data = result.get("data", [])
+    if not data:
+        st.info("No chart data was returned.")
+        return
+
+    if result.get("tool_name") == "top_correlation_plots":
+        frames = _top_correlation_chart_frames(result)
+        if frames:
+            for frame in frames:
+                st.markdown(f"**{frame['title']}**")
+                st.scatter_chart(frame["dataframe"], x=frame["x_col"], y=frame["y_col"])
+            with st.expander("Underlying chart table", expanded=False):
+                st.json(result.get("data", []))
+            return
+
+    if result.get("chart_type") in {"bar", "histogram"}:
+        chart_df = _chart_dataframe(result)
+        if not chart_df.empty:
+            st.bar_chart(chart_df)
+            with st.expander("Underlying chart table", expanded=False):
+                st.dataframe(pd.DataFrame(result.get("table") or data), use_container_width=True, hide_index=True)
+            return
+
+    if result.get("chart_type") in {"scatter", "scatter_with_line"}:
+        point_df = pd.DataFrame(data)
+        x_col = result.get("x_col") or result.get("x")
+        y_col = result.get("y_col") or result.get("y")
+        if x_col in point_df.columns and y_col in point_df.columns:
+            st.scatter_chart(point_df, x=x_col, y=y_col)
+            with st.expander("Underlying chart table", expanded=False):
+                st.dataframe(point_df, use_container_width=True, hide_index=True)
+            return
+
+    if result.get("tool_name") == "top_correlation_plots":
+        rows = [
+            {
+                "Chart": graph.get("title"),
+                "X": graph.get("x"),
+                "Y": graph.get("y"),
+                "Correlation": graph.get("metadata", {}).get("correlation"),
+                "Points": len(graph.get("data", [])),
+            }
+            for graph in data
+        ]
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        with st.expander("Chart-ready point data", expanded=False):
+            st.json(data)
+        return
+
+    if isinstance(data, list) and data and isinstance(data[0], dict):
+        st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
+    else:
+        st.json(data)
+
+
+def _top_correlation_chart_frames(result: dict[str, Any]) -> list[dict[str, Any]]:
+    frames = []
+    for graph in result.get("data", []):
+        if not isinstance(graph, dict):
+            continue
+        data = graph.get("data", [])
+        if not data:
+            continue
+        df = pd.DataFrame(data)
+        x_col = graph.get("x_col") or graph.get("x")
+        y_col = graph.get("y_col") or graph.get("y")
+        if x_col in df.columns and y_col in df.columns:
+            frames.append(
+                {
+                    "title": graph.get("title", f"{x_col} vs {y_col}"),
+                    "x_col": x_col,
+                    "y_col": y_col,
+                    "dataframe": df,
+                }
+            )
+    return frames
+
+
+def _chart_dataframe(result: dict[str, Any]) -> pd.DataFrame:
+    data = result.get("data", [])
+    if not isinstance(data, list) or not data:
+        return pd.DataFrame()
+    df = pd.DataFrame(data)
+    if result.get("chart_type") == "histogram" and {"bin_start", "bin_end", "count"}.issubset(df.columns):
+        frame = pd.DataFrame(
+            {
+                "bin": [
+                    f"{row['bin_start']}-{row['bin_end']}"
+                    for _, row in df.iterrows()
+                ],
+                "count": df["count"],
+            }
+        )
+        return frame.set_index("bin")
+    x_col = result.get("x_col") or result.get("x")
+    y_col = result.get("y_col") or result.get("y")
+    if x_col not in df.columns or y_col not in df.columns:
+        return pd.DataFrame()
+    return df[[x_col, y_col]].set_index(x_col)
+
+
+def _show_interpretation_summary(interpretation: dict[str, Any]) -> None:
+    summary = interpretation.get("summary", "")
+    findings = interpretation.get("key_findings", [])
+
+    if summary:
+        st.markdown("**Result summary**")
+        st.write(summary)
     if findings:
         st.markdown("**Key findings**")
         for finding in findings:
             st.write(f"- {finding}")
-    if summary:
-        st.markdown("**Interpretation**")
-        st.write(summary)
+
+
+def _show_interpretation_details(interpretation: dict[str, Any]) -> None:
+    cautions = interpretation.get("cautions", [])
+    method_note = interpretation.get("method_note", "")
+
     if cautions:
         st.markdown("**Cautions**")
         for caution in cautions:
