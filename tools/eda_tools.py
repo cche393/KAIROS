@@ -6,6 +6,7 @@ import math
 from typing import Any
 
 import pandas as pd
+from scipy.stats import chi2_contingency, ttest_ind
 
 
 def missing_analysis(df: pd.DataFrame) -> dict[str, Any]:
@@ -278,21 +279,12 @@ def chi_square_test(df: pd.DataFrame, col_a: str, col_b: str) -> dict[str, Any]:
         base["contingency_table"] = _dataframe_to_nested_dict(table)
         return base
 
-    total = table.to_numpy().sum()
-    row_totals = table.sum(axis=1)
-    col_totals = table.sum(axis=0)
-    statistic = 0.0
-    for row in table.index:
-        for col in table.columns:
-            expected = row_totals[row] * col_totals[col] / total
-            if expected > 0:
-                statistic += ((table.loc[row, col] - expected) ** 2) / expected
+    statistic, p_value, degrees_of_freedom, _ = chi2_contingency(table, correction=False)
 
     base["contingency_table"] = _dataframe_to_nested_dict(table)
     base["chi_square_statistic"] = _safe_number(statistic)
-    base["degrees_of_freedom"] = int((table.shape[0] - 1) * (table.shape[1] - 1))
-    base["warnings"].append("p_value unavailable")
-    base["warnings"].append("scipy is not a project dependency")
+    base["degrees_of_freedom"] = int(degrees_of_freedom)
+    base["p_value"] = _safe_number(p_value)
     return base
 
 
@@ -337,12 +329,9 @@ def t_test_by_group(df: pd.DataFrame, group_col: str, value_col: str) -> dict[st
         base["warnings"].append("Each group needs at least two numeric observations")
         return base
 
-    variance_a = series_a.var()
-    variance_b = series_b.var()
-    denominator = math.sqrt((variance_a / len(series_a)) + (variance_b / len(series_b)))
-    base["t_statistic"] = _safe_number((series_a.mean() - series_b.mean()) / denominator) if denominator else None
-    base["warnings"].append("p_value unavailable")
-    base["warnings"].append("scipy is not a project dependency")
+    statistic, p_value = ttest_ind(series_a, series_b, equal_var=False, nan_policy="omit")
+    base["t_statistic"] = _safe_number(statistic)
+    base["p_value"] = _safe_number(p_value)
     return base
 
 

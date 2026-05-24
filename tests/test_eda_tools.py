@@ -122,16 +122,18 @@ class EdaToolsTests(unittest.TestCase):
         self.assertIn("For each 1-unit increase", result["interpretation"])
         json.dumps(result)
 
-    def test_chi_square_and_t_test_return_statistics_without_scipy_dependency(self):
+    def test_chi_square_and_t_test_return_p_values_with_scipy(self):
         chi = chi_square_test(self.df, "group", "target")
         self.assertEqual(chi["degrees_of_freedom"], 1)
-        self.assertIn("p_value unavailable", chi["warnings"])
+        self.assertIsNotNone(chi["p_value"])
+        self.assertNotIn("p_value unavailable", chi["warnings"])
         json.dumps(chi)
 
         t_test = t_test_by_group(self.df, "group", "y")
         self.assertEqual(set(t_test["groups"].keys()), {"A", "B"})
         self.assertIn("t_statistic", t_test)
-        self.assertIn("p_value unavailable", t_test["warnings"])
+        self.assertIsNotNone(t_test["p_value"])
+        self.assertNotIn("p_value unavailable", t_test["warnings"])
         json.dumps(t_test)
 
     def test_t_test_handles_non_binary_group(self):

@@ -59,12 +59,12 @@ TOOL_REGISTRY = {
         "function": simple_linear_regression,
     },
     "chi_square_test": {
-        "description": "Compute a chi-square statistic for two categorical columns. P-value is unavailable without scipy.",
+        "description": "Compute a chi-square statistic and p-value for two categorical columns.",
         "args": {"col_a": "first categorical column", "col_b": "second categorical column"},
         "function": chi_square_test,
     },
     "t_test_by_group": {
-        "description": "Compute a two-group t-statistic for a numeric value column. P-value is unavailable without scipy.",
+        "description": "Compute a two-group Welch t-statistic and p-value for a numeric value column.",
         "args": {"group_col": "binary categorical group column", "value_col": "numeric value column"},
         "function": t_test_by_group,
     },
