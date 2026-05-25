@@ -3,9 +3,10 @@ import unittest
 
 import pandas as pd
 
-from agent.planner_helper import recommend_actions
+from agent.planner_helper import describe_planning_scope, detect_referenced_columns, recommend_actions
 from agent.tool_registry import TOOL_REGISTRY
 from agent.verifier import verify_action
+from tools.dataset_profile import build_dataset_profile
 
 
 class PlannerHelperTests(unittest.TestCase):
@@ -272,6 +273,60 @@ class PlannerHelperTests(unittest.TestCase):
         self.assertEqual(actions[0]["args"], {"target_col": "salary"})
         self.assertNotEqual(actions[0]["tool"], "group_comparison_analysis")
 
+    def test_detect_referenced_column_exact_match(self):
+        df = pd.DataFrame({"age": [25, 35], "salary": [70, 90]})
+
+        matches = detect_referenced_columns("What correlates with age?", df)
+
+        self.assertEqual(matches, ["age"])
+
+    def test_detect_referenced_column_normalized_spaces_to_underscore(self):
+        df = pd.DataFrame({"performance_score": [80, 90], "remote_days": [2, 4]})
+
+        self.assertEqual(
+            detect_referenced_columns("What affects performance score?", df),
+            ["performance_score"],
+        )
+        self.assertEqual(
+            detect_referenced_columns("What correlates with remote days?", df),
+            ["remote_days"],
+        )
+
+    def test_targeted_relationship_scope_records_mode_target_and_focus(self):
+        df = pd.DataFrame(
+            {
+                "age": [25, 35, 45],
+                "salary": [70, 90, 120],
+                "years_experience": [1, 5, 10],
+            }
+        )
+
+        scope = describe_planning_scope("What correlates with age?", df)
+        actions = recommend_actions(df, goal="What correlates with age?")
+
+        self.assertEqual(scope["analysis_type"], "targeted_relationship_analysis")
+        self.assertEqual(scope["target_column"], "age")
+        self.assertEqual(scope["analysis_focus"], "relationships centered on age")
+        self.assertEqual(actions[0]["tool"], "target_relationship_analysis")
+        self.assertEqual(actions[0]["args"], {"target_col": "age"})
+        self.assertIn("Detected target variable: age", actions[0]["reason"])
+
+    def test_global_relationship_query_without_column_stays_global(self):
+        df = pd.DataFrame(
+            {
+                "age": [20, 30, 40, 50],
+                "salary": [50, 70, 90, 110],
+                "years_experience": [1, 4, 7, 10],
+            }
+        )
+
+        scope = describe_planning_scope("Show strongest correlations", df)
+        actions = recommend_actions(df, goal="Show strongest correlations")
+
+        self.assertEqual(scope["analysis_type"], "relationship_analysis")
+        self.assertIsNone(scope["target_column"])
+        self.assertEqual(actions[0]["tool"], "global_relationship_analysis")
+
     def test_relationship_target_wording_prefers_target_relationship(self):
         df = pd.DataFrame(
             {
@@ -391,6 +446,105 @@ class PlannerHelperTests(unittest.TestCase):
         self.assertIn("missingness_analysis", names)
         if "group_comparison_analysis" in names:
             self.assertLess(names.index("missingness_analysis"), names.index("group_comparison_analysis"))
+
+    def test_schema_questions_route_only_to_dataset_overview(self):
+        df = pd.DataFrame(
+            {
+                "department": ["Sales", "Finance", "Sales"],
+                "salary": [90, 75, 95],
+                "age": [30, 40, 35],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        prompts = [
+            "What columns are in this dataset?",
+            "What variables are available?",
+            "Describe this dataset",
+            "Show dataset overview",
+            "What fields does this data have?",
+        ]
+
+        for prompt in prompts:
+            with self.subTest(prompt=prompt):
+                actions = recommend_actions(df, goal=prompt, dataset_profile=profile)
+                scope = describe_planning_scope(prompt, df, dataset_profile=profile)
+                self.assertEqual([action["tool"] for action in actions], ["dataset_overview"])
+                self.assertEqual(scope["analysis_type"], "dataset_overview")
+                self.assertEqual(scope["analysis_focus"], "dataset structure overview")
+
+    def test_dataset_overview_intent_does_not_steal_distribution_or_group_or_relationship(self):
+        df = pd.DataFrame(
+            {
+                "department": ["Sales", "Finance", "Sales"],
+                "salary": [90, 75, 95],
+                "age": [30, 40, 35],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        self.assertEqual(
+            recommend_actions(df, goal="What is the distribution of salary?", dataset_profile=profile)[0]["tool"],
+            "distribution_analysis",
+        )
+        self.assertEqual(
+            recommend_actions(df, goal="Compare salary by department", dataset_profile=profile)[0]["tool"],
+            "group_comparison_analysis",
+        )
+        self.assertEqual(
+            recommend_actions(df, goal="What correlates with age?", dataset_profile=profile)[0]["tool"],
+            "target_relationship_analysis",
+        )
+
+    def test_planner_uses_profile_to_exclude_ids_and_constant_columns_from_relationships(self):
+        df = pd.DataFrame(
+            {
+                "employee_id": [1, 2, 3, 4, 5],
+                "constant_score": [7, 7, 7, 7, 7],
+                "age": [20, 30, 40, 50, 60],
+                "salary": [50, 70, 90, 110, 130],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        actions = recommend_actions(df, goal="Show strongest correlations", dataset_profile=profile)
+
+        self.assertEqual(actions[0]["tool"], "global_relationship_analysis")
+        self.assertEqual(actions[0]["args"]["cols"], ["age", "salary"])
+        self.assertIn("employee_id appears to be an identifier", actions[0]["reason"])
+        self.assertIn("constant_score is constant", actions[0]["reason"])
+
+    def test_planner_uses_profile_to_choose_categorical_column_for_group_comparison(self):
+        df = pd.DataFrame(
+            {
+                "department": ["Sales", "Finance", "Sales", "HR"],
+                "free_text": ["a", "b", "c", "d"],
+                "salary": [90, 75, 95, 70],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        actions = recommend_actions(df, goal="Compare salary by department", dataset_profile=profile)
+
+        self.assertEqual(actions[0]["tool"], "group_comparison_analysis")
+        self.assertEqual(actions[0]["args"], {"group_col": "department", "value_col": "salary"})
+        self.assertIn("department appears categorical", actions[0]["reason"])
+
+    def test_planner_uses_profile_to_warn_about_datetime_context(self):
+        df = pd.DataFrame(
+            {
+                "order_date": ["2026-01-01", "2026-01-02", "2026-01-03"],
+                "sales": [100, 120, 140],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        scope = describe_planning_scope("Plot sales over time", df, dataset_profile=profile)
+
+        self.assertEqual(scope["analysis_type"], "time_context_analysis")
+        self.assertEqual(scope["target_column"], "sales")
+        self.assertEqual(scope["time_column"], "order_date")
+        self.assertIn("order_date was detected as datetime-like", scope["analysis_focus"])
 
 
 if __name__ == "__main__":

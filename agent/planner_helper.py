@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from difflib import SequenceMatcher
 from typing import Any
 
 import pandas as pd
@@ -12,19 +13,26 @@ def recommend_actions(
     df: pd.DataFrame,
     max_actions: int | None = None,
     goal: str | None = None,
+    dataset_profile: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Recommend candidate analysis actions from simple DataFrame properties."""
-    numeric_columns = _numeric_columns(df)
-    relationship_numeric_columns = _relationship_numeric_columns(df)
-    categorical_columns = _categorical_columns(df)
-    binary_categorical_columns = _binary_categorical_columns(df, categorical_columns)
+    numeric_columns = _numeric_columns(df, dataset_profile)
+    relationship_numeric_columns = _relationship_numeric_columns(df, dataset_profile)
+    categorical_columns = _categorical_columns(df, dataset_profile)
+    analysis_categorical_columns = _analysis_categorical_columns(df, dataset_profile)
+    binary_categorical_columns = _binary_categorical_columns(df, analysis_categorical_columns)
     preferred_numeric = _choose_numeric_column(goal, relationship_numeric_columns)
-    preferred_group = _choose_group_column(goal, categorical_columns)
+    preferred_group = _choose_group_column(goal, analysis_categorical_columns)
+    if _is_dataset_overview_question(_goal_tokens(goal)):
+        overview = [_action("dataset_overview", {}, "Task type: dataset inspection. Analysis focus: dataset structure overview.")]
+        overview[0]["priority"] = 1
+        return overview[: max(int(max_actions), 0)] if max_actions is not None else overview
     scoped = _scoped_recommendations(
         df,
         goal,
+        dataset_profile,
         relationship_numeric_columns,
-        categorical_columns,
+        analysis_categorical_columns,
         binary_categorical_columns,
         preferred_numeric,
         preferred_group,
@@ -80,11 +88,15 @@ def recommend_actions(
         )
 
     if len(relationship_numeric_columns) >= 2:
+        relationship_reason = "Check pairwise numeric relationships."
+        exclusions = _profile_relationship_exclusions(dataset_profile)
+        if exclusions:
+            relationship_reason += " " + " ".join(exclusions)
         recommendations.append(
             _action(
                 "correlation_analysis",
                 {"columns": relationship_numeric_columns},
-                "Check pairwise numeric relationships.",
+                relationship_reason,
             )
         )
         recommendations.append(
@@ -165,32 +177,98 @@ def recommend_actions(
     return recommendations[: max(int(max_actions), 0)]
 
 
-def describe_planning_scope(goal: str | None, df: pd.DataFrame) -> dict[str, Any]:
+def describe_planning_scope(
+    goal: str | None,
+    df: pd.DataFrame,
+    dataset_profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Return a lightweight deterministic trace of the inferred planning scope."""
+    return _describe_planning_scope(goal, df, dataset_profile)
+
+
+def _describe_planning_scope(
+    goal: str | None,
+    df: pd.DataFrame,
+    dataset_profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     tokens = _goal_tokens(goal)
     explicit_columns = _explicit_columns(goal, df)
     target = _choose_target_column(goal, df)
-    if tokens & {"missing", "missingness", "null", "nulls", "blank", "blanks", "incomplete"}:
-        return {"scope": "missingness", "trigger": _first_token(tokens, {"missing", "missingness", "null", "nulls", "blank", "blanks", "incomplete"}), "target": None}
-    if tokens & {"outlier", "outliers", "anomaly", "anomalies"}:
-        return {"scope": "one_variable", "trigger": _first_token(tokens, {"outlier", "outliers", "anomaly", "anomalies"}), "target": target}
-    if len([column for column in explicit_columns if pd.api.types.is_numeric_dtype(df[column])]) >= 2:
-        return {"scope": "explicit_pair", "trigger": "two explicit numeric variables", "target": None}
-    if _is_distribution_question(tokens):
-        return {"scope": "one_variable", "trigger": _first_token(tokens, {"distribution", "histogram", "spread", "look"}), "target": target}
-    if _is_relationship_question(tokens):
+    time_column = _choose_datetime_column(goal, dataset_profile)
+    base = {
+        "analysis_type": None,
+        "target_column": target,
+        "analysis_focus": None,
+    }
+    if _is_time_question(tokens) and time_column:
+        value_column = target or _choose_numeric_column(goal, _relationship_numeric_columns(df, dataset_profile))
         return {
+            **base,
+            "analysis_type": "time_context_analysis",
+            "target_column": value_column,
+            "time_column": time_column,
+            "analysis_focus": f"{time_column} was detected as datetime-like; time-series plotting can be added as a future tool.",
+            "scope": "time_context",
+            "trigger": "time",
+            "target": value_column,
+        }
+    if _is_dataset_overview_question(tokens):
+        return {
+            **base,
+            "analysis_type": "dataset_overview",
+            "target_column": None,
+            "analysis_focus": "dataset structure overview",
+            "scope": "dataset_overview",
+            "trigger": "schema overview",
+            "target": None,
+        }
+    if tokens & {"missing", "missingness", "null", "nulls", "blank", "blanks", "incomplete"}:
+        return {**base, "analysis_type": "missingness_analysis", "target_column": None, "scope": "missingness", "trigger": _first_token(tokens, {"missing", "missingness", "null", "nulls", "blank", "blanks", "incomplete"}), "target": None}
+    if tokens & {"outlier", "outliers", "anomaly", "anomalies"}:
+        return {**base, "analysis_type": "outlier_analysis", "analysis_focus": f"one-variable analysis for {target}" if target else None, "scope": "one_variable", "trigger": _first_token(tokens, {"outlier", "outliers", "anomaly", "anomalies"}), "target": target}
+    if len([column for column in explicit_columns if pd.api.types.is_numeric_dtype(df[column])]) >= 2:
+        return {**base, "analysis_type": "relationship_analysis", "target_column": None, "scope": "explicit_pair", "trigger": "two explicit numeric variables", "target": None}
+    if _is_distribution_question(tokens):
+        return {**base, "analysis_type": "distribution_analysis", "analysis_focus": f"one-variable analysis for {target}" if target else None, "scope": "one_variable", "trigger": _first_token(tokens, {"distribution", "histogram", "spread", "look"}), "target": target}
+    if _is_relationship_question(tokens):
+        analysis_type = "targeted_relationship_analysis" if target is not None else "relationship_analysis"
+        return {
+            **base,
+            "analysis_type": analysis_type,
+            "target_column": target,
+            "analysis_focus": f"relationships centered on {target}" if target else "global numeric relationships",
             "scope": "target_driven" if target is not None else "global_relationships",
             "trigger": _relationship_trigger(tokens),
             "target": target,
         }
     if _is_target_question(tokens):
-        return {"scope": "target_driven", "trigger": _target_trigger(tokens), "target": target}
+        return {**base, "analysis_type": "targeted_relationship_analysis", "analysis_focus": f"relationships centered on {target}" if target else None, "scope": "target_driven", "trigger": _target_trigger(tokens), "target": target}
     if _is_group_question(tokens):
-        return {"scope": "group_comparison", "trigger": _group_trigger(tokens), "target": None}
+        return {**base, "analysis_type": "group_comparison_analysis", "target_column": None, "scope": "group_comparison", "trigger": _group_trigger(tokens), "target": None}
     if _is_fallback_overview_question(tokens):
-        return {"scope": "fallback_overview", "trigger": "open-ended overview", "target": None}
-    return {"scope": "legacy_schema_recommendation", "trigger": "", "target": None}
+        return {**base, "analysis_type": "exploratory_analysis", "target_column": None, "analysis_focus": "broad exploratory overview", "scope": "fallback_overview", "trigger": "open-ended overview", "target": None}
+    return {**base, "analysis_type": "exploratory_analysis", "target_column": None, "scope": "legacy_schema_recommendation", "trigger": "", "target": None}
+
+
+def detect_referenced_columns(goal: str | None, df: pd.DataFrame) -> list[str]:
+    """Detect dataset columns explicitly referenced in a user goal."""
+    if not goal:
+        return []
+    goal_text = _normalise_text(goal)
+    goal_compact = _compact(goal)
+    matches = []
+    for column in df.columns:
+        name = str(column)
+        column_text = _normalise_text(name)
+        column_compact = _compact(name)
+        if not column_text:
+            continue
+        if _contains_normalised_phrase(goal_text, column_text) or column_compact in goal_compact.split():
+            matches.append(name)
+            continue
+        if _high_confidence_fuzzy_match(goal_text, column_text):
+            matches.append(name)
+    return matches
 
 
 def _action(tool: str, args: dict[str, Any], reason: str) -> dict[str, Any]:
@@ -200,6 +278,7 @@ def _action(tool: str, args: dict[str, Any], reason: str) -> dict[str, Any]:
 def _scoped_recommendations(
     df: pd.DataFrame,
     goal: str | None,
+    dataset_profile: dict[str, Any] | None,
     numeric_columns: list[str],
     categorical_columns: list[str],
     binary_categorical_columns: list[str],
@@ -242,21 +321,32 @@ def _scoped_recommendations(
     if _is_relationship_question(tokens):
         target = _choose_target_column(goal, df)
         if target is not None:
-            return [_action("target_relationship_analysis", {"target_col": target}, f"Rank variables associated with target column {target}.")]
+            return [_action(
+                "target_relationship_analysis",
+                {"target_col": target},
+                f"Detected target variable: {target}. Analysis mode: targeted relationship analysis.",
+            )]
         if len(numeric_columns) < 2:
             return [_action("missingness_analysis", {}, "No suitable numeric relationships are available.")]
         return [
             _action(
                 "global_relationship_analysis",
                 {"cols": numeric_columns, "top_n": 3},
-                "Show the strongest non-identifier numeric relationships as cohesive relationship results.",
+                _with_profile_exclusions(
+                    "Show the strongest non-identifier numeric relationships as cohesive relationship results.",
+                    dataset_profile,
+                ),
             )
         ]
 
     if _is_target_question(tokens):
         target = _choose_target_column(goal, df)
         if target is not None and not _is_explicit_group_comparison(goal, categorical_columns):
-            return [_action("target_relationship_analysis", {"target_col": target}, f"Rank variables associated with target column {target}.")]
+            return [_action(
+                "target_relationship_analysis",
+                {"target_col": target},
+                f"Detected target variable: {target}. Analysis mode: targeted relationship analysis.",
+            )]
 
     if _is_group_question(tokens):
         value_col = preferred_numeric or (explicit_numeric[0] if explicit_numeric else _implied_value_column(tokens, numeric_columns))
@@ -268,6 +358,8 @@ def _scoped_recommendations(
             assumption = f" No group column was specified, so {group_col} was used as the grouping variable."
         if _is_identifier_like_column(df, group_col):
             assumption += f" {group_col} appears identifier-like, so this grouping may not be meaningful."
+        elif group_col in _profile_columns(dataset_profile, "categorical"):
+            assumption += f" {group_col} appears categorical, so group comparison analysis was selected."
         return [
             _action("group_comparison_analysis", {"group_col": group_col, "value_col": value_col}, f"Compare {value_col} across {group_col} groups.{assumption}"),
         ]
@@ -279,7 +371,10 @@ def _scoped_recommendations(
             _action(
                 "global_relationship_analysis",
                 {"cols": numeric_columns, "top_n": 3},
-                "Show the strongest non-identifier numeric relationships as cohesive relationship results.",
+                _with_profile_exclusions(
+                    "Show the strongest non-identifier numeric relationships as cohesive relationship results.",
+                    dataset_profile,
+                ),
             )
         ]
 
@@ -287,24 +382,63 @@ def _scoped_recommendations(
         target = _choose_target_column(goal, df)
         if target is None:
             return None
-        return [_action("target_relationship_analysis", {"target_col": target}, f"Rank variables associated with target column {target}.")]
+        return [_action(
+            "target_relationship_analysis",
+            {"target_col": target},
+            f"Detected target variable: {target}. Analysis mode: targeted relationship analysis.",
+        )]
 
     if _is_fallback_overview_question(tokens):
         return _fallback_overview_actions(numeric_columns, categorical_columns, preferred_numeric, preferred_group)
     return None
 
 
-def _numeric_columns(df: pd.DataFrame) -> list[str]:
+def _numeric_columns(
+    df: pd.DataFrame,
+    dataset_profile: dict[str, Any] | None = None,
+) -> list[str]:
+    columns = _profile_columns(dataset_profile, "numeric")
+    if columns:
+        return [column for column in columns if column in df.columns]
     return [str(column) for column in df.columns if pd.api.types.is_numeric_dtype(df[column])]
 
 
-def _relationship_numeric_columns(df: pd.DataFrame) -> list[str]:
-    meaningful = [column for column in _numeric_columns(df) if not _is_identifier_like_column(df, column)]
-    return meaningful or _numeric_columns(df)
+def _relationship_numeric_columns(
+    df: pd.DataFrame,
+    dataset_profile: dict[str, Any] | None = None,
+) -> list[str]:
+    numeric = _numeric_columns(df, dataset_profile)
+    issue_columns = set(_profile_issue_columns(dataset_profile, "likely_id_columns"))
+    issue_columns.update(_profile_issue_columns(dataset_profile, "constant_value_columns"))
+    meaningful = [
+        column
+        for column in numeric
+        if column not in issue_columns and not _is_identifier_like_column(df, column)
+    ]
+    return meaningful or numeric
 
 
-def _categorical_columns(df: pd.DataFrame) -> list[str]:
+def _categorical_columns(
+    df: pd.DataFrame,
+    dataset_profile: dict[str, Any] | None = None,
+) -> list[str]:
+    columns = _profile_columns(dataset_profile, "categorical") + _profile_columns(dataset_profile, "boolean")
+    if columns:
+        return [column for column in columns if column in df.columns]
     return [str(column) for column in df.columns if not pd.api.types.is_numeric_dtype(df[column])]
+
+
+def _analysis_categorical_columns(
+    df: pd.DataFrame,
+    dataset_profile: dict[str, Any] | None = None,
+) -> list[str]:
+    high_cardinality = set(_profile_issue_columns(dataset_profile, "high_cardinality_categorical_columns"))
+    likely_ids = set(_profile_issue_columns(dataset_profile, "likely_id_columns"))
+    return [
+        column
+        for column in _categorical_columns(df, dataset_profile)
+        if column not in high_cardinality and column not in likely_ids
+    ]
 
 
 def _binary_categorical_columns(df: pd.DataFrame, columns: list[str]) -> list[str]:
@@ -334,21 +468,41 @@ def _is_identifier_like_column(df: pd.DataFrame, column: str) -> bool:
 
 
 def _explicit_columns(goal: str | None, df: pd.DataFrame) -> list[str]:
-    tokens = _goal_tokens(goal)
-    matches = []
-    for column in df.columns:
-        name = str(column)
-        if _column_explicitly_requested(tokens, name):
-            matches.append(name)
-            continue
-        column_tokens = set(re.findall(r"[a-z0-9]+", name.lower().replace("_", " ")))
-        if len(column_tokens) > 1 and column_tokens.issubset(tokens):
-            matches.append(name)
-    return matches
+    return detect_referenced_columns(goal, df)
 
 
 def _is_distribution_question(tokens: set[str]) -> bool:
     return bool(tokens & {"distribution", "histogram", "spread"} or {"look", "like"}.issubset(tokens))
+
+
+def _is_time_question(tokens: set[str]) -> bool:
+    return bool(tokens & {"time", "trend", "trends", "over", "timeline"} or {"over", "time"}.issubset(tokens))
+
+
+def _is_dataset_overview_question(tokens: set[str]) -> bool:
+    if not tokens:
+        return False
+    analytical_terms = {
+        "missing", "missingness", "null", "distribution", "correlation", "correlations",
+        "correlated", "correlate", "correlates", "relationship", "relationships",
+        "related", "associated", "association", "compare", "comparison", "by",
+        "predict", "predicts", "affect", "affects", "trend", "plot", "chart",
+    }
+    if tokens & analytical_terms:
+        return False
+    schema_terms = {"column", "columns", "field", "fields", "variable", "variables", "schema"}
+    dataset_terms = {"dataset", "data", "csv", "file"}
+    if tokens & {"variable", "variables"} and not (tokens & {"available", "have"} or tokens & dataset_terms):
+        return False
+    if tokens & schema_terms and (tokens & {"what", "which", "show", "list", "available", "have"} or tokens & dataset_terms):
+        return True
+    if {"dataset", "overview"}.issubset(tokens) or {"data", "overview"}.issubset(tokens):
+        return True
+    if tokens & {"describe", "summarize", "summarise"} and tokens & dataset_terms and not tokens & {"distribution", "correlation", "relationship", "compare", "by", "plot", "chart", "trend"}:
+        return True
+    if {"what", "is", "in"}.issubset(tokens) and tokens & dataset_terms:
+        return True
+    return False
 
 
 def _is_group_question(tokens: set[str]) -> bool:
@@ -370,7 +524,7 @@ def _is_global_relationship_question(tokens: set[str]) -> bool:
 
 def _is_relationship_question(tokens: set[str]) -> bool:
     return bool(
-        tokens & {"correlation", "correlations", "correlated", "relationship", "relationships"}
+        tokens & {"correlate", "correlates", "correlated", "correlation", "correlations", "relationship", "relationships"}
         or {"related", "to"}.issubset(tokens)
         or {"associated", "with"}.issubset(tokens)
         or (tokens & {"variables", "factors"} and tokens & {"related", "associated", "correlated", "relationship", "relationships"})
@@ -488,13 +642,29 @@ def _implied_group_column(tokens: set[str], categorical_columns: list[str]) -> s
 
 def _choose_target_column(goal: str | None, df: pd.DataFrame) -> str | None:
     explicit = _explicit_columns(goal, df)
-    if explicit:
+    if len(explicit) == 1:
         return explicit[0]
+    if len(explicit) > 1:
+        return None
     tokens = _goal_tokens(goal)
     for column in df.columns:
         if _semantic_column_score(tokens, str(column)) > 0:
             return str(column)
     return None
+
+
+def _choose_datetime_column(
+    goal: str | None,
+    dataset_profile: dict[str, Any] | None,
+) -> str | None:
+    datetime_columns = _profile_columns(dataset_profile, "datetime") or _profile_columns(dataset_profile, "datetime_like")
+    if not datetime_columns:
+        return None
+    tokens = _goal_tokens(goal)
+    for column in datetime_columns:
+        if _column_explicitly_requested(tokens, column) or _semantic_column_score(tokens, column) > 0:
+            return column
+    return datetime_columns[0]
 
 
 def _first_matching_alias(columns: list[str], aliases: set[str]) -> str | None:
@@ -586,6 +756,71 @@ def _goal_tokens(goal: str | None) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", (goal or "").lower().replace("_", " ")))
 
 
+def _profile_columns(dataset_profile: dict[str, Any] | None, type_name: str) -> list[str]:
+    if not isinstance(dataset_profile, dict):
+        return []
+    column_types = dataset_profile.get("column_types", {})
+    if not isinstance(column_types, dict):
+        return []
+    values = column_types.get(type_name, [])
+    return [str(value) for value in values] if isinstance(values, list) else []
+
+
+def _profile_issue_columns(dataset_profile: dict[str, Any] | None, issue_name: str) -> list[str]:
+    if not isinstance(dataset_profile, dict):
+        return []
+    issues = dataset_profile.get("potential_issues", {})
+    if not isinstance(issues, dict):
+        return []
+    values = issues.get(issue_name, [])
+    return [str(value) for value in values] if isinstance(values, list) else []
+
+
+def _profile_relationship_exclusions(dataset_profile: dict[str, Any] | None) -> list[str]:
+    notes = []
+    for column in _profile_issue_columns(dataset_profile, "likely_id_columns"):
+        notes.append(f"{column} appears to be an identifier and was excluded.")
+    for column in _profile_issue_columns(dataset_profile, "constant_value_columns"):
+        notes.append(f"{column} is constant and was excluded.")
+    return notes
+
+
+def _with_profile_exclusions(reason: str, dataset_profile: dict[str, Any] | None) -> str:
+    exclusions = _profile_relationship_exclusions(dataset_profile)
+    if not exclusions:
+        return reason
+    return f"{reason} {' '.join(exclusions)}"
+
+
+def _normalise_text(value: str | None) -> str:
+    return " ".join(re.findall(r"[a-z0-9]+", (value or "").lower().replace("_", " ")))
+
+
+def _compact(value: str | None) -> str:
+    return " ".join(re.findall(r"[a-z0-9]+", (value or "").lower()))
+
+
+def _contains_normalised_phrase(goal_text: str, column_text: str) -> bool:
+    return bool(re.search(rf"(^| ){re.escape(column_text)}($| )", goal_text))
+
+
+def _high_confidence_fuzzy_match(goal_text: str, column_text: str) -> bool:
+    goal_tokens = goal_text.split()
+    column_tokens = column_text.split()
+    if not goal_tokens or not column_tokens:
+        return False
+    width = len(column_tokens)
+    if width > len(goal_tokens):
+        return False
+    for index in range(0, len(goal_tokens) - width + 1):
+        candidate = " ".join(goal_tokens[index : index + width])
+        ratio = SequenceMatcher(None, candidate, column_text).ratio()
+        compact_ratio = SequenceMatcher(None, candidate.replace(" ", ""), column_text.replace(" ", "")).ratio()
+        if ratio >= 0.94 and compact_ratio >= 0.94:
+            return True
+    return False
+
+
 def _first_token(tokens: set[str], candidates: set[str]) -> str:
     return next((candidate for candidate in sorted(candidates) if candidate in tokens), "")
 
@@ -603,7 +838,7 @@ def _relationship_trigger(tokens: set[str]) -> str:
     for required, label in phrases:
         if required.issubset(tokens):
             return label
-    return _first_token(tokens, {"correlation", "correlations", "correlated", "relationship", "relationships", "related", "associated"})
+    return _first_token(tokens, {"correlate", "correlates", "correlated", "correlation", "correlations", "relationship", "relationships", "related", "associated"})
 
 
 def _target_trigger(tokens: set[str]) -> str:

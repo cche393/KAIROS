@@ -4,6 +4,7 @@ import unittest
 import pandas as pd
 
 from agent.verifier import verify_action
+from tools.dataset_profile import build_dataset_profile
 
 
 class VerifierTests(unittest.TestCase):
@@ -130,6 +131,43 @@ class VerifierTests(unittest.TestCase):
         self.assertEqual(result["args"], {})
         self.assertIn("Action proposal must be a dictionary", result["errors"])
         json.dumps(result)
+
+    def test_profile_blocks_global_relationship_analysis_on_identifier_columns(self):
+        df = pd.DataFrame(
+            {
+                "employee_id": [1, 2, 3, 4],
+                "salary": [70, 80, 90, 100],
+                "age": [25, 35, 45, 55],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        result = verify_action(
+            df,
+            {"tool": "global_relationship_analysis", "args": {"cols": ["employee_id", "salary"]}},
+            dataset_profile=profile,
+        )
+
+        self.assertFalse(result["valid"])
+        self.assertIn("employee_id appears to be an identifier", " ".join(result["errors"]))
+
+    def test_profile_blocks_group_chart_on_high_cardinality_category(self):
+        df = pd.DataFrame(
+            {
+                "city": ["A", "B", "C", "D", "E"],
+                "salary": [70, 80, 90, 100, 110],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        result = verify_action(
+            df,
+            {"tool": "group_mean_bar_chart", "args": {"group_col": "city", "value_col": "salary"}},
+            dataset_profile=profile,
+        )
+
+        self.assertFalse(result["valid"])
+        self.assertIn("city has high cardinality", " ".join(result["errors"]))
 
 
 if __name__ == "__main__":

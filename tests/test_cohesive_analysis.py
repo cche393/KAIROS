@@ -63,12 +63,35 @@ class CohesiveAnalysisTests(unittest.TestCase):
 
         result = target_relationship_analysis(df, "salary", top_n=2)
 
-        self.assertEqual(result["analysis_type"], "target_relationship_analysis")
+        self.assertEqual(result["analysis_type"], "targeted_relationship_analysis")
         self.assertEqual(result["target_col"], "salary")
         predictors = [item["predictor_col"] for item in result["relationships"]]
         self.assertNotIn("employee_id", predictors)
         self.assertLessEqual(len(predictors), 2)
         self.assertTrue(all(item.get("chart") for item in result["relationships"]))
+
+    def test_target_relationship_analysis_reports_only_target_correlations(self):
+        df = pd.DataFrame(
+            {
+                "age": [20, 30, 40, 50, 60],
+                "years_experience": [1, 4, 7, 10, 13],
+                "salary": [45, 65, 85, 105, 125],
+                "bonus": [2, 3, 5, 8, 13],
+            }
+        )
+
+        result = target_relationship_analysis(df, "age", top_n=2)
+
+        self.assertEqual(result["analysis_type"], "targeted_relationship_analysis")
+        self.assertEqual(result["target_column"], "age")
+        self.assertEqual(result["analysis_focus"], "relationships centered on age")
+        self.assertEqual([item["target_col"] for item in result["relationships"]], ["age", "age"])
+        self.assertEqual(len(result["relationships"]), 2)
+        self.assertNotIn(
+            {"x_col": "years_experience", "y_col": "salary", "correlation": 1.0},
+            result["table"],
+        )
+        self.assertTrue(all(item["chart"]["y_col"] == "age" for item in result["relationships"]))
 
     def test_group_comparison_analysis_returns_stats_and_bar_chart(self):
         df = pd.DataFrame(
@@ -168,6 +191,29 @@ class CohesiveAnalysisTests(unittest.TestCase):
         )
         self.assertEqual(result["ranked_missing_columns"][0]["missing_count"], 3)
         self.assertEqual(result["ranked_missing_columns"][0]["missing_percent"], 75.0)
+
+    def test_missingness_analysis_returns_all_missing_columns_sorted_by_percent(self):
+        df = pd.DataFrame(
+            {
+                "satisfaction_score": [None, None, None, 4, 5],
+                "bonus": [None, None, 100, 120, 130],
+                "manager_rating": [None, 3, 4, 5, 4],
+                "complete": [1, 2, 3, 4, 5],
+            }
+        )
+
+        result = missingness_analysis(df)
+
+        self.assertEqual(result["summary"], "Satisfaction_score has the most missing values (60.0%).")
+        self.assertEqual(
+            [row["column"] for row in result["ranked_missing_columns"]],
+            ["satisfaction_score", "bonus", "manager_rating"],
+        )
+        self.assertEqual(
+            [row["missing_percent"] for row in result["table"]],
+            [60.0, 40.0, 20.0],
+        )
+        self.assertNotIn("complete", [row["column"] for row in result["table"]])
 
     def test_cohesive_summaries_start_with_capital_letter(self):
         relationship = relationship_analysis(

@@ -1,4 +1,6 @@
 pandas>=2.0
 openai>=1.0
+groq
+python-dotenv
 streamlit>=1.30
 scipy>=1.11

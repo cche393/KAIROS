@@ -85,6 +85,25 @@ class VizToolsTests(unittest.TestCase):
         self.assertEqual(len(result["data"]), 1)
         self.assertEqual({result["data"][0]["x"], result["data"][0]["y"]}, {"customer_id", "score"})
 
+    def test_top_correlation_plots_can_focus_on_target_column(self):
+        df = pd.DataFrame(
+            {
+                "age": [20, 30, 40, 50, 60],
+                "years_experience": [1, 4, 7, 10, 13],
+                "salary": [45, 65, 85, 105, 125],
+                "bonus": [2, 3, 5, 8, 13],
+            }
+        )
+
+        result = top_correlation_plots(df, target_col="age", top_n=2)
+
+        self.assertEqual(result["title"], "Top 2 correlations with age")
+        self.assertEqual(len(result["data"]), 2)
+        self.assertTrue(all(graph["y_col"] == "age" for graph in result["data"]))
+        self.assertFalse(
+            any({graph["x_col"], graph["y_col"]} == {"years_experience", "salary"} for graph in result["data"])
+        )
+
     def test_group_mean_bar_chart_ranks_groups(self):
         df = pd.DataFrame(
             {

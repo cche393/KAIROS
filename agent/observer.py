@@ -9,6 +9,8 @@ from typing import Any
 import pandas as pd
 from pandas.errors import EmptyDataError, ParserError
 
+from tools.dataset_profile import build_dataset_profile
+
 
 KNOWN_TARGET_NAMES = {
     "target",
@@ -137,15 +139,9 @@ def suggest_target_columns(df: pd.DataFrame) -> list[dict[str, Any]]:
 
 def inspect_dataset(df: pd.DataFrame) -> dict[str, Any]:
     """Return a compact JSON-serializable summary of a DataFrame."""
-    return {
-        "shape": {"rows": int(len(df)), "columns": int(len(df.columns))},
-        "columns": [str(column) for column in df.columns],
-        "column_types": detect_column_types(df),
-        "missing_values": summarize_missing_values(df),
-        "duplicate_rows": int(df.duplicated().sum()) if len(df.columns) else 0,
-        "sample_rows": _sample_rows(df),
-        "suggested_target_columns": suggest_target_columns(df),
-    }
+    profile = build_dataset_profile(df)
+    profile["suggested_target_columns"] = suggest_target_columns(df)
+    return profile
 
 
 def _is_boolean_series(series: pd.Series) -> bool:

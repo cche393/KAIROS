@@ -38,7 +38,13 @@ class LlmPlannerTests(unittest.TestCase):
         ]
 
     def test_missing_api_key_uses_fallback_without_api_call(self):
-        with patch.dict(os.environ, {}, clear=True):
+        config = {
+            "provider": "groq",
+            "model": "llama-3.3-70b-versatile",
+            "api_key_name": "GROQ_API_KEY",
+            "api_key_configured": False,
+        }
+        with patch("agent.llm_planner.get_llm_config", return_value=config):
             with patch("agent.llm_planner._request_llm_plan") as request:
                 result = plan_with_llm(
                     "Explore this dataset",
@@ -49,11 +55,22 @@ class LlmPlannerTests(unittest.TestCase):
 
         self.assertEqual(result["mode"], "fallback")
         self.assertEqual(result["selected_actions"], self.candidate_actions[:2])
-        self.assertIn("OPENAI_API_KEY is not set", result["warnings"])
+        self.assertIn("GROQ_API_KEY is not set", result["warnings"])
         request.assert_not_called()
 
+    def _configured_llm(self):
+        return patch(
+            "agent.llm_planner.get_llm_config",
+            return_value={
+                "provider": "groq",
+                "model": "llama-3.3-70b-versatile",
+                "api_key_name": "GROQ_API_KEY",
+                "api_key_configured": True,
+            },
+        )
+
     def test_invalid_json_uses_fallback(self):
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value="not json"):
                 result = plan_with_llm(
                     "Explore this dataset",
@@ -68,7 +85,7 @@ class LlmPlannerTests(unittest.TestCase):
 
     def test_llm_selects_valid_candidate_indexes(self):
         payload = json.dumps({"selected_indexes": [2, 0], "reason": "Group comparison then quality check."})
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "Compare income by segment",
@@ -83,7 +100,7 @@ class LlmPlannerTests(unittest.TestCase):
 
     def test_out_of_range_indexes_are_discarded(self):
         payload = json.dumps({"selected_indexes": [99, 1], "reason": "Use numeric summary."})
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "Summarize numeric fields",
@@ -98,7 +115,7 @@ class LlmPlannerTests(unittest.TestCase):
 
     def test_duplicate_indexes_are_deduplicated(self):
         payload = json.dumps({"selected_indexes": [1, 1, 2], "reason": "Avoid duplicate work."})
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "Compare income",
@@ -112,7 +129,7 @@ class LlmPlannerTests(unittest.TestCase):
 
     def test_max_actions_is_respected(self):
         payload = json.dumps({"selected_indexes": [0, 1, 2], "reason": "Ranked choices."})
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "General EDA",
@@ -129,12 +146,12 @@ class LlmPlannerTests(unittest.TestCase):
 
         self.assertEqual(
             set(result.keys()),
-            {"mode", "selected_actions", "reason", "errors", "warnings"},
+            {"mode", "fallback_cause", "selected_actions", "reason", "errors", "warnings"},
         )
         json.dumps(result)
 
     def test_no_candidate_actions_handled_gracefully(self):
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan") as request:
                 result = plan_with_llm("Anything", self.dataset_profile, [], max_actions=3)
 
@@ -151,7 +168,7 @@ class LlmPlannerTests(unittest.TestCase):
                 "reason": "Model tried to rewrite actions.",
             }
         )
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "Summarize",
@@ -165,7 +182,7 @@ class LlmPlannerTests(unittest.TestCase):
 
     def test_all_invalid_llm_indexes_fallback(self):
         payload = json.dumps({"selected_indexes": [9, 10], "reason": "Bad indexes."})
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "Explore this dataset",
@@ -175,8 +192,25 @@ class LlmPlannerTests(unittest.TestCase):
                 )
 
         self.assertEqual(result["mode"], "fallback")
+        self.assertEqual(result["fallback_cause"], "llm_invalid_selection")
         self.assertEqual(result["selected_actions"], self.candidate_actions[:2])
         self.assertIn("No valid LLM-selected action indexes remained", result["warnings"])
+
+    def test_empty_llm_selection_marks_llm_available_but_unusable(self):
+        payload = json.dumps({"selected_indexes": [], "reason": "Profile already answers this."})
+        with self._configured_llm():
+            with patch("agent.llm_planner._request_llm_plan", return_value=payload):
+                result = plan_with_llm(
+                    "What columns are in this dataset?",
+                    self.dataset_profile,
+                    self.candidate_actions,
+                    max_actions=2,
+                )
+
+        self.assertEqual(result["mode"], "fallback")
+        self.assertEqual(result["fallback_cause"], "llm_empty_selection")
+        self.assertEqual(result["selected_actions"], self.candidate_actions[:2])
+        self.assertIn("LLM returned no selected action indexes", result["warnings"])
 
     def test_correlation_question_fallback_prioritizes_correlation_analysis(self):
         actions = self._rich_candidate_actions()
@@ -206,6 +240,65 @@ class LlmPlannerTests(unittest.TestCase):
         selected_tools = [action["tool"] for action in result["selected_actions"]]
         self.assertIn("simple_linear_regression", selected_tools)
         self.assertIn("correlation_analysis", selected_tools)
+
+    def test_targeted_correlation_question_prioritizes_target_relationship_action(self):
+        actions = self._rich_candidate_actions() + [
+            {
+                "tool": "target_relationship_analysis",
+                "args": {"target_col": "age"},
+                "priority": 9,
+                "reason": "Detected target variable: age. Analysis mode: targeted relationship analysis.",
+            },
+            {
+                "tool": "global_relationship_analysis",
+                "args": {"cols": ["age", "income"], "top_n": 3},
+                "priority": 10,
+                "reason": "Show strongest numeric relationships.",
+            },
+        ]
+
+        with patch.dict(os.environ, {}, clear=True):
+            result = plan_with_llm(
+                "What correlates with age?",
+                self.dataset_profile,
+                actions,
+                max_actions=2,
+            )
+
+        self.assertEqual(result["selected_actions"][0]["tool"], "target_relationship_analysis")
+        self.assertEqual(result["selected_actions"][0]["args"], {"target_col": "age"})
+
+    def test_schema_question_fallback_prioritizes_dataset_overview(self):
+        actions = [
+            {
+                "tool": "dataset_overview",
+                "args": {},
+                "priority": 1,
+                "reason": "Task type: dataset inspection.",
+            },
+            {
+                "tool": "group_comparison_analysis",
+                "args": {"group_col": "segment", "value_col": "income"},
+                "priority": 2,
+                "reason": "Compare income by segment.",
+            },
+            {
+                "tool": "distribution_analysis",
+                "args": {"column": "income"},
+                "priority": 3,
+                "reason": "Show income distribution.",
+            },
+        ]
+
+        with patch.dict(os.environ, {}, clear=True):
+            result = plan_with_llm(
+                "What columns are in this dataset?",
+                self.dataset_profile,
+                actions,
+                max_actions=2,
+            )
+
+        self.assertEqual([action["tool"] for action in result["selected_actions"]], ["dataset_overview"])
 
     def test_compare_salary_by_department_prioritizes_group_summary(self):
         actions = self._rich_candidate_actions()
@@ -301,7 +394,7 @@ class LlmPlannerTests(unittest.TestCase):
         actions = self._rich_candidate_actions()
         payload = json.dumps({"selected_indexes": [0, 1, 2], "reason": "Default broad checks."})
 
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+        with self._configured_llm():
             with patch("agent.llm_planner._request_llm_plan", return_value=payload):
                 result = plan_with_llm(
                     "Can you see any correlation here?",

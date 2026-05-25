@@ -88,8 +88,38 @@ class ResultInterpreterTests(unittest.TestCase):
 
         interpretation = interpret_result("missing_analysis", result)
 
-        self.assertIn("7 missing cells", interpretation["summary"])
-        self.assertIn("salary", interpretation["key_findings"][0])
+        self.assertEqual(interpretation["summary"], "Salary has the most missing values (50.0%).")
+        self.assertEqual(
+            interpretation["key_findings"],
+            [
+                "salary: 50.0% missing (5 rows).",
+                "age: 20.0% missing (2 rows).",
+            ],
+        )
+
+    def test_missingness_cohesive_interpreter_reports_all_missing_columns(self):
+        result = {
+            "analysis_type": "missingness_analysis",
+            "summary": "satisfaction_score has the most missing values (6.92%).",
+            "ranked_missing_columns": [
+                {"column": "satisfaction_score", "missing_count": 9, "missing_percent": 6.92},
+                {"column": "bonus", "missing_count": 4, "missing_percent": 3.1},
+                {"column": "manager_rating", "missing_count": 2, "missing_percent": 1.2},
+            ],
+            "warnings": [],
+        }
+
+        interpretation = interpret_result("missingness_analysis", result)
+
+        self.assertIn("Satisfaction_score has the most missing values", interpretation["summary"])
+        self.assertEqual(
+            interpretation["key_findings"],
+            [
+                "satisfaction_score: 6.92% missing (9 rows).",
+                "bonus: 3.1% missing (4 rows).",
+                "manager_rating: 1.2% missing (2 rows).",
+            ],
+        )
 
     def test_numeric_summary_stable_explanation(self):
         result = {
@@ -204,6 +234,30 @@ class ResultInterpreterTests(unittest.TestCase):
 
         self.assert_stable_shape(interpretation)
         self.assertIn("No specialised interpretation", interpretation["summary"])
+
+    def test_dataset_overview_interpreter_lists_columns_and_quality_notes(self):
+        interpretation = interpret_result(
+            "dataset_overview",
+            {
+                "analysis_type": "dataset_overview",
+                "row_count": 500,
+                "column_count": 3,
+                "column_types": {
+                    "numeric": ["age", "salary"],
+                    "categorical": ["department"],
+                    "datetime": [],
+                    "boolean": [],
+                    "text_like": [],
+                },
+                "quality_notes": ["employee_id appears to be an identifier."],
+            },
+        )
+
+        self.assert_stable_shape(interpretation)
+        self.assertIn("500 rows and 3 columns", interpretation["summary"])
+        self.assertIn("age: numeric", " ".join(interpretation["key_findings"]))
+        self.assertIn("department: categorical", " ".join(interpretation["key_findings"]))
+        self.assertIn("employee_id appears", " ".join(interpretation["key_findings"]))
 
     def test_interpreter_capitalizes_cohesive_summary(self):
         interpretation = interpret_result(

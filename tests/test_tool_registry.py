@@ -11,6 +11,7 @@ class ToolRegistryTests(unittest.TestCase):
         tools = list_available_tools()
         names = {tool["name"] for tool in tools}
 
+        self.assertIn("dataset_overview", names)
         self.assertIn("missing_analysis", names)
         self.assertIn("numeric_summary", names)
         self.assertIn("t_test_by_group", names)
@@ -29,6 +30,12 @@ class ToolRegistryTests(unittest.TestCase):
 
     def test_run_tool_dispatches_allowed_tool_and_rejects_unknown_tool(self):
         df = pd.DataFrame({"group": ["A", "B"], "value": [1, 2]})
+
+        overview = run_tool("dataset_overview", df)
+        self.assertEqual(overview["tool"], "dataset_overview")
+        self.assertEqual(overview["result"]["analysis_type"], "dataset_overview")
+        self.assertEqual(overview["result"]["row_count"], 2)
+        json.dumps(overview)
 
         result = run_tool("numeric_summary", df, columns=["value"])
         self.assertEqual(result["tool"], "numeric_summary")

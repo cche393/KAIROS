@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import os
 from typing import Any, Callable
 
 import pandas as pd
 import streamlit as st
 
 from agent.executor import execute_action
+from agent.groq_client import get_llm_config
 from agent.llm_planner import plan_with_llm
 from agent.observer import inspect_dataset, load_csv
 from agent.planner_helper import describe_planning_scope, recommend_actions
@@ -18,6 +18,7 @@ from agent.result_interpreter import interpret_result
 DEFAULT_GOAL = "Explore this dataset."
 
 ACTION_LABELS = {
+    "dataset_overview": "Dataset overview",
     "distribution_analysis": "Distribution analysis",
     "relationship_analysis": "Relationship analysis",
     "target_relationship_analysis": "Target relationship analysis",
@@ -85,10 +86,12 @@ def _agent_panel() -> tuple[Any, str]:
     st.code("Observer -> Planner -> Verifier -> Executor -> Tools", language="text")
 
     st.markdown("**Planner mode**")
-    if os.getenv("OPENAI_API_KEY"):
-        st.success("OpenAI API configured")
+    llm_config = get_llm_config()
+    provider_name = str(llm_config["provider"]).upper()
+    if llm_config["api_key_configured"]:
+        st.success(f"{provider_name} API configured")
     else:
-        st.info("OpenAI API not configured")
+        st.info(f"{provider_name} API not configured")
 
     max_actions = st.number_input(
         "Maximum analyses",
@@ -173,11 +176,11 @@ def _generate_and_run(uploaded_file: Any, goal: str, max_actions: int) -> None:
     if df.empty and len(df.columns) == 0:
         st.warning("The uploaded CSV is empty or has no readable columns.")
 
-    candidate_actions = recommend_actions(df, goal=goal)
-    planning_trace = describe_planning_scope(goal, df)
+    candidate_actions = recommend_actions(df, goal=goal, dataset_profile=profile)
+    planning_trace = describe_planning_scope(goal, df, dataset_profile=profile)
     plan = plan_with_llm(goal, profile, candidate_actions, max_actions=max_actions)
     selected_actions = plan["selected_actions"]
-    execution_results = [execute_action(df, action) for action in selected_actions]
+    execution_results = [execute_action(df, action, dataset_profile=profile) for action in selected_actions]
 
     st.session_state["analysis_bundle"] = {
         "file_key": _file_key(uploaded_file),
@@ -200,17 +203,30 @@ def _show_agent_explanation() -> None:
         return
 
     plan = bundle["plan"]
-    mode_text = "Planner mode: OpenAI LLM" if plan.get("mode") == "llm" else "Planner mode: deterministic fallback"
+    llm_config = get_llm_config()
+    provider_name = str(llm_config["provider"]).upper()
+    status = _planner_status_messages(plan, provider_name)
+    mode_text = status["mode_text"]
     st.markdown("### KAIROS response")
     if plan.get("mode") == "llm":
         st.success(mode_text)
     else:
         st.info(mode_text)
-        if plan.get("errors") or plan.get("warnings"):
-            st.warning("LLM planner unavailable; using deterministic fallback.")
+        if status.get("warning"):
+            st.warning(status["warning"])
 
     st.markdown("**Interpreted question**")
     st.write(bundle["goal"])
+    trace = bundle.get("planning_trace", {})
+    if trace.get("target_column"):
+        st.write(f"Detected target variable: {trace['target_column']}")
+        target_type = _profile_column_type(bundle.get("profile", {}), trace["target_column"])
+        if target_type:
+            st.caption(f"{trace['target_column']} was detected as a {target_type} variable.")
+    if trace.get("analysis_type") == "targeted_relationship_analysis":
+        st.write("Analysis mode: targeted relationship analysis")
+    elif trace.get("analysis_focus"):
+        st.write(f"Analysis focus: {trace['analysis_focus']}")
 
     st.markdown("**Chosen analyses**")
     selected = bundle["selected_actions"]
@@ -262,6 +278,21 @@ def _show_dataset_overview(profile: dict[str, Any], df: pd.DataFrame) -> None:
     cols[2].metric("Duplicate rows", profile.get("duplicate_rows", 0))
     cols[3].metric("Missing cells", missing_values.get("total_missing_cells", 0))
 
+    st.markdown("**Column types**")
+    type_summary_cols = st.columns(3)
+    with type_summary_cols[0]:
+        _pill_list("Numeric", column_types.get("numeric", []))
+    with type_summary_cols[1]:
+        _pill_list("Categorical", column_types.get("categorical", []))
+    with type_summary_cols[2]:
+        _pill_list("Datetime", column_types.get("datetime", column_types.get("datetime_like", [])))
+
+    quality_notes = profile.get("quality_notes", [])
+    if quality_notes:
+        st.markdown("**Data quality notes**")
+        for note in quality_notes[:5]:
+            st.caption(note)
+
     tabs = st.tabs(["Preview", "Columns", "Detected types", "Missing values", "Technical details"])
     with tabs[0]:
         if df.empty:
@@ -277,7 +308,7 @@ def _show_dataset_overview(profile: dict[str, Any], df: pd.DataFrame) -> None:
             _pill_list("Categorical columns", column_types.get("categorical", []))
             _pill_list("Boolean columns", column_types.get("boolean", []))
         with type_cols[1]:
-            _pill_list("Datetime-like columns", column_types.get("datetime_like", []))
+            _pill_list("Datetime-like columns", column_types.get("datetime_like", column_types.get("datetime", [])))
             _pill_list("Text-like columns", column_types.get("text_like", []))
     with tabs[3]:
         rows = [
@@ -568,6 +599,12 @@ def _show_dict_result(tool_name: str | None, result: dict[str, Any]) -> None:
                 st.json(result)
             return
 
+    if tool_name == "missing_analysis" and isinstance(result.get("table"), list) and result["table"]:
+        st.dataframe(pd.DataFrame(result["table"]), use_container_width=True, hide_index=True)
+        with st.expander("Technical result details", expanded=False):
+            st.json(result)
+        return
+
     if "columns" in result and isinstance(result["columns"], dict):
         rows = []
         for column, values in result["columns"].items():
@@ -820,6 +857,37 @@ def _action_label(action: dict[str, Any]) -> str:
     return ACTION_LABELS.get(action.get("tool", ""), "Analysis step")
 
 
+def _planner_status_messages(plan: dict[str, Any], provider_name: str) -> dict[str, str]:
+    if plan.get("mode") == "llm":
+        return {"mode_text": f"Planner mode: {provider_name} LLM", "warning": ""}
+
+    fallback_cause = plan.get("fallback_cause", "")
+    if fallback_cause == "no_api_key":
+        return {
+            "mode_text": "Planner mode: deterministic fallback",
+            "warning": f"{provider_name} API key is not configured; using deterministic fallback.",
+        }
+    if fallback_cause in {"llm_error", "llm_invalid_json"}:
+        return {
+            "mode_text": "Planner mode: deterministic fallback",
+            "warning": "LLM planner unavailable; using deterministic fallback.",
+        }
+    if fallback_cause == "llm_empty_selection":
+        return {
+            "mode_text": f"Planner mode: {provider_name} LLM checked; deterministic fallback used",
+            "warning": "LLM planner returned no runnable action; using deterministic fallback.",
+        }
+    if fallback_cause == "llm_invalid_selection":
+        return {
+            "mode_text": f"Planner mode: {provider_name} LLM checked; deterministic fallback used",
+            "warning": "LLM planner returned invalid action indexes; using deterministic fallback.",
+        }
+    return {
+        "mode_text": "Planner mode: deterministic fallback",
+        "warning": "",
+    }
+
+
 def _selected_candidate_indexes(
     candidate_actions: list[dict[str, Any]],
     selected_actions: list[dict[str, Any]],
@@ -831,6 +899,18 @@ def _selected_candidate_indexes(
                 indexes.append(index)
                 break
     return indexes
+
+
+def _profile_column_type(profile: dict[str, Any], column: str) -> str:
+    column_profiles = profile.get("column_profiles", {})
+    if isinstance(column_profiles, dict):
+        details = column_profiles.get(column, {})
+        if isinstance(details, dict) and details.get("type"):
+            return str(details["type"])
+    for type_name, columns in profile.get("column_types", {}).items():
+        if isinstance(columns, list) and column in columns:
+            return str(type_name)
+    return ""
 
 
 def _file_key(uploaded_file: Any) -> tuple[str, int]:

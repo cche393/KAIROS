@@ -137,6 +137,7 @@ def scatter_plot(
 def top_correlation_plots(
     df: pd.DataFrame,
     cols: list[str] | None = None,
+    target_col: str | None = None,
     top_n: int = 3,
     max_points: int = DEFAULT_MAX_POINTS,
 ) -> dict[str, Any]:
@@ -145,25 +146,33 @@ def top_correlation_plots(
     numeric_cols = _selected_numeric_columns(df, cols, warnings)
     if not explicit_cols:
         numeric_cols = [column for column in numeric_cols if not _is_identifier_like(column, df[column])]
+    if target_col is not None:
+        if target_col not in df.columns:
+            warnings.append(f"Column not found: {target_col}")
+        elif target_col not in numeric_cols:
+            warnings.append(f"{target_col} must be numeric")
     if len(numeric_cols) < 2:
         warnings.append("At least two suitable numeric columns are required for top correlations")
         return _chart(
             "top_correlation_plots",
-            f"Top {top_n} strongest numeric relationships",
-            "Automatically selects strong numeric relationships for charting.",
+            f"Top {top_n} correlations with {target_col}" if target_col else f"Top {top_n} strongest numeric relationships",
+            f"Automatically selects numeric relationships centered on {target_col}." if target_col else "Automatically selects strong numeric relationships for charting.",
             "",
             "scatter",
             "",
             "",
             [],
             warnings,
-            {"columns_considered": numeric_cols},
+            {"columns_considered": numeric_cols, "target_col": target_col},
         )
 
     corr = df[numeric_cols].apply(pd.to_numeric, errors="coerce").corr(numeric_only=True)
     pairs = []
     for i, left in enumerate(numeric_cols):
-        for right in numeric_cols[i + 1 :]:
+        candidates = [target_col] if target_col is not None else numeric_cols[i + 1 :]
+        for right in candidates:
+            if right is None or left == right:
+                continue
             value = corr.loc[left, right]
             if pd.notna(value):
                 pairs.append((left, right, float(value)))
@@ -180,15 +189,15 @@ def top_correlation_plots(
 
     return _chart(
         "top_correlation_plots",
-        f"Top {max(int(top_n), 0)} strongest numeric relationships",
-        "Automatically selects the strongest absolute numeric correlations.",
+        f"Top {max(int(top_n), 0)} correlations with {target_col}" if target_col else f"Top {max(int(top_n), 0)} strongest numeric relationships",
+        f"Automatically selects the strongest absolute numeric correlations with {target_col}." if target_col else "Automatically selects the strongest absolute numeric correlations.",
         f"Selected {len(graphs)} numeric relationship charts.",
         "scatter",
         "",
         "",
         graphs,
         warnings,
-        {"columns_considered": numeric_cols},
+        {"columns_considered": numeric_cols, "target_col": target_col},
     )
 
 

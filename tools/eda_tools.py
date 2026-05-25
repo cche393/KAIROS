@@ -23,12 +23,24 @@ def missing_analysis(df: pd.DataFrame) -> dict[str, Any]:
         if row_count > 0 and percent >= 50.0:
             high_missingness_columns.append(name)
 
+    ranked_missing_columns = [
+        {"column": column, **values}
+        for column, values in columns.items()
+        if values.get("missing_count", 0) > 0
+    ]
+    ranked_missing_columns.sort(
+        key=lambda row: (row["missing_percent"], row["missing_count"]),
+        reverse=True,
+    )
+
     return {
         "row_count": row_count,
         "column_count": int(len(df.columns)),
         "total_cells": total_cells,
         "total_missing_cells": int(df.isna().sum().sum()) if total_cells else 0,
         "columns": columns,
+        "ranked_missing_columns": ranked_missing_columns,
+        "table": ranked_missing_columns,
         "high_missingness_columns": high_missingness_columns,
         "warnings": [],
     }

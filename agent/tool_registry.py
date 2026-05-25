@@ -15,6 +15,7 @@ from tools.cohesive_analysis import (
     relationship_analysis,
     target_relationship_analysis,
 )
+from tools.dataset_profile import dataset_overview
 from tools.eda_tools import (
     anova_by_group,
     categorical_summary,
@@ -39,6 +40,11 @@ from tools.viz_tools import (
 
 
 TOOL_REGISTRY = {
+    "dataset_overview": {
+        "description": "Return a lightweight schema, type, missingness, and quality overview for the dataset.",
+        "args": {},
+        "function": dataset_overview,
+    },
     "distribution_analysis": {
         "description": "Cohesive single-variable numeric analysis with summary statistics and embedded chart data.",
         "args": {"column": "numeric column"},
@@ -147,9 +153,10 @@ TOOL_REGISTRY = {
         "function": scatter_plot,
     },
     "top_correlation_plots": {
-        "description": "Return scatter chart specs for the strongest numeric correlations.",
+        "description": "Return scatter chart specs for the strongest numeric correlations, optionally centered on one target column.",
         "args": {
             "cols": "optional list of numeric columns",
+            "target_col": "optional numeric target column",
             "top_n": "optional number of correlation charts",
             "max_points": "optional maximum points per scatter chart",
         },

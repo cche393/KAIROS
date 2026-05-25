@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 import json
-import os
 import re
 from typing import Any
 
+from agent.groq_client import DEFAULT_GROQ_MODEL, get_llm_config, request_chat_completion
 from agent.tool_registry import TOOL_REGISTRY
 
 
-DEFAULT_MODEL = "gpt-4o-mini"
+DEFAULT_MODEL = DEFAULT_GROQ_MODEL
 
 
 def plan_with_llm(
@@ -19,7 +19,7 @@ def plan_with_llm(
     candidate_actions: list[dict[str, Any]],
     max_actions: int = 3,
 ) -> dict[str, Any]:
-    """Select and rank candidate actions with an optional OpenAI call."""
+    """Select and rank candidate actions with an optional hosted LLM call."""
     limit = _safe_limit(max_actions)
     response = _empty_response()
 
@@ -29,13 +29,15 @@ def plan_with_llm(
         response["reason"] = "No candidate actions available."
         return response
 
-    if not os.getenv("OPENAI_API_KEY"):
+    config = get_llm_config()
+    if not config["api_key_configured"]:
         return _fallback(
             goal,
             candidate_actions,
             limit,
-            warnings=["OPENAI_API_KEY is not set"],
+            warnings=list(config.get("warnings", [])) + [f"{config['api_key_name']} is not set"],
             reason="Using deterministic fallback because no API key is configured.",
+            fallback_cause="no_api_key",
         )
 
     try:
@@ -48,6 +50,7 @@ def plan_with_llm(
             limit,
             errors=[f"LLM returned invalid JSON: {exc}"],
             reason="Using deterministic fallback because the LLM response was not valid JSON.",
+            fallback_cause="llm_invalid_json",
         )
     except Exception as exc:
         return _fallback(
@@ -56,16 +59,28 @@ def plan_with_llm(
             limit,
             errors=[f"LLM planning failed: {exc}"],
             reason="Using deterministic fallback because LLM planning failed.",
+            fallback_cause="llm_error",
         )
 
     selected_actions, warnings = _actions_from_indexes(parsed, candidate_actions, limit)
     if not selected_actions:
+        indexes = parsed.get("selected_indexes", [])
+        empty_selection = isinstance(indexes, list) and len(indexes) == 0
         return _fallback(
             goal,
             candidate_actions,
             limit,
-            warnings=warnings + ["No valid LLM-selected action indexes remained"],
-            reason="Using deterministic fallback because no valid LLM selections remained.",
+            warnings=warnings + [
+                "LLM returned no selected action indexes"
+                if empty_selection
+                else "No valid LLM-selected action indexes remained"
+            ],
+            reason=(
+                "Using deterministic fallback because the LLM returned no runnable action."
+                if empty_selection
+                else "Using deterministic fallback because no valid LLM selections remained."
+            ),
+            fallback_cause="llm_empty_selection" if empty_selection else "llm_invalid_selection",
         )
 
     selected_actions = _merge_goal_ranked_actions(goal, candidate_actions, selected_actions, limit)
@@ -75,7 +90,7 @@ def plan_with_llm(
         "selected_actions": selected_actions,
         "reason": str(parsed.get("reason") or "LLM selected candidate action indexes."),
         "errors": [],
-        "warnings": warnings,
+        "warnings": list(config.get("warnings", [])) + warnings,
     }
 
 
@@ -84,14 +99,7 @@ def _request_llm_plan(
     dataset_profile: dict[str, Any],
     candidate_actions: list[dict[str, Any]],
 ) -> str:
-    """Call OpenAI and return the raw JSON string from the model."""
-    try:
-        from openai import OpenAI
-    except Exception as exc:
-        raise RuntimeError(f"OpenAI SDK import failed: {exc}") from exc
-
-    client = OpenAI()
-    model = os.getenv("KAIROS_LLM_MODEL", DEFAULT_MODEL)
+    """Call the configured hosted LLM and return the raw JSON string."""
     messages = [
         {
             "role": "system",
@@ -116,6 +124,10 @@ def _request_llm_plan(
                     "candidate_actions": _numbered_candidates(candidate_actions),
                     "goal_relevant_candidate_indexes": _goal_relevant_indexes(goal, candidate_actions),
                     "selection_guidance": [
+                        "You must return at least one selected index whenever candidate_actions is non-empty.",
+                        "If the dataset_profile already answers the user directly, select the best lightweight overview action rather than returning an empty list.",
+                        "If the user asks about columns, fields, variables, schema, dataset structure, what is in the CSV, or a general dataset description, choose dataset_overview when it is available.",
+                        "For dataset overview questions, do not infer extra analytical goals from columns such as salary or department unless the user explicitly asks for comparison, relationship, prediction, correlation, trend, distribution, or visualization.",
                         "If the user asks about one explicit numeric pair, prioritize relationship_analysis when it is available.",
                         "If the user asks about correlation, relationship, relatedness, or association between numeric variables, prioritize relationship_analysis or global_relationship_analysis, with correlation_analysis as a lower-level fallback.",
                         "If the user asks what predicts, affects, impacts, or influences a target variable, prioritize target_relationship_analysis when available.",
@@ -133,13 +145,11 @@ def _request_llm_plan(
             ),
         },
     ]
-    completion = client.chat.completions.create(
-        model=model,
+    return request_chat_completion(
         messages=messages,
         response_format={"type": "json_object"},
         temperature=0,
     )
-    return completion.choices[0].message.content or "{}"
 
 
 def _actions_from_indexes(
@@ -179,9 +189,11 @@ def _fallback(
     errors: list[str] | None = None,
     warnings: list[str] | None = None,
     reason: str = "Using deterministic fallback.",
+    fallback_cause: str = "deterministic_fallback",
 ) -> dict[str, Any]:
     return {
         "mode": "fallback",
+        "fallback_cause": fallback_cause,
         "selected_actions": _rank_candidates_for_goal(goal, candidate_actions)[:max_actions],
         "reason": reason,
         "errors": errors or [],
@@ -192,6 +204,7 @@ def _fallback(
 def _empty_response() -> dict[str, Any]:
     return {
         "mode": "fallback",
+        "fallback_cause": "empty",
         "selected_actions": [],
         "reason": "",
         "errors": [],
@@ -247,6 +260,10 @@ def _rank_candidates_for_goal(
     goal: str,
     candidate_actions: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
+    if _is_dataset_overview_question(goal):
+        overview = [action for action in candidate_actions if action.get("tool") == "dataset_overview"]
+        if overview:
+            return overview
     scored = [
         (_intent_score(goal, action), index, action)
         for index, action in enumerate(candidate_actions)
@@ -299,13 +316,28 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
     text = " ".join(tokens)
     score = 0
 
-    if tokens & {"missing", "null", "incomplete", "blank", "empty"}:
-        score += _tool_score(tool, {"missingness_analysis": 140, "missing_analysis": 120, "missing_value_bar_chart": 100})
-
-    if tokens & {"correlation", "correlations", "relationship", "relationships", "related", "association", "associations"}:
+    if _is_dataset_overview_question(goal):
         score += _tool_score(
             tool,
             {
+                "dataset_overview": 500,
+                "distribution_analysis": -200,
+                "global_relationship_analysis": -200,
+                "relationship_analysis": -200,
+                "group_comparison_analysis": -200,
+                "correlation_analysis": -200,
+                "group_summary": -200,
+            },
+        )
+
+    if tokens & {"missing", "null", "incomplete", "blank", "empty"}:
+        score += _tool_score(tool, {"missingness_analysis": 140, "missing_analysis": 120, "missing_value_bar_chart": 100})
+
+    if tokens & {"correlate", "correlates", "correlated", "correlation", "correlations", "relationship", "relationships", "related", "association", "associations"}:
+        score += _tool_score(
+            tool,
+            {
+                "target_relationship_analysis": 185,
                 "relationship_analysis": 170,
                 "global_relationship_analysis": 150,
                 "correlation_analysis": 140,
@@ -320,7 +352,7 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
         score += _tool_score(
             tool,
             {
-                "target_relationship_analysis": 155,
+                "target_relationship_analysis": 190,
                 "relationship_analysis": 145,
                 "global_relationship_analysis": 130,
                 "simple_linear_regression": 125,
@@ -333,6 +365,10 @@ def _specific_intent_score(goal: str, action: dict[str, Any]) -> int:
                 "numeric_summary": 25,
             },
         )
+
+    target_col = action.get("args", {}).get("target_col")
+    if tool == "target_relationship_analysis" and _column_name_matches_goal(tokens, target_col):
+        score += 120
 
     if tool in {"group_summary", "t_test_by_group"}:
         group_col = action.get("args", {}).get("group_col")
@@ -409,6 +445,9 @@ def _has_specific_intent(goal: str) -> bool:
         "blank",
         "empty",
         "correlation",
+        "correlate",
+        "correlates",
+        "correlated",
         "correlations",
         "relationship",
         "relationships",
@@ -449,6 +488,31 @@ def _has_specific_intent(goal: str) -> bool:
         "graph",
     }
     return bool(tokens & specific_tokens or "by" in tokens)
+
+
+def _is_dataset_overview_question(goal: str) -> bool:
+    tokens = _goal_tokens(goal)
+    analytical_terms = {
+        "missing", "missingness", "null", "distribution", "correlation", "correlations",
+        "correlated", "correlate", "correlates", "relationship", "relationships",
+        "related", "associated", "association", "compare", "comparison", "by",
+        "predict", "predicts", "affect", "affects", "trend", "plot", "chart",
+    }
+    if tokens & analytical_terms:
+        return False
+    schema_terms = {"column", "columns", "field", "fields", "variable", "variables", "schema"}
+    dataset_terms = {"dataset", "data", "csv", "file"}
+    if tokens & {"variable", "variables"} and not (tokens & {"available", "have"} or tokens & dataset_terms):
+        return False
+    if tokens & schema_terms and (tokens & {"what", "which", "show", "list", "available", "have"} or tokens & dataset_terms):
+        return True
+    if {"dataset", "overview"}.issubset(tokens) or {"data", "overview"}.issubset(tokens):
+        return True
+    if tokens & {"describe", "summarize", "summarise"} and tokens & dataset_terms and not tokens & {"distribution", "correlation", "relationship", "compare", "by", "plot", "chart", "trend"}:
+        return True
+    if {"what", "is", "in"}.issubset(tokens) and tokens & dataset_terms:
+        return True
+    return False
 
 
 def _goal_tokens(goal: str) -> set[str]:

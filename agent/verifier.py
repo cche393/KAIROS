@@ -18,7 +18,7 @@ OPTIONAL_ARGS = {
     "correlation_analysis": {"columns"},
     "numeric_distribution_plot": {"bins"},
     "scatter_plot": {"max_points"},
-    "top_correlation_plots": {"cols", "top_n", "max_points"},
+    "top_correlation_plots": {"cols", "target_col", "top_n", "max_points"},
     "group_mean_bar_chart": {"top_n"},
     "missing_value_bar_chart": {"include_zero"},
     "regression_plot": {"max_points"},
@@ -31,7 +31,11 @@ REQUIRED_ARGS = {
 }
 
 
-def verify_action(df: pd.DataFrame, action: dict[str, Any] | Any) -> dict[str, Any]:
+def verify_action(
+    df: pd.DataFrame,
+    action: dict[str, Any] | Any,
+    dataset_profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Return a structured validation result for a proposed tool action."""
     result = {"valid": False, "tool": None, "args": {}, "errors": [], "warnings": []}
 
@@ -59,7 +63,7 @@ def verify_action(df: pd.DataFrame, action: dict[str, Any] | Any) -> dict[str, A
     _validate_arg_types(tool, args, result["errors"])
 
     if not result["errors"]:
-        _validate_tool_semantics(df, tool, args, result["errors"], result["warnings"])
+        _validate_tool_semantics(df, tool, args, result["errors"], result["warnings"], dataset_profile)
 
     result["valid"] = not result["errors"]
     return result
@@ -106,8 +110,12 @@ def _validate_tool_semantics(
     args: dict[str, Any],
     errors: list[str],
     warnings: list[str],
+    dataset_profile: dict[str, Any] | None = None,
 ) -> None:
     if tool == "missing_analysis":
+        return
+
+    if tool == "dataset_overview":
         return
 
     if tool == "missingness_analysis":
@@ -143,6 +151,10 @@ def _validate_tool_semantics(
         for column in target_columns:
             if column in df.columns and not _is_numeric_or_coercible(df, column):
                 errors.append(f"Column must be numeric for global_relationship_analysis: {column}")
+            if column in _profile_issue_columns(dataset_profile, "likely_id_columns"):
+                errors.append(f"{column} appears to be an identifier and should not be used for global relationship analysis")
+            if column in _profile_issue_columns(dataset_profile, "constant_value_columns"):
+                errors.append(f"{column} is constant and should not be used for relationship analysis")
         if len([column for column in target_columns if column in df.columns]) < 2:
             errors.append("global_relationship_analysis requires at least two numeric columns")
         return
@@ -154,6 +166,8 @@ def _validate_tool_semantics(
         _validate_column_exists(df, value_col, "value_col", errors)
         if value_col in df.columns and not _is_numeric_or_coercible(df, value_col):
             errors.append(f"value_col must be numeric: {value_col}")
+        if group_col in _profile_issue_columns(dataset_profile, "high_cardinality_categorical_columns"):
+            errors.append(f"{group_col} has high cardinality and should not be used for grouped comparison charts")
         return
 
     if tool == "outlier_analysis":
@@ -216,6 +230,8 @@ def _validate_tool_semantics(
             _validate_column_exists(df, column, arg_name, errors)
             if column in df.columns and _is_numeric(df, column):
                 errors.append(f"Column must be categorical for chi_square_test: {column}")
+            if column in _profile_issue_columns(dataset_profile, "high_cardinality_categorical_columns"):
+                errors.append(f"{column} has high cardinality and is not suitable for chi-square testing")
         return
 
     if tool == "t_test_by_group":
@@ -265,6 +281,17 @@ def _validate_tool_semantics(
         for column in target_columns:
             if column in df.columns and not _is_numeric_or_coercible(df, column):
                 errors.append(f"Column must be numeric for top_correlation_plots: {column}")
+            if column in _profile_issue_columns(dataset_profile, "likely_id_columns"):
+                errors.append(f"{column} appears to be an identifier and should not be used for correlation plots")
+            if column in _profile_issue_columns(dataset_profile, "constant_value_columns"):
+                errors.append(f"{column} is constant and should not be used for correlation plots")
+        target_col = args.get("target_col")
+        if target_col is not None:
+            _validate_column_exists(df, target_col, "target_col", errors)
+            if target_col in df.columns and not _is_numeric_or_coercible(df, target_col):
+                errors.append(f"target_col must be numeric: {target_col}")
+            if target_col in df.columns and target_col not in target_columns:
+                target_columns = list(target_columns) + [target_col]
         if len([column for column in target_columns if column in df.columns]) < 2:
             errors.append("top_correlation_plots requires at least two numeric columns")
         return
@@ -276,6 +303,8 @@ def _validate_tool_semantics(
         _validate_column_exists(df, value_col, "value_col", errors)
         if value_col in df.columns and not _is_numeric_or_coercible(df, value_col):
             errors.append(f"value_col must be numeric: {value_col}")
+        if group_col in _profile_issue_columns(dataset_profile, "high_cardinality_categorical_columns"):
+            errors.append(f"{group_col} has high cardinality and should not be used for grouped charts")
         return
 
     if tool == "missing_value_bar_chart":
@@ -339,3 +368,13 @@ def _categorical_columns(df: pd.DataFrame) -> list[str]:
 
 def _non_missing_unique_count(series: pd.Series) -> int:
     return int(series.dropna().nunique(dropna=True))
+
+
+def _profile_issue_columns(dataset_profile: dict[str, Any] | None, issue_name: str) -> list[str]:
+    if not isinstance(dataset_profile, dict):
+        return []
+    issues = dataset_profile.get("potential_issues", {})
+    if not isinstance(issues, dict):
+        return []
+    values = issues.get(issue_name, [])
+    return [str(value) for value in values] if isinstance(values, list) else []

@@ -225,12 +225,14 @@ def outlier_analysis(df: pd.DataFrame, column: str, method: str = "iqr") -> dict
 def missingness_analysis(df: pd.DataFrame) -> dict[str, Any]:
     """Return dataset missingness diagnostics without a default graph."""
     result = missing_analysis(df)
-    ranked = [
-        {"column": column, **values}
-        for column, values in result.get("columns", {}).items()
-        if values.get("missing_count", 0) > 0
-    ]
-    ranked.sort(key=lambda row: (row["missing_count"], row["missing_percent"]), reverse=True)
+    ranked = list(result.get("ranked_missing_columns", []))
+    if not ranked:
+        ranked = [
+            {"column": column, **values}
+            for column, values in result.get("columns", {}).items()
+            if values.get("missing_count", 0) > 0
+        ]
+        ranked.sort(key=lambda row: (row["missing_percent"], row["missing_count"]), reverse=True)
     if ranked:
         summary = f"{ranked[0]['column']} has the most missing values ({ranked[0]['missing_percent']}%)."
     else:
@@ -259,9 +261,11 @@ def _target_result(
     method_note: str = "Target relationship analysis ranks deterministic associations with the target.",
 ) -> dict[str, Any]:
     return {
-        "analysis_type": "target_relationship_analysis",
+        "analysis_type": "targeted_relationship_analysis",
         "title": f"Variables related to {target_col}",
         "target_col": target_col,
+        "target_column": target_col,
+        "analysis_focus": f"relationships centered on {target_col}",
         "summary": (
             f"Selected {len(relationships)} variables with the strongest available association to {target_col}."
             if relationships
@@ -488,6 +492,8 @@ def _is_identifier_like_column(df: pd.DataFrame, column: str) -> bool:
         return False
     series = df[column].dropna()
     if series.empty:
+        return False
+    if pd.api.types.is_numeric_dtype(series):
         return False
     if int(series.nunique(dropna=True)) / len(series) > 0.9:
         return True

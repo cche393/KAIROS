@@ -6,6 +6,7 @@ import pandas as pd
 import agent.executor as executor
 from agent.executor import execute_action
 from agent.tool_registry import TOOL_REGISTRY
+from tools.dataset_profile import build_dataset_profile
 
 
 class ExecutorTests(unittest.TestCase):
@@ -148,6 +149,36 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(calls, [["age"]])
         self.assertEqual(response["result"], {"ok": True, "warnings": ["from fake tool"]})
         self.assertEqual(response["warnings"], ["from fake tool"])
+
+    def test_executor_passes_profile_to_verifier_when_available(self):
+        df = pd.DataFrame(
+            {
+                "employee_id": [1, 2, 3, 4],
+                "salary": [70, 80, 90, 100],
+            }
+        )
+        profile = build_dataset_profile(df)
+
+        response = execute_action(
+            df,
+            {"tool": "global_relationship_analysis", "args": {"cols": ["employee_id", "salary"]}},
+            dataset_profile=profile,
+        )
+
+        self.assertFalse(response["executed"])
+        self.assertIn("employee_id appears to be an identifier", " ".join(response["errors"]))
+
+    def test_executor_passes_existing_profile_to_dataset_overview_tool(self):
+        df = pd.DataFrame({"age": [25], "department": ["Sales"]})
+        profile = build_dataset_profile(df)
+        profile["row_count"] = 999
+        profile["shape"]["rows"] = 999
+
+        response = execute_action(df, {"tool": "dataset_overview", "args": {}}, dataset_profile=profile)
+
+        self.assertTrue(response["executed"])
+        self.assertEqual(response["result"]["analysis_type"], "dataset_overview")
+        self.assertEqual(response["result"]["row_count"], 999)
 
 
 if __name__ == "__main__":

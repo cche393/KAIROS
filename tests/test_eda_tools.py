@@ -38,7 +38,31 @@ class EdaToolsTests(unittest.TestCase):
         self.assertEqual(result["columns"]["mostly_missing"]["missing_count"], 4)
         self.assertEqual(result["columns"]["mostly_missing"]["missing_percent"], 80.0)
         self.assertEqual(result["high_missingness_columns"], ["mostly_missing"])
+        self.assertEqual(
+            [row["column"] for row in result["ranked_missing_columns"]],
+            ["mostly_missing", "x", "category"],
+        )
+        self.assertEqual(result["table"], result["ranked_missing_columns"])
         json.dumps(result)
+
+    def test_missing_analysis_table_excludes_zero_missing_columns_and_sorts_descending(self):
+        df = pd.DataFrame(
+            {
+                "most": [None, None, 3, 4],
+                "some": [None, 2, 3, 4],
+                "complete": [1, 2, 3, 4],
+            }
+        )
+
+        result = missing_analysis(df)
+
+        self.assertEqual(
+            result["table"],
+            [
+                {"column": "most", "missing_count": 2, "missing_percent": 50.0},
+                {"column": "some", "missing_count": 1, "missing_percent": 25.0},
+            ],
+        )
 
     def test_numeric_summary_describes_numeric_columns(self):
         result = numeric_summary(self.df, columns=["x", "y", "missing_column"])

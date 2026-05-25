@@ -10,9 +10,16 @@ from agent.tool_registry import TOOL_REGISTRY
 from agent.verifier import verify_action
 
 
-def execute_action(df: pd.DataFrame, action: dict[str, Any] | Any) -> dict[str, Any]:
+def execute_action(
+    df: pd.DataFrame,
+    action: dict[str, Any] | Any,
+    dataset_profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Verify and execute one proposed tool action."""
-    verification = verify_action(df, action)
+    if dataset_profile is None:
+        verification = verify_action(df, action)
+    else:
+        verification = verify_action(df, action, dataset_profile=dataset_profile)
     response = {
         "executed": False,
         "verification": verification,
@@ -34,7 +41,10 @@ def execute_action(df: pd.DataFrame, action: dict[str, Any] | Any) -> dict[str, 
         return response
 
     try:
-        result = tool_spec["function"](df, **args)
+        if tool_name == "dataset_overview" and dataset_profile is not None:
+            result = tool_spec["function"](df, dataset_profile=dataset_profile, **args)
+        else:
+            result = tool_spec["function"](df, **args)
     except Exception as exc:
         response["errors"].append(f"Runtime error while executing {tool_name}: {exc}")
         return response

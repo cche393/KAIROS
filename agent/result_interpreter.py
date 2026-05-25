@@ -155,20 +155,26 @@ def _interpret_missing_analysis(result: Any, user_goal: str | None = None) -> di
         )
 
     ranked = []
-    for column, details in columns.items():
-        values = _as_dict(details)
-        count = int(_number(values.get("missing_count")) or 0)
-        percent = _number(values.get("missing_percent"))
-        if count > 0:
-            ranked.append((str(column), count, percent))
-    ranked.sort(key=lambda item: (item[1], item[2] or 0), reverse=True)
-    findings = [
-        f"{column} has {count} missing values"
-        + (f" ({percent}%)." if percent is not None else ".")
-        for column, count, percent in ranked[:5]
-    ]
+    source_rows = _as_list(data.get("ranked_missing_columns")) or _as_list(data.get("table"))
+    if source_rows:
+        ranked = [_as_dict(row) for row in source_rows if _as_dict(row).get("missing_count", 0)]
+    else:
+        for column, details in columns.items():
+            values = _as_dict(details)
+            count = int(_number(values.get("missing_count")) or 0)
+            percent = _number(values.get("missing_percent"))
+            if count > 0:
+                ranked.append({"column": str(column), "missing_count": count, "missing_percent": percent})
+        ranked.sort(key=lambda item: (item.get("missing_percent") or 0, item.get("missing_count") or 0), reverse=True)
+    findings = _missingness_findings(ranked)
+    top = ranked[0] if ranked else {}
+    summary = (
+        f"{top.get('column')} has the most missing values ({top.get('missing_percent')}%)."
+        if top
+        else f"{total} missing {_plural(total, 'cell')} were detected."
+    )
     return _response(
-        f"{total} missing {_plural(total, 'cell')} were detected.",
+        summary,
         findings,
         ["High missingness may affect downstream summaries and comparisons."] if ranked else [],
         "Missing analysis counts blank/null values by column.",
@@ -345,7 +351,7 @@ def _interpret_cohesive_analysis(result: Any) -> dict[str, Any]:
                 findings.append(
                     f"{details.get('x_col')} and {details.get('y_col')} have association {details.get('correlation')}."
                 )
-    elif analysis_type == "target_relationship_analysis":
+    elif analysis_type in {"target_relationship_analysis", "targeted_relationship_analysis"}:
         for item in _as_list(data.get("relationships"))[:5]:
             details = _as_dict(item)
             if details.get("summary"):
@@ -354,6 +360,9 @@ def _interpret_cohesive_analysis(result: Any) -> dict[str, Any]:
                 findings.append(
                     f"{details.get('predictor_col')} has association {details.get('association')} with {data.get('target_col')}."
                 )
+    elif analysis_type == "dataset_overview":
+        summary = f"This dataset has {data.get('row_count', 0)} rows and {data.get('column_count', 0)} columns."
+        findings.extend(_dataset_overview_findings(data))
     elif analysis_type == "group_comparison_analysis":
         ranked = _as_list(data.get("ranked_groups"))
         if ranked:
@@ -380,10 +389,7 @@ def _interpret_cohesive_analysis(result: Any) -> dict[str, Any]:
     elif analysis_type == "missingness_analysis":
         ranked = _as_list(data.get("ranked_missing_columns"))
         if ranked:
-            first = _as_dict(ranked[0])
-            findings.append(
-                f"{first.get('column')} has the highest missingness at {first.get('missing_percent')}%."
-            )
+            findings.extend(_missingness_findings(ranked))
 
     cautions = data.get("warnings", []) if isinstance(data.get("warnings"), list) else []
     if _as_dict(data.get("inferential_test")).get("p_value") is not None:
@@ -397,6 +403,43 @@ def _interpret_cohesive_analysis(result: Any) -> dict[str, Any]:
         cautions,
         str(data.get("method_note") or "This cohesive analysis combines deterministic statistics with chart-ready data."),
     )
+
+
+def _dataset_overview_findings(data: dict[str, Any]) -> list[str]:
+    findings = []
+    column_types = _as_dict(data.get("column_types"))
+    for type_name in ("numeric", "categorical", "datetime", "boolean", "text_like"):
+        for column in _as_list(column_types.get(type_name)):
+            findings.append(f"{column}: {type_name}.")
+    quality_notes = _as_list(data.get("quality_notes"))
+    findings.extend(str(note) for note in quality_notes[:5])
+    if not quality_notes:
+        issues = _as_dict(data.get("potential_issues"))
+        for column in _as_list(issues.get("likely_id_columns")):
+            findings.append(f"{column} appears to be an identifier.")
+        for column in _as_list(issues.get("constant_value_columns")):
+            findings.append(f"{column} is constant.")
+        for column in _as_list(issues.get("high_cardinality_categorical_columns")):
+            findings.append(f"{column} has high cardinality.")
+    return findings
+
+
+def _missingness_findings(ranked_missing_columns: list[Any]) -> list[str]:
+    findings = []
+    for item in ranked_missing_columns:
+        details = _as_dict(item)
+        column = details.get("column")
+        count = details.get("missing_count")
+        percent = details.get("missing_percent")
+        if not column:
+            continue
+        if percent is not None and count is not None:
+            findings.append(f"{column}: {percent}% missing ({count} rows).")
+        elif percent is not None:
+            findings.append(f"{column}: {percent}% missing.")
+        elif count is not None:
+            findings.append(f"{column}: {count} missing rows.")
+    return findings
 
 
 def _group_mean_response(

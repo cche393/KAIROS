@@ -4,6 +4,7 @@ from app import (
     _analysis_result_pairs,
     _chart_dataframe,
     _cohesive_analysis_sections,
+    _planner_status_messages,
     _top_correlation_chart_frames,
 )
 
@@ -126,6 +127,21 @@ class AppLayoutTests(unittest.TestCase):
         self.assertEqual(frames[0]["title"], "Correlation: salary vs years_experience")
         self.assertEqual(frames[0]["x_col"], "years_experience")
         self.assertEqual(frames[0]["y_col"], "salary")
+
+    def test_planner_status_distinguishes_unavailable_from_empty_llm_selection(self):
+        status = _planner_status_messages(
+            {
+                "mode": "fallback",
+                "fallback_cause": "llm_empty_selection",
+                "errors": [],
+                "warnings": ["LLM returned no selected action indexes"],
+            },
+            "GROQ",
+        )
+
+        self.assertEqual(status["mode_text"], "Planner mode: GROQ LLM checked; deterministic fallback used")
+        self.assertEqual(status["warning"], "LLM planner returned no runnable action; using deterministic fallback.")
+        self.assertNotIn("unavailable", status["warning"].lower())
 
 
 if __name__ == "__main__":
