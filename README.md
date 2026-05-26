@@ -4,6 +4,8 @@ A guarded LLM-guided intelligent data analysis agent for CSV datasets.
 
 KAIROS is a Streamlit-based COMPSCI 767 Assignment 2 prototype. It lets a user upload a CSV file, ask an analytical question in natural language, and receive verified deterministic analysis results with charts, summaries, an audit log, and a final report.
 
+The URL link to the demo video is here: https://youtu.be/TdcjaSunRkM .
+
 ## What the System Can Do
 
 - Upload CSV datasets through a Streamlit interface.
