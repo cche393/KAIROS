@@ -20,6 +20,7 @@ from agent.memory_log import (
 from agent.observer import inspect_dataset, load_csv
 from agent.planner_helper import describe_planning_scope, recommend_actions
 from agent.result_interpreter import interpret_result
+from ui.styles import dashboard_css
 
 
 DEFAULT_GOAL = "Explore this dataset."
@@ -85,22 +86,35 @@ def main() -> None:
 
 def _agent_panel() -> tuple[Any, str]:
     st.markdown('<div class="agent-panel">', unsafe_allow_html=True)
-    st.markdown('<h1 class="kairos-title">KAIROS</h1>', unsafe_allow_html=True)
     st.markdown(
-        '<p class="kairos-subtitle">Guarded data-analysis agent</p>',
+        """
+        <div class="kairos-hero">
+          <p class="kairos-subtitle">Guarded LLM-Guided Data Analysis Agent</p>
+          <h1 class="kairos-title">KAIROS</h1>
+          <p class="kairos-description">Upload a dataset, ask an analytical question, and KAIROS plans, verifies, executes, and summarizes the analysis.</p>
+          <div class="badge-row">
+            <span class="status-badge">LLM-guided planner</span>
+            <span class="status-badge success">Verified tools</span>
+            <span class="status-badge">Dataset-aware</span>
+            <span class="status-badge muted">Audit trace</span>
+          </div>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
-    st.markdown("**Pipeline**")
-    st.code("Observer -> Planner -> Verifier -> Executor -> Tools", language="text")
 
-    st.markdown("**Planner mode**")
+    st.markdown('<div class="control-card"><div class="section-kicker">Planner status</div>', unsafe_allow_html=True)
     llm_config = get_llm_config()
     status_kind, status_text = _planner_availability_status(llm_config)
-    if status_kind == "success":
-        st.success(status_text)
-    else:
-        st.info(status_text)
+    badge_class = "success" if status_kind == "success" else "muted"
+    st.markdown(f'<span class="status-badge {badge_class}">{status_text}</span>', unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
+    st.markdown('<div class="control-card"><div class="section-kicker">Run configuration</div>', unsafe_allow_html=True)
+    if status_kind == "success":
+        st.caption("Hosted planner is available for action selection.")
+    else:
+        st.caption("KAIROS can still use deterministic planning and guarded tools.")
     max_actions = st.number_input(
         "Maximum analyses",
         min_value=1,
@@ -109,12 +123,14 @@ def _agent_panel() -> tuple[Any, str]:
         step=1,
         key="max_selected_actions",
     )
+    st.markdown("</div>", unsafe_allow_html=True)
 
+    st.markdown('<div class="question-card"><div class="section-kicker">Dataset and question</div>', unsafe_allow_html=True)
     uploaded_file = st.file_uploader("Upload CSV dataset", type=["csv"])
     _sync_memory_to_uploaded_file(uploaded_file)
     question = st.text_area(
         "Analysis question",
-        placeholder="What factors affect salary?",
+        placeholder="Ask something like: What correlates with age?",
         height=130,
     )
     effective_goal = question.strip() or DEFAULT_GOAL
@@ -126,6 +142,7 @@ def _agent_panel() -> tuple[Any, str]:
             st.warning("Upload a CSV dataset before running analysis.")
         else:
             _generate_and_run(uploaded_file, effective_goal, int(max_actions))
+    st.markdown("</div>", unsafe_allow_html=True)
 
     _show_agent_explanation()
 
@@ -144,7 +161,7 @@ def _agent_panel() -> tuple[Any, str]:
 
 
 def _workspace_panel(uploaded_file: Any, effective_goal: str) -> None:
-    st.markdown('<div class="workspace-panel">', unsafe_allow_html=True)
+    st.markdown('<div class="workspace-panel"><div class="section-kicker">Operational intelligence workspace</div>', unsafe_allow_html=True)
     st.markdown('<h2 class="workspace-title">Analysis workspace</h2>', unsafe_allow_html=True)
 
     if uploaded_file is None:
@@ -329,11 +346,17 @@ def _show_dataset_overview(profile: dict[str, Any], df: pd.DataFrame) -> None:
     column_types = profile.get("column_types", {})
     missing_values = profile.get("missing_values", {})
 
-    cols = st.columns(4)
+    cols = st.columns(6)
     cols[0].metric("Rows", shape["rows"])
     cols[1].metric("Columns", shape["columns"])
-    cols[2].metric("Duplicate rows", profile.get("duplicate_rows", 0))
-    cols[3].metric("Missing cells", missing_values.get("total_missing_cells", 0))
+    cols[2].metric("Numeric", len(column_types.get("numeric", [])))
+    cols[3].metric("Categorical", len(column_types.get("categorical", [])))
+    cols[4].metric("Datetime", len(column_types.get("datetime", column_types.get("datetime_like", []))))
+    missing_columns = [
+        column for column, values in missing_values.get("columns", {}).items()
+        if values.get("missing_count", 0)
+    ]
+    cols[5].metric("Missing cols", len(missing_columns))
 
     st.markdown("**Column types**")
     type_summary_cols = st.columns(3)
@@ -1135,106 +1158,7 @@ def _file_key(uploaded_file: Any) -> tuple[str, int]:
 
 
 def _inject_css() -> None:
-    st.markdown(
-        """
-        <style>
-        html, body, [class*="css"] {
-            font-size: 20px;
-            line-height: 1.7;
-        }
-        .block-container {
-            padding-top: 0.85rem;
-            padding-right: 0.9rem;
-            padding-bottom: 2.4rem;
-            padding-left: 0.9rem;
-            max-width: 1800px;
-        }
-        .agent-panel {
-            position: sticky;
-            top: 1rem;
-        }
-        .workspace-panel {
-            padding-bottom: 2rem;
-        }
-        .kairos-title {
-            font-size: 4.1rem;
-            line-height: 1.05;
-            margin-bottom: 0.3rem;
-            color: #111827;
-            font-weight: 760;
-        }
-        .kairos-subtitle {
-            font-size: 1.28rem;
-            color: #4b5563;
-            margin-bottom: 1.2rem;
-        }
-        .workspace-title {
-            font-size: 2.65rem;
-            margin-top: 0.35rem;
-            margin-bottom: 1rem;
-            color: #111827;
-        }
-        h2, h3 {
-            color: #111827;
-            margin-top: 1.65rem;
-            margin-bottom: 0.85rem;
-        }
-        h3 {
-            font-size: 1.85rem;
-        }
-        label, .stTextInput label, .stTextArea label, .stFileUploader label, .stNumberInput label {
-            font-size: 1.18rem !important;
-            font-weight: 650 !important;
-            color: #111827 !important;
-        }
-        [data-testid="stMetric"] {
-            background: #f8fafc;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 1rem 1.1rem;
-        }
-        [data-testid="stMetricLabel"] {
-            font-size: 1.08rem;
-            color: #4b5563;
-        }
-        [data-testid="stMetricValue"] {
-            font-size: 2.05rem;
-            color: #111827;
-        }
-        [data-testid="stDataFrame"] {
-            font-size: 1.08rem;
-        }
-        div[data-testid="stMarkdownContainer"] p,
-        div[data-testid="stMarkdownContainer"] li {
-            font-size: 1.12rem;
-            line-height: 1.7;
-        }
-        div[data-testid="stButton"] button {
-            font-size: 1.12rem;
-            padding: 0.8rem 1rem;
-        }
-        div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-color: #e5e7eb !important;
-            background: #ffffff;
-        }
-        div[data-testid="stExpander"] {
-            border-color: #e5e7eb !important;
-            background: #ffffff;
-        }
-        .pill {
-            display: inline-block;
-            padding: 0.28rem 0.65rem;
-            margin: 0.18rem 0.24rem 0.18rem 0;
-            border: 1px solid #d1d5db;
-            border-radius: 999px;
-            background: #f9fafb;
-            color: #111827;
-            font-size: 0.96rem;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown(f"<style>{dashboard_css()}</style>", unsafe_allow_html=True)
 
 
 if __name__ == "__main__":

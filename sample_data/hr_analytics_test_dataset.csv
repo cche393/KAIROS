@@ -1,0 +1,1201 @@
+employee_id,department,region,job_level,employment_type,gender,hire_date,age,years_experience,salary,bonus,performance_score,satisfaction_score,training_hours,remote_days,manager_rating,team_size,promotion,attrition
+E00001,Customer Support,Christchurch,Junior,Hybrid,Male,2020-04-03,27,0,53900,2100,4.58,4.08,25.5,2,3.14,11,No,No
+E00002,Operations,Christchurch,Senior,Remote,Non-binary,2021-05-28,33,7.5,113300,9400,4.08,3.79,17.3,4,3.57,9,No,No
+E00003,Marketing,Wellington,Senior,Hybrid,Male,2020-04-26,37,5.8,108300,11800,5,5,40.8,2,3.98,8,No,No
+E00004,Sales,Hamilton,Lead,Hybrid,Male,2016-08-03,39,10.3,144000,16700,4.0,,13.5,2,4.01,7,Yes,No
+E00005,HR,Christchurch,Intermediate,Hybrid,Female,2021-08-18,43,7.0,93800,,3.98,4.43,18.4,3,3.3,13,No,Yes
+E00006,Marketing,Wellington,Intermediate,Onsite,Female,2018-03-21,33,10.2,92500,11000,4.47,3.02,28.6,0,3.98,14,No,No
+E00007,Operations,Auckland,Junior,Hybrid,Female,2021-12-12,30,4.8,71600,11500,3.81,3.01,15.4,2,4.24,14,No,No
+E00008,Operations,Christchurch,Manager,Hybrid,Male,2022-01-29,37,13.2,132200,13300,5,5,37.5,2,5.0,8,No,No
+E00009,Operations,Christchurch,Senior,Onsite,Female,2017-08-15,33,7.1,102500,11700,3.77,2.29,19.9,0,3.58,10,No,No
+E00010,Engineering,Remote,Intermediate,Hybrid,Female,2024-09-23,33,4.5,98700,6600,5,4.31,,3,4.2,3,No,No
+E00011,Engineering,Auckland,Junior,Onsite,Male,2023-12-21,31,2.2,81200,5800,3.57,4.18,21.6,0,4.81,19,No,No
+E00012,Operations,Auckland,Manager,Hybrid,,2018-03-27,38,8.1,139500,12600,4.03,3.97,31.7,2,2.12,18,No,No
+E00013,HR,Hamilton,Intermediate,Onsite,Male,2020-03-29,22,3.0,73200,500,5,5,53.8,0,3.33,9,No,No
+E00014,Engineering,Auckland,Junior,Hybrid,Female,2022-08-11,26,0.4,66600,5100,4.09,3.76,25.0,3,3.65,9,No,No
+E00015,HR,Auckland,Intermediate,Onsite,Male,2023-09-19,31,2.9,76100,11700,5,5,38.6,0,3.9,7,No,No
+E00016,Marketing,Auckland,Intermediate,Hybrid,Male,2018-07-24,27,4.9,93700,5900,3.87,4.83,36.8,3,3.12,12,No,No
+E00017,Engineering,Auckland,Lead,Hybrid,Male,2020-02-14,39,14.9,170400,13000,3.69,5,25.4,3,3.77,7,No,No
+E00018,Marketing,Wellington,Junior,Hybrid,Prefer not to say,2020-11-23,28,1.3,48300,7000,4.03,3.82,34.3,3,3.08,10,No,No
+E00019,Marketing,Auckland,Manager,Hybrid,Female,2020-10-15,38,16.1,134400,9000,5,4.17,36.5,2,4.11,20,Yes,No
+E00020,Engineering,Auckland,Junior,Onsite,Female,2024-04-17,29,1.5,71000,1800,4.24,3.59,35.1,0,4.12,19,Yes,Yes
+E00021,HR,Hamilton,Manager,Hybrid,Prefer not to say,2020-07-27,37,12.0,125500,8700,4.89,,34.5,2,3.23,14,No,No
+E00022,Sales,Remote,Intermediate,Onsite,Male,2020-02-07,28,2.9,83600,11700,3.73,4.27,15.5,0,2.34,8,No,No
+E00023,Operations,Christchurch,Intermediate,Remote,Female,2018-03-14,25,5.7,65100,5700,3.4,4.05,20.9,5,2.84,4,Yes,No
+E00024,Engineering,Wellington,Intermediate,Hybrid,Female,2021-08-06,23,3.5,89800,6000,4.26,3.73,32.3,2,3.48,18,No,No
+E00025,HR,Auckland,Senior,Onsite,Male,2022-05-11,34,5.7,111600,8600,3.3,3.18,0.8,0,3.34,11,No,No
+E00026,Customer Support,Remote,Junior,Onsite,Female,2022-09-14,21,0,43100,4200,5,4.72,37.9,1,3.82,11,No,No
+E00027,Engineering,Auckland,Senior,Remote,Female,2020-12-18,37,10.8,145500,10100,4.21,3.36,19.8,4,3.81,6,No,No
+E00028,Marketing,Auckland,Intermediate,Hybrid,Female,2021-08-06,34,4.7,85200,9900,5,5,54.6,2,3.64,4,No,No
+E00029,Customer Support,Hamilton,Junior,Hybrid,Prefer not to say,2022-08-11,22,0.2,42000,2200,5,4.53,39.2,2,4.04,6,No,No
+E00030,HR,Auckland,Intermediate,Remote,Female,2017-04-14,26,4.9,73800,7300,3.58,3.45,0,5,3.54,10,No,Yes
+E00031,HR,Christchurch,Junior,Hybrid,Male,2019-04-14,32,1.2,64200,4900,4.64,5,32.4,2,2.94,3,No,Yes
+E00032,Operations,Auckland,Junior,Onsite,Female,2017-08-06,26,0,49700,5300,4.78,5,34.2,1,3.79,11,Yes,No
+E00033,Sales,Wellington,Junior,Onsite,Female,2017-02-24,33,0,62700,6100,2.44,2.53,6.4,1,3.03,5,No,No
+E00034,Operations,Christchurch,Intermediate,Onsite,Female,2021-06-03,29,4.8,93300,7400,3.11,2.87,1.1,0,3.64,8,No,Yes
+E00035,Marketing,Auckland,Intermediate,Remote,Female,2021-04-03,28,4.1,83100,3800,5,4.52,48.3,5,3.66,4,No,No
+E00036,Sales,Wellington,Intermediate,Onsite,Female,2016-10-31,32,3.7,86600,10200,3.68,3.34,19.0,0,3.51,4,No,No
+E00037,Data,Wellington,Senior,Hybrid,Female,2018-05-10,40,9.3,136400,11500,4.02,1.94,31.7,2,2.25,16,No,No
+E00038,Marketing,Auckland,Intermediate,Onsite,Male,2017-07-17,22,3.2,95200,8800,3.81,4.49,42.3,1,3.47,4,No,No
+E00039,Sales,Remote,Intermediate,Onsite,Male,2022-12-04,30,3.3,94000,10500,3.6,3.09,9.2,0,3.91,20,Yes,No
+E00040,Marketing,Wellington,Manager,Hybrid,Male,2016-02-21,37,15.7,148400,14900,5,,55.9,3,4.67,14,No,Yes
+E00041,Engineering,Auckland,Lead,Remote,Female,2017-01-20,41,12.7,154900,16200,5,5,53.5,5,4.14,9,No,No
+E00042,Engineering,Auckland,Intermediate,Hybrid,Male,2016-08-25,29,2.1,99600,4500,2.97,1.61,0,3,3.14,11,No,No
+E00043,Engineering,Auckland,Senior,Onsite,Male,2017-11-21,33,5.0,112900,11900,4.39,2.93,19.3,1,4.64,11,No,No
+E00044,Sales,Auckland,Junior,Remote,Female,2021-05-04,32,3.5,69500,8400,4.26,3.91,10.3,4,3.73,9,No,No
+E00045,Customer Support,Christchurch,Intermediate,Remote,Male,2020-01-19,30,5.8,60600,4500,4.7,3.19,20.1,5,5.0,17,Yes,No
+E00046,Sales,Wellington,Lead,Onsite,Male,2024-08-10,44,14.1,150600,17100,5,5,56.6,1,2.64,12,No,No
+E00047,Finance,Wellington,Intermediate,Hybrid,Male,2019-12-31,34,1.6,110000,7900,3.78,4.19,20.8,3,3.47,6,No,No
+E00048,Engineering,Auckland,Intermediate,Onsite,Non-binary,2021-03-23,23,1.0,90700,7400,4.5,3.0,27.9,1,4.22,11,No,No
+E00049,Operations,Wellington,Intermediate,Hybrid,Male,2024-02-07,37,7.4,92400,14500,4.11,4.05,31.0,2,3.36,15,No,Yes
+E00050,HR,Auckland,Junior,Onsite,Female,2019-07-28,27,3.2,73700,5400,2.77,2.84,7.5,1,3.03,12,No,Yes
+E00051,Engineering,Remote,Intermediate,Hybrid,Male,2022-09-04,33,3.8,102700,10200,5,3.16,32.3,2,3.47,8,No,No
+E00052,Customer Support,Wellington,Junior,Remote,Male,2021-04-12,28,3.2,58100,8100,4.99,5,44.2,4,4.04,8,No,No
+E00053,Engineering,Auckland,Intermediate,Remote,Male,2019-05-28,36,4.9,93500,9900,2.94,4.2,15.0,5,3.04,12,No,No
+E00054,Operations,Christchurch,Junior,Remote,Prefer not to say,2019-04-28,32,1.7,71100,5400,3.63,3.97,26.0,5,3.06,17,No,No
+E00055,Engineering,Auckland,Intermediate,Hybrid,Female,2021-08-14,25,4.2,112000,15100,5,4.61,46.9,3,4.02,16,No,No
+E00056,Finance,Wellington,Intermediate,Hybrid,Non-binary,2019-12-03,25,0,82300,9200,4.03,3.96,30.4,2,3.95,13,No,No
+E00057,Engineering,Remote,Senior,Onsite,Prefer not to say,2021-06-12,29,8.8,128200,9400,4.94,4.27,42.9,1,,3,Yes,No
+E00058,Finance,Remote,Senior,Hybrid,Female,2022-05-31,33,6.0,118400,,4.17,3.62,17.9,3,3.56,5,Yes,No
+E00059,HR,Auckland,Junior,Remote,Female,2019-12-08,22,2.3,70000,3200,4.02,3.96,25.6,4,3.18,8,No,No
+E00060,Engineering,Auckland,Senior,Hybrid,Male,2023-03-12,36,8.1,126200,,4.47,3.95,25.1,2,4.37,13,No,No
+E00061,Customer Support,Auckland,Intermediate,Onsite,Male,2021-12-01,26,6.3,73900,10200,3.31,4.5,18.4,0,3.03,3,No,No
+E00062,Marketing,Wellington,Lead,Hybrid,Male,2021-09-04,36,10.8,131200,13000,4.22,5,41.8,3,4.71,12,No,No
+E00063,Operations,Wellington,Intermediate,Onsite,Male,2024-10-10,29,4.2,84100,2700,4.75,4.57,22.7,1,3.4,11,No,No
+E00064,Finance,Auckland,Senior,Hybrid,Non-binary,2017-05-14,37,8.6,125500,14800,4.64,2.18,26.9,2,3.86,9,No,No
+E00065,Engineering,Auckland,Senior,Hybrid,Female,2020-05-23,40,7.2,121000,11600,3.53,5,32.1,2,3.48,4,No,No
+E00066,Engineering,Auckland,Junior,Hybrid,Female,2022-06-04,27,1.4,61000,10900,4.64,4.28,39.8,2,4.82,11,No,No
+E00067,Finance,Wellington,Intermediate,Hybrid,Male,2019-01-15,32,6.0,103800,3000,3.78,3.29,22.8,2,2.49,4,No,No
+E00068,Marketing,Auckland,Junior,Onsite,Female,2022-09-27,23,0.3,44200,0,3.48,5,18.7,0,3.15,3,No,No
+E00069,Marketing,Wellington,Senior,Hybrid,Male,2022-08-04,44,11.1,110900,11800,5,,39.7,3,4.25,7,No,No
+E00070,Engineering,Wellington,Junior,Remote,Male,2023-08-08,29,2.9,89300,9200,4.24,,16.4,5,3.57,11,No,No
+E00071,HR,Wellington,Intermediate,Onsite,Female,2017-11-09,31,2.3,94200,9500,4.17,3.73,17.9,0,3.45,7,No,No
+E00072,Engineering,Wellington,Junior,Remote,Male,2018-07-10,24,3.1,75800,6900,3.73,3.97,25.5,5,2.72,11,No,No
+E00073,Sales,Auckland,Intermediate,Hybrid,Female,2023-10-29,34,2.6,79800,8300,4.43,4.33,33.4,3,3.23,14,No,No
+E00074,Operations,Wellington,Lead,Hybrid,Female,2018-11-19,33,8.6,127500,11700,4.25,3.45,18.8,2,4.61,18,No,No
+E00075,Data,Remote,Junior,Onsite,Female,2022-02-21,33,5.1,92800,7500,3.83,4.81,30.4,0,4.22,8,No,No
+E00076,Engineering,Auckland,Junior,Hybrid,Male,2020-03-28,32,4.5,76400,9500,4.35,4.37,27.2,3,3.73,7,No,No
+E00077,HR,Christchurch,Senior,Onsite,Female,2022-08-19,27,7.1,98500,8800,4.85,4.59,50.3,0,2.7,3,No,No
+E00078,Engineering,Hamilton,Senior,Hybrid,Female,2023-06-09,32,7.7,112500,12300,4.15,5,,2,3.18,10,No,No
+E00079,Data,Hamilton,Senior,Hybrid,Female,2018-12-16,37,8.9,139000,11900,3.96,4.21,28.9,2,4.2,10,No,No
+E00080,Engineering,Remote,Intermediate,Hybrid,Male,2018-07-11,27,0.9,89100,9200,3.94,3.95,30.8,3,2.78,5,No,No
+E00081,Engineering,Wellington,Manager,Hybrid,Prefer not to say,2023-01-06,42,16.3,181100,17000,5,4.56,41.2,2,3.76,7,No,No
+E00082,Sales,Christchurch,Junior,Onsite,Non-binary,2021-12-16,37,3.9,82600,,3.81,4.14,32.7,0,2.65,9,No,Yes
+E00083,Sales,Auckland,Senior,Remote,Female,2016-04-12,26,9.8,121000,20300,5,5,37.3,5,4.19,4,No,No
+E00084,Customer Support,Wellington,Manager,Hybrid,Male,2021-05-31,36,9.3,127800,19100,4.8,,23.8,2,2.83,12,No,No
+E00085,Operations,Auckland,Junior,Hybrid,Female,2019-01-12,32,4.8,77600,8400,4.15,5,30.2,2,4.85,8,No,No
+E00086,Marketing,Remote,Intermediate,Onsite,Male,2020-06-17,29,2.2,79700,6800,3.73,3.75,13.5,1,3.92,9,No,No
+E00087,Operations,Auckland,Senior,Remote,Female,2022-09-07,39,8.9,120600,9500,4.77,5,35.1,5,3.02,11,No,No
+E00088,Finance,Auckland,Intermediate,Onsite,Female,2018-08-14,32,6.8,94000,7500,3.78,3.65,27.0,0,4.26,3,No,Yes
+E00089,Sales,Hamilton,Lead,Hybrid,Female,2018-03-29,43,12.5,145000,18000,4.96,5,39.7,3,3.77,5,No,No
+E00090,Finance,Auckland,Junior,Onsite,Non-binary,2019-04-27,23,0.1,82100,,4.94,3.1,43.1,0,3.4,18,No,No
+E00091,Finance,Wellington,Junior,Remote,Female,2016-10-10,38,5.6,81300,5200,5,5,55.8,5,3.66,4,No,No
+E00092,Engineering,Hamilton,Intermediate,Remote,Male,2019-06-01,33,5.7,108400,13600,4.44,4.68,44.6,4,3.08,9,No,No
+E00093,Engineering,Remote,Junior,Hybrid,Non-binary,2017-12-19,24,2.3,84800,8300,5,4.8,43.1,3,1.53,15,No,No
+E00094,Customer Support,Auckland,Senior,Remote,,2017-06-28,34,9.5,102800,11000,5,4.94,32.0,5,3.38,8,Yes,No
+E00095,Operations,Remote,Junior,Hybrid,Female,2021-10-20,25,4.1,63600,9900,5,5,70.1,2,3.82,15,No,No
+E00096,HR,Auckland,Manager,Hybrid,,2022-01-28,38,13.5,134500,13200,4.98,3.88,34.1,2,3.08,21,No,No
+E00097,Operations,Auckland,Lead,Remote,Male,2022-05-15,31,11.3,131600,9900,3.52,3.4,21.8,5,4.07,4,No,No
+E00098,Engineering,Wellington,Intermediate,Hybrid,Male,2016-05-16,27,3.9,106900,9500,4.58,4.48,36.9,2,3.36,3,No,No
+E00099,Sales,Christchurch,Lead,Hybrid,Prefer not to say,2019-05-22,36,10.2,128600,14000,4.56,4.1,32.8,2,3.77,3,No,No
+E00100,Finance,Remote,Junior,Hybrid,Prefer not to say,2017-01-15,25,0,72300,3600,3.15,4.6,14.2,2,4.63,7,No,No
+E00101,Engineering,Auckland,Junior,Hybrid,Prefer not to say,2023-07-15,28,0,74500,6900,3.92,4.64,19.5,3,4.07,19,No,No
+E00102,Engineering,Auckland,Manager,Onsite,Female,2017-05-01,30,9.0,154700,17100,4.68,,36.9,0,5,6,No,No
+E00103,Customer Support,Wellington,Intermediate,Hybrid,Prefer not to say,2020-10-19,39,8.0,86600,5100,4.12,3.89,12.5,3,3.59,11,No,No
+E00104,Sales,Auckland,Intermediate,Onsite,Male,2016-06-07,31,1.8,94200,11100,4.83,3.64,33.5,0,4.74,21,No,No
+E00105,HR,Wellington,Senior,Onsite,Female,2023-07-23,33,4.4,104400,14500,4.02,4.01,24.9,0,3.25,6,No,No
+E00106,Engineering,Wellington,Manager,Hybrid,Non-binary,2022-11-22,39,12.3,152600,14700,3.28,3.08,12.2,2,3.01,7,No,No
+E00107,Operations,Auckland,Intermediate,Remote,Prefer not to say,2019-05-29,27,2.5,79500,6400,3.96,5,35.0,5,2.78,9,No,No
+E00108,Operations,Christchurch,Senior,Remote,Female,2024-04-16,30,6.1,101300,10500,3.69,4.74,32.0,4,3.67,9,No,No
+E00109,Marketing,Christchurch,Junior,Remote,Male,2017-02-20,41,3.0,51000,2700,4.4,3.73,23.3,5,3.68,6,No,No
+E00110,Marketing,Remote,Senior,Onsite,Female,2018-06-11,30,6.8,84300,9600,4.69,4.42,38.0,1,3.05,12,No,No
+E00111,Engineering,Remote,Intermediate,Hybrid,Female,2023-05-29,37,6.9,106100,9800,3.05,2.85,18.2,3,2.42,14,No,No
+E00112,Engineering,Auckland,Intermediate,Hybrid,Non-binary,2017-04-30,40,5.9,106300,1200,4.51,4.59,32.7,3,4.32,10,No,No
+E00113,HR,Auckland,Junior,Hybrid,Male,2019-02-07,29,1.5,65200,800,3.97,,40.7,2,4.74,10,Yes,No
+E00114,Operations,Christchurch,Intermediate,Hybrid,Female,2024-06-04,28,5.6,81300,10400,5,4.27,23.4,2,3.31,13,Yes,No
+E00115,Sales,Remote,Senior,Hybrid,Male,2017-02-13,30,8.4,115700,13200,5,3.41,,2,3.31,4,No,No
+E00116,Customer Support,Remote,Intermediate,Hybrid,Prefer not to say,2016-08-24,21,4.4,100000,8900,3.07,3.23,0,2,3.91,11,No,No
+E00117,Engineering,Auckland,Intermediate,Remote,Male,2021-07-05,33,4.3,123700,9700,2.76,3.53,0,4,4.61,6,No,No
+E00118,Marketing,Auckland,Intermediate,Hybrid,Non-binary,2022-01-07,29,3.8,76000,6800,5,,43.3,2,3.81,8,No,No
+E00119,Engineering,Auckland,Junior,Hybrid,Male,2017-03-22,35,4.7,93600,8700,4.57,4.36,32.5,2,3.79,15,Yes,No
+E00120,HR,Auckland,Junior,Onsite,Non-binary,2017-03-22,27,0,59800,5100,4.24,4.11,21.9,1,4.13,3,No,No
+E00121,Customer Support,Wellington,Intermediate,Remote,Male,2017-05-17,33,4.3,78800,9200,4.34,4.63,41.4,4,3.57,12,No,No
+E00122,Marketing,Auckland,Senior,Onsite,Female,2018-12-20,29,8.3,99400,,5,5,41.0,0,3.2,9,Yes,No
+E00123,Marketing,Wellington,Intermediate,Remote,Male,2021-08-01,31,6.3,88000,8200,4.11,3.75,18.4,5,3.64,8,Yes,No
+E00124,Customer Support,Wellington,Junior,Hybrid,Female,2020-08-20,28,0.1,43600,2300,5,5,49.6,2,5,6,No,No
+E00125,Engineering,Auckland,Junior,Remote,Female,2020-10-31,30,1.9,92800,15700,5,4.37,39.0,5,4.12,9,No,Yes
+E00126,Sales,Auckland,Junior,Hybrid,Male,2020-11-29,27,0.3,70700,8100,5,4.61,36.9,2,2.59,6,Yes,No
+E00127,Operations,Auckland,Intermediate,Hybrid,,2020-03-24,34,3.6,86000,10300,5,4.33,26.5,2,3.64,3,No,No
+E00128,HR,Auckland,Junior,Hybrid,Female,2021-11-05,35,1.9,64300,6700,5,5,43.3,2,4.54,7,Yes,No
+E00129,Operations,Auckland,Intermediate,Hybrid,Male,2024-11-07,29,5.8,90100,8700,4.89,5,50.3,3,4.52,4,No,No
+E00130,Data,Wellington,Junior,Onsite,Female,2017-01-10,30,0.3,78800,3300,2.09,3.24,0,0,2.18,12,Yes,No
+E00131,Sales,Auckland,Intermediate,Remote,Female,2022-02-17,30,4.8,84900,11400,5,5,68.1,5,2.53,9,Yes,No
+E00132,Data,Auckland,Junior,Hybrid,Female,2022-06-22,34,2.6,67700,5800,4.12,2.94,23.2,2,3.75,13,No,No
+E00133,Engineering,Wellington,Lead,Hybrid,Male,2022-03-27,35,9.3,137400,,4.96,5,34.0,3,4.28,9,No,No
+E00134,Customer Support,Auckland,Senior,Onsite,Male,2019-02-03,39,8.4,107600,10400,5,4.4,22.4,1,3.24,5,No,No
+E00135,Customer Support,Remote,Junior,Onsite,Male,2016-11-18,23,3.7,42000,0,3.66,3.29,17.5,0,3.75,7,No,No
+E00136,Engineering,Auckland,Intermediate,Remote,Female,2021-05-28,22,4.5,105200,12800,3.57,1.88,2.8,4,3.68,15,No,No
+E00137,Sales,Auckland,Junior,Onsite,Male,2017-10-21,33,0.2,72000,5200,2.54,1.98,0,0,4.54,7,No,No
+E00138,Data,Auckland,Junior,Hybrid,Female,2019-07-03,31,3.3,78500,7500,4.08,4.49,19.4,2,2.9,3,No,No
+E00139,Operations,Auckland,Junior,Remote,Prefer not to say,2021-03-24,31,3.5,67600,5600,4.9,4.35,38.3,5,2.79,13,No,No
+E00140,Sales,Auckland,Junior,Remote,,2018-05-15,25,1.9,60800,4100,5,4.27,34.2,5,2.77,11,No,Yes
+E00141,Customer Support,Auckland,Intermediate,Remote,Male,2016-07-13,22,2.8,81700,12800,3.66,3.31,4.5,5,3.8,10,No,No
+E00142,Engineering,Wellington,Junior,Onsite,Female,2024-03-08,25,1.2,85100,5400,4.39,3.72,29.4,0,3.35,8,Yes,No
+E00143,Marketing,Auckland,Junior,Onsite,Male,2021-10-20,32,0,55100,5100,4.01,4.72,21.6,0,3.17,3,No,No
+E00144,HR,Remote,Senior,Hybrid,Male,2017-06-30,43,8.7,95200,10800,3.93,,27.6,3,2.43,10,Yes,No
+E00145,Marketing,Wellington,Junior,Hybrid,Female,2016-10-23,32,3.0,57100,4200,4.21,3.84,38.0,3,2.52,16,No,No
+E00146,Engineering,Auckland,Intermediate,Onsite,,2018-12-05,27,1.6,90500,9200,4.94,3.55,25.8,1,3.24,12,Yes,No
+E00147,Customer Support,Auckland,Intermediate,Onsite,Male,2017-10-13,34,4.5,74200,12400,5,5,61.8,1,4.12,3,Yes,No
+E00148,Engineering,Remote,Intermediate,Onsite,Male,2024-03-24,32,1.4,84200,11200,3.83,3.75,19.2,0,,5,No,No
+E00149,HR,Auckland,Junior,Onsite,Female,2022-01-04,31,1.4,47500,8300,5,3.45,36.4,0,4.67,14,Yes,No
+E00150,Customer Support,Auckland,Lead,Onsite,Non-binary,2023-02-01,45,12.1,138200,12900,4.74,3.53,17.8,0,3.53,15,No,No
+E00151,Marketing,Hamilton,Junior,Onsite,Female,2020-03-15,33,2.3,57300,3700,5,3.12,36.6,0,3.2,6,No,No
+E00152,HR,Auckland,Junior,Remote,Male,2023-07-27,34,2.2,53400,0,4.39,4.33,32.5,5,3.18,3,No,No
+E00153,Operations,Auckland,Junior,Onsite,Female,2017-03-20,30,2.0,70900,1900,3.14,3.24,3.9,1,3.88,18,No,No
+E00154,Engineering,Remote,Junior,Hybrid,Female,2016-03-13,24,0.0,64300,5500,3.89,4.16,29.7,2,4.6,10,No,Yes
+E00155,Sales,Remote,Intermediate,Remote,Female,2024-10-12,36,1.6,72300,15400,5,,29.5,5,3.47,15,No,No
+E00156,Data,Remote,Senior,Hybrid,Female,2022-03-21,28,5.1,125600,12000,3.36,3.62,4.8,2,4.28,18,Yes,No
+E00157,HR,Auckland,Senior,Hybrid,Female,2020-01-13,35,7.0,113900,15100,4.62,4.23,38.0,2,3.2,4,No,No
+E00158,Data,Remote,Junior,Onsite,Female,2019-03-27,27,2.4,87400,6200,3.08,3.4,16.4,1,4.15,7,Yes,Yes
+E00159,Marketing,Hamilton,Junior,Remote,Female,2019-07-27,29,1.7,67100,5400,3.87,3.1,2.1,5,3.55,9,No,Yes
+E00160,Sales,Auckland,Intermediate,Onsite,Female,2018-04-08,26,0.7,88600,10500,4.59,3.76,43.6,0,2.83,3,No,Yes
+E00161,Engineering,Remote,Intermediate,Hybrid,Non-binary,2022-12-17,35,6.5,93000,6200,4.33,4.89,43.7,3,3.34,8,No,Yes
+E00162,Marketing,Remote,Junior,Remote,Female,2021-03-21,21,0,60900,4600,4.21,4.84,42.0,4,3.4,9,No,No
+E00163,Sales,Remote,Intermediate,Remote,Female,2017-03-25,29,1.7,94000,3400,3.51,2.82,15.6,5,3.08,16,No,No
+E00164,Marketing,Remote,Senior,Hybrid,Non-binary,2022-10-20,41,9.5,106700,10400,4.65,5,40.9,2,4.18,10,No,No
+E00165,Marketing,Wellington,Junior,Hybrid,Female,2020-01-04,35,0.6,53200,6300,4.49,4.85,26.3,3,3.16,4,No,Yes
+E00166,Engineering,Wellington,Junior,Onsite,Male,2020-06-24,23,0.6,81300,7800,5,5,48.8,1,4.9,10,No,No
+E00167,Operations,Wellington,Junior,Remote,,2024-01-11,29,0.8,49900,2700,2.64,3.46,0,5,4.1,10,No,No
+E00168,Engineering,Remote,Intermediate,Onsite,,2020-01-11,29,4.7,112100,7000,3.5,4.21,22.7,1,4.72,3,No,No
+E00169,Marketing,Wellington,Junior,Remote,Female,2023-06-23,29,2.9,59700,1200,4.12,5,37.5,4,3.04,10,No,No
+E00170,Customer Support,Christchurch,Senior,Onsite,Female,2019-10-11,30,5.8,103200,15300,5,5,40.9,0,4.16,5,Yes,No
+E00171,Sales,Wellington,Junior,Remote,,2022-09-15,21,3.1,62800,14800,4.79,,19.6,4,3.86,14,No,No
+E00172,Finance,Auckland,Junior,Hybrid,Female,2020-06-25,21,0,63800,5400,3.74,4.41,25.4,3,4.65,12,No,No
+E00173,Finance,Christchurch,Senior,Hybrid,Non-binary,2023-01-20,34,5.8,115600,7200,4.26,3.85,27.0,3,3.65,10,No,No
+E00174,Sales,Auckland,Intermediate,Remote,,2019-10-31,32,2.9,88100,12200,5,5,45.3,5,3.58,12,Yes,No
+E00175,Data,Wellington,Senior,Hybrid,Female,2022-09-28,37,9.3,130400,14700,4.97,5,24.5,2,3.78,7,No,No
+E00176,Customer Support,Auckland,Manager,Onsite,Prefer not to say,2020-12-30,41,11.8,144300,10000,3.46,3.92,14.4,0,3.92,30,No,No
+E00177,Operations,Christchurch,Junior,Onsite,Non-binary,2022-10-20,27,0,56200,11500,5,4.82,53.7,0,3.88,12,Yes,No
+E00178,Sales,Remote,Intermediate,Hybrid,Male,2019-02-18,28,3.1,86200,8500,4.12,4.17,37.5,3,3.28,7,No,No
+E00179,Sales,Auckland,Junior,Hybrid,Male,2018-04-26,26,4.2,86000,7800,4.81,4.31,23.6,2,3.95,11,No,No
+E00180,Operations,Auckland,Junior,Remote,Female,2023-10-23,29,0,55000,5000,4.72,3.73,34.7,5,2.88,5,No,No
+E00181,Sales,Wellington,Intermediate,Hybrid,Male,2020-10-03,30,1.9,89600,8200,4.8,3.47,43.6,3,4.32,16,No,No
+E00182,Operations,Auckland,Intermediate,Hybrid,Female,2021-05-23,34,2.3,70300,4300,4.87,4.85,29.2,2,4.03,10,No,No
+E00183,Customer Support,Auckland,Lead,Hybrid,Female,2023-11-28,40,9.9,126600,,4.7,4.36,24.3,2,3.98,11,No,No
+E00184,Engineering,Wellington,Intermediate,Hybrid,Female,2016-02-24,28,6.1,100600,8000,1.98,2.71,8.1,3,3.6,21,No,No
+E00185,Engineering,Remote,Manager,Remote,Prefer not to say,2018-08-23,37,9.9,160400,12700,4.07,3.32,18.1,5,2.48,20,No,No
+E00186,HR,Wellington,Junior,Hybrid,Male,2024-02-14,25,2.3,47400,3000,3.14,5,15.2,2,4.76,3,No,No
+E00187,Sales,Auckland,Senior,Onsite,Male,2017-04-16,30,5.3,120300,14900,4.45,3.6,15.0,0,3.59,15,No,No
+E00188,HR,Remote,Senior,Hybrid,Male,2022-02-15,34,5.3,100600,14200,5,4.94,58.9,2,2.21,12,No,No
+E00189,Marketing,Auckland,Senior,Remote,Female,2023-01-04,32,7.2,121200,17300,4.87,4.29,36.5,5,3.91,12,No,No
+E00190,Customer Support,Wellington,Junior,Hybrid,Female,2020-12-02,30,3.5,53200,12400,3.58,3.61,17.2,2,4.24,6,No,No
+E00191,Data,Remote,Manager,Onsite,Male,2016-07-07,29,10.1,173600,15400,5,3.86,47.0,0,4.04,23,Yes,No
+E00192,Sales,Auckland,Senior,Hybrid,Female,2017-07-28,28,8.9,131000,11000,5,4.63,29.1,2,4.6,8,No,No
+E00193,Engineering,Christchurch,Intermediate,Remote,Female,2016-04-21,28,7.3,112800,11200,3.81,3.29,13.7,5,3.76,7,No,No
+E00194,Operations,Wellington,Senior,Hybrid,Female,2024-03-18,28,6.2,98300,13000,4.91,3.11,29.9,3,3.13,17,No,No
+E00195,Marketing,Auckland,Junior,Hybrid,Male,2018-09-22,33,3.7,63300,2600,3.91,,25.1,2,3.64,12,No,No
+E00196,Marketing,Auckland,Junior,Onsite,Male,2022-06-21,29,2.9,77800,5100,4.87,3.73,34.1,0,3.4,3,No,Yes
+E00197,Finance,Wellington,Manager,Hybrid,Male,2016-05-30,43,13.1,155800,8500,3.7,3.03,18.0,2,4.15,24,No,No
+E00198,Sales,Wellington,Manager,Onsite,Female,2024-04-21,41,11.4,139200,15300,3.99,3.74,31.7,0,3.6,12,No,No
+E00199,Marketing,Remote,Intermediate,Remote,Male,2022-08-04,24,3.1,84500,11100,4.58,4.53,35.2,4,4.58,9,No,No
+E00200,HR,Auckland,Senior,Onsite,Female,2020-05-22,27,10.0,121400,10300,5,4.64,45.0,0,2.39,8,No,Yes
+E00201,Finance,Auckland,Senior,Hybrid,Prefer not to say,2023-10-05,37,11.0,133400,17300,3.83,4.06,20.0,3,3.56,11,No,No
+E00202,Operations,Christchurch,Senior,Onsite,Female,2021-08-13,37,11.3,113700,8800,5,4.37,45.9,0,4.54,14,No,No
+E00203,Operations,Auckland,Junior,Hybrid,Female,2023-10-13,30,2.8,51400,2500,3.78,3.94,11.1,2,2.64,8,No,No
+E00204,Customer Support,Wellington,Intermediate,Hybrid,Female,2017-04-04,35,4.9,77000,7400,4.71,3.46,29.8,2,3.04,6,No,No
+E00205,Operations,Hamilton,Senior,Hybrid,Female,2022-09-22,29,6.5,119700,11300,3.59,4.19,22.5,2,4.04,14,No,No
+E00206,HR,Auckland,Intermediate,Onsite,Male,2016-08-19,38,2.4,81000,5800,2.16,4.16,0,0,4.83,13,Yes,No
+E00207,Sales,Christchurch,Intermediate,Onsite,Non-binary,2016-03-30,36,7.2,83000,3900,3.32,2.71,2.4,0,3.14,6,No,Yes
+E00208,HR,Auckland,Intermediate,Remote,Male,2021-05-19,35,3.4,80900,2100,3.53,4.69,20.5,4,4.48,7,Yes,Yes
+E00209,Finance,Auckland,Lead,Hybrid,Female,2023-08-09,43,10.3,154700,11000,5,5,34.6,2,2.6,17,Yes,No
+E00210,Operations,Remote,Intermediate,Hybrid,Female,2022-10-12,32,3.5,85600,5000,4.31,3.84,22.2,2,2.73,15,No,No
+E00211,Engineering,Christchurch,Intermediate,Hybrid,Female,2016-12-11,22,3.2,94700,12700,3.04,4.32,14.3,3,2.97,4,No,No
+E00212,Marketing,Auckland,Intermediate,Onsite,Male,2021-09-03,31,2.3,82000,5800,4.61,4.03,39.5,0,4.68,9,No,Yes
+E00213,Marketing,Wellington,Intermediate,Hybrid,Female,2021-05-12,30,5.5,76600,10700,4.96,4.77,50.0,2,3.03,11,No,Yes
+E00214,Sales,Wellington,Intermediate,Onsite,Female,2024-02-07,27,5.7,86800,12500,5,5,45.3,0,3.13,5,No,No
+E00215,Finance,Wellington,Intermediate,Onsite,Female,2018-11-14,28,3.2,103800,7400,3.68,4.36,22.4,0,3.63,9,No,No
+E00216,Marketing,Remote,Intermediate,Hybrid,Female,2016-10-03,34,1.2,72700,6900,4.97,5,52.4,3,3.78,5,No,No
+E00217,Finance,Auckland,Junior,Remote,Female,2024-02-05,35,2.3,71000,8100,3.84,5,35.3,4,4.03,11,No,No
+E00218,HR,Auckland,Senior,Hybrid,Male,2018-12-16,35,9.1,125600,10600,5,5,48.1,2,3.14,8,No,No
+E00219,Data,Wellington,Junior,Onsite,Female,2017-10-11,35,3.7,87800,8900,3.5,2.21,12.9,0,3.41,16,No,No
+E00220,Engineering,Auckland,Senior,Hybrid,Male,2018-04-07,29,6.1,142500,10600,3.58,4.06,1.6,2,4.26,4,No,No
+E00221,Finance,Auckland,Manager,Onsite,,2021-01-09,38,9.8,147300,16500,4.34,3.78,25.7,0,3.52,21,No,No
+E00222,Engineering,Wellington,Intermediate,Hybrid,Female,2017-07-11,35,5.0,108900,12800,4.81,3.24,28.9,2,4.0,10,No,No
+E00223,Operations,Hamilton,Manager,Hybrid,Female,2020-04-27,40,12.2,140800,12100,5,4.42,57.0,2,2.8,16,Yes,No
+E00224,Engineering,Auckland,Junior,Hybrid,Female,2020-12-09,26,1.7,60900,6000,4.56,5,16.0,2,3.58,3,No,No
+E00225,Operations,Christchurch,Junior,Remote,Male,2017-03-18,34,1.8,42000,2300,3.67,4.79,11.0,5,2.97,6,Yes,No
+E00226,Marketing,Wellington,Senior,Onsite,Female,2018-03-07,32,7.0,112500,9900,4.16,3.76,27.6,0,4.2,12,No,No
+E00227,Marketing,Wellington,Senior,Hybrid,Female,2017-09-18,26,6.8,109100,10600,4.46,5,38.0,2,4.4,7,No,No
+E00228,Customer Support,Remote,Senior,Hybrid,Male,2024-10-24,32,5.4,88500,9600,5,4.25,29.7,2,3.77,8,No,No
+E00229,Customer Support,Remote,Senior,Remote,Male,2016-10-31,37,3.9,104700,14800,5,3.75,49.4,5,3.71,11,No,No
+E00230,Operations,Auckland,Intermediate,Hybrid,Female,2016-03-12,37,6.5,103100,4300,3.53,5,17.8,3,3.97,3,No,No
+E00231,HR,Auckland,Intermediate,Hybrid,Female,2024-06-09,24,0.2,77700,3100,3.89,4.04,24.2,2,4.37,7,No,Yes
+E00232,Engineering,Auckland,Intermediate,Onsite,Male,2020-02-01,33,2.9,109400,7300,5,,33.1,0,3.01,3,No,No
+E00233,HR,Wellington,Intermediate,Onsite,Male,2024-07-07,28,3.3,87100,,3.07,3.33,0,0,4.08,8,No,No
+E00234,Customer Support,Wellington,Lead,Hybrid,Male,2018-05-29,42,11.7,104200,12500,5,4.67,39.4,2,1.87,11,No,No
+E00235,Marketing,Auckland,Manager,Onsite,Male,2020-12-01,36,12.1,147700,15300,3.73,3.52,12.8,1,3.48,13,No,No
+E00236,Sales,Wellington,Senior,Hybrid,Prefer not to say,2021-06-08,34,7.4,118200,13800,2.25,3.92,2.9,2,3.65,3,No,No
+E00237,Finance,Auckland,Lead,Onsite,Prefer not to say,2017-07-10,33,12.8,150900,13600,5,4.37,41.2,1,4.22,13,No,No
+E00238,HR,Christchurch,Intermediate,Hybrid,Non-binary,2020-02-24,36,4.4,80400,5500,3.65,3.35,19.8,3,2.84,11,Yes,Yes
+E00239,Marketing,Remote,Intermediate,Onsite,Female,2022-11-20,30,3.8,79500,6200,4.13,4.36,31.3,0,3.59,13,No,No
+E00240,Marketing,Auckland,Intermediate,Hybrid,Male,2016-11-19,35,6.7,69700,4300,3.97,4.15,15.7,2,4.16,7,No,No
+E00241,HR,Hamilton,Junior,Hybrid,Female,2017-08-03,34,1.9,44100,1100,5,5,63.8,2,3.38,13,Yes,No
+E00242,Operations,Wellington,Junior,Hybrid,Male,2020-06-15,22,1.6,71100,7100,4.83,4.9,36.1,2,3.95,12,No,No
+E00243,HR,Christchurch,Manager,Hybrid,Female,2019-09-19,40,10.4,140500,11000,3.16,4.6,26.4,3,,16,No,No
+E00244,Customer Support,Christchurch,Senior,Remote,Female,2019-07-05,26,4.8,92200,10700,3.4,4.71,21.2,4,3.87,6,No,No
+E00245,Engineering,Hamilton,Intermediate,Hybrid,Male,2016-01-23,33,5.7,105500,10600,4.14,4.67,10.4,3,3.7,6,No,No
+E00246,Engineering,Remote,Junior,Hybrid,Female,2023-02-19,33,3.3,83500,12200,4.92,4.36,34.2,2,3.2,8,No,Yes
+E00247,Engineering,Auckland,Senior,Hybrid,Female,2023-05-01,42,7.4,134800,9400,3.0,4.4,10.5,3,3.09,11,No,No
+E00248,HR,Remote,Junior,Hybrid,Female,2017-04-28,35,2.2,66500,7600,4.6,5,23.8,2,4.97,4,No,No
+E00249,Sales,Auckland,Junior,Onsite,Male,2021-04-08,36,6.7,93000,15200,5,4.45,52.4,1,4.16,3,Yes,Yes
+E00250,Engineering,Auckland,Intermediate,Onsite,Female,2017-01-15,30,4.1,107300,10000,3.68,4.32,30.6,1,2.84,14,No,No
+E00251,Sales,Auckland,Intermediate,Hybrid,Female,2022-03-04,31,1.5,74700,5100,2.8,2.94,0,2,2.72,6,No,No
+E00252,Data,Christchurch,Junior,Hybrid,Male,2017-12-02,31,2.1,95500,5400,4.16,5,20.0,2,5,7,No,No
+E00253,Customer Support,Hamilton,Junior,Onsite,Female,2018-01-19,32,2.5,42000,3500,4.77,3.74,9.0,0,3.5,7,No,Yes
+E00254,Sales,Hamilton,Intermediate,Onsite,Male,2024-09-11,31,5.2,87400,6000,4.81,3.37,44.7,0,3.31,14,No,No
+E00255,Customer Support,Wellington,Senior,Hybrid,Female,2018-08-28,30,5.4,77200,3300,4.2,4.65,30.7,2,4.19,8,No,No
+E00256,Finance,Wellington,Junior,Onsite,,2017-09-09,25,3.4,86800,9100,3.6,,16.8,1,2.9,13,No,No
+E00257,Sales,Auckland,Senior,Hybrid,Female,2016-10-11,33,6.8,115800,10800,3.4,2.58,0,2,4.03,11,No,No
+E00258,Sales,Auckland,Junior,Hybrid,Prefer not to say,2020-01-19,38,4.6,65500,4800,2.82,1.58,1.3,2,2.11,23,No,No
+E00259,Engineering,Remote,Senior,Onsite,Female,2023-01-09,30,8.2,119700,8000,4.42,4.61,26.0,0,2.96,3,No,No
+E00260,Customer Support,Auckland,Senior,Hybrid,Male,2022-12-21,32,5.8,93500,13800,3.76,5,37.4,3,3.96,4,No,No
+E00261,HR,Wellington,Junior,Remote,Female,2023-07-05,30,4.9,66900,4400,3.52,3.85,31.2,4,4.8,9,No,No
+E00262,Marketing,Auckland,Manager,Hybrid,Female,2024-05-09,37,12.9,146300,20500,4.87,4.02,32.6,2,3.07,15,No,No
+E00263,Engineering,Auckland,Junior,Hybrid,Female,2022-10-20,25,1.3,62100,3400,4.82,4.06,34.6,3,3.92,10,No,Yes
+E00264,Finance,Auckland,Lead,Remote,Prefer not to say,2019-09-16,45,15.3,142700,13600,4.32,5,31.0,4,2.7,3,No,No
+E00265,Engineering,Auckland,Lead,Hybrid,Male,2019-08-18,41,13.0,160500,22500,5,5,34.8,2,3.69,9,No,Yes
+E00266,Engineering,Auckland,Junior,Hybrid,Male,2020-03-21,29,0.1,75100,8000,3.26,4.55,12.9,2,4.33,3,No,No
+E00267,Sales,Wellington,Junior,Hybrid,Non-binary,2017-08-03,34,1.5,55800,7000,3.75,3.7,0.4,3,4.24,11,No,No
+E00268,Customer Support,Auckland,Manager,Remote,Male,2021-06-23,40,14.7,149100,16200,5,5,40.9,5,2.96,17,No,No
+E00269,Marketing,Wellington,Lead,Hybrid,Male,2018-02-27,36,10.4,138800,13500,4.7,5,32.9,2,3.46,3,No,Yes
+E00270,Data,Auckland,Intermediate,Onsite,Female,2023-02-22,39,8.4,110400,12400,5,3.1,28.6,0,,3,No,No
+E00271,Operations,Wellington,Intermediate,Hybrid,Male,2023-05-14,34,4.0,65500,6100,4.73,5,34.5,2,3.27,6,No,No
+E00272,Engineering,Auckland,Lead,Remote,Non-binary,2024-06-06,36,10.5,145800,15200,3.99,3.79,27.3,5,3.87,8,No,No
+E00273,Operations,Wellington,Lead,Hybrid,,2024-04-20,36,12.0,136900,9800,3.57,3.27,10.8,3,4.37,3,No,No
+E00274,Sales,Hamilton,Intermediate,Onsite,Female,2020-12-24,25,2.3,100000,13900,4.5,4.73,32.1,1,5,7,Yes,No
+E00275,Engineering,Wellington,Junior,Hybrid,Prefer not to say,2020-01-01,34,5.5,84000,6000,3.5,5,16.1,2,4.7,6,No,No
+E00276,HR,Auckland,Intermediate,Onsite,Female,2019-01-12,38,7.7,100600,4100,4.79,4.19,41.3,1,3.06,3,No,No
+E00277,Marketing,Christchurch,Junior,Hybrid,Male,2016-03-19,24,2.1,48800,7700,4.12,4.23,34.1,2,3.64,6,No,No
+E00278,Operations,Wellington,Intermediate,Hybrid,Female,2019-05-13,35,3.6,87100,9200,4.46,3.59,,2,3.6,11,No,No
+E00279,Marketing,Auckland,Lead,Onsite,Male,2017-03-23,44,12.9,137200,11600,3.37,3.69,10.3,0,3.65,8,No,No
+E00280,Engineering,Wellington,Intermediate,Onsite,Male,2017-10-22,30,3.7,98200,7500,4.48,4.84,43.1,0,4.63,18,No,No
+E00281,Marketing,Hamilton,Senior,Hybrid,Prefer not to say,2023-04-23,35,9.6,106900,8900,5,4.88,19.4,2,5,13,No,No
+E00282,Operations,Auckland,Junior,Hybrid,Male,2020-07-07,27,0.7,71000,4300,4.63,4.07,31.0,2,3.9,3,No,No
+E00283,Operations,Auckland,Senior,Hybrid,Male,2020-09-24,37,8.1,127300,10200,4.33,3.83,15.0,2,3.71,10,No,Yes
+E00284,Engineering,Wellington,Junior,Remote,Male,2018-12-29,29,0,77600,5300,4.43,3.66,25.6,5,4.19,10,Yes,No
+E00285,Finance,Auckland,Junior,Hybrid,Male,2019-10-21,29,0,78800,9000,4.05,5,29.4,3,4.33,11,No,No
+E00286,Sales,Auckland,Intermediate,Remote,Female,2017-04-18,28,2.5,93600,,5,4.74,42.8,5,2.96,9,No,No
+E00287,Operations,Christchurch,Intermediate,Remote,Male,2022-09-06,38,5.8,95700,11100,4.69,4.12,39.8,5,4.27,13,No,No
+E00288,Engineering,Wellington,Intermediate,Hybrid,Male,2016-12-28,28,4.2,96200,11100,3.21,3.75,32.9,2,3.76,8,Yes,No
+E00289,Sales,Wellington,Junior,Hybrid,Female,2016-01-07,25,0.5,62500,,3.63,4.28,24.7,3,,16,No,No
+E00290,Customer Support,Auckland,Junior,Hybrid,Female,2021-10-17,31,2.5,51800,2000,4.76,4.21,27.4,2,2.73,16,Yes,No
+E00291,Marketing,Auckland,Intermediate,Onsite,,2021-05-10,26,0.2,62000,5400,3.58,3.13,,0,3.36,12,No,No
+E00292,Engineering,Christchurch,Intermediate,Hybrid,Female,2019-10-12,25,2.3,91800,10500,2.75,3.23,12.0,2,3.26,13,No,No
+E00293,Customer Support,Auckland,Senior,Onsite,Female,2021-11-01,37,8.5,94700,,3.71,3.46,30.5,0,3.68,6,No,No
+E00294,Engineering,Christchurch,Intermediate,Remote,Female,2021-03-04,21,0.9,107000,7100,3.84,3.77,11.9,5,2.31,12,No,No
+E00295,Operations,Hamilton,Lead,Hybrid,Non-binary,2022-12-08,34,12.0,120100,14000,4.18,4.47,9.4,2,3.7,13,No,No
+E00296,Customer Support,Remote,Intermediate,Hybrid,Male,2018-08-25,31,5.2,83100,8600,3.94,2.71,11.0,3,3.75,16,Yes,No
+E00297,Data,Remote,Lead,Remote,Male,2022-02-23,41,10.3,140900,16000,4.57,3.78,31.9,5,4.4,3,No,No
+E00298,Marketing,Wellington,Junior,Hybrid,Female,2023-12-26,24,4.4,64000,9400,4.11,4.32,35.8,2,4.22,13,No,No
+E00299,Engineering,Auckland,Intermediate,Onsite,Male,2024-06-16,35,3.6,106200,12600,4.99,4.93,34.1,0,3.16,3,No,No
+E00300,Engineering,Wellington,Lead,Hybrid,Prefer not to say,2021-02-01,52,13.6,140100,,4.73,4.39,20.4,2,3.99,5,No,No
+E00301,Engineering,Wellington,Intermediate,Remote,Male,2019-08-01,33,7.0,103300,11300,5,,32.6,5,3.5,15,No,No
+E00302,Sales,Remote,Senior,Onsite,Male,2019-10-09,36,8.5,124100,18900,4.88,4.25,40.3,0,4.11,5,No,No
+E00303,Engineering,Auckland,Lead,Onsite,Female,2023-06-27,36,11.4,138800,14100,4.69,4.34,41.9,0,2.89,3,No,No
+E00304,HR,Remote,Intermediate,Onsite,Female,2017-04-29,23,0,67200,6300,3.11,2.93,9.4,0,3.87,14,No,Yes
+E00305,Finance,Hamilton,Intermediate,Hybrid,Female,2018-01-25,32,5.9,94200,6800,4.88,3.75,35.0,2,3.71,10,No,No
+E00306,Engineering,Remote,Senior,Remote,Male,2022-12-27,30,9.9,129700,12300,3.87,5,35.7,5,3.59,9,No,Yes
+E00307,Engineering,Auckland,Junior,Onsite,Prefer not to say,2016-06-02,26,4.7,96900,10600,3.81,3.54,27.5,0,5,5,No,No
+E00308,Customer Support,Wellington,Lead,Hybrid,Male,2023-05-01,42,10.8,105700,8100,2.61,2.8,0,2,4.09,8,No,No
+E00309,Engineering,Auckland,Junior,Remote,Prefer not to say,2017-06-15,30,0,81600,5600,5,5,40.4,5,3.78,3,No,No
+E00310,Customer Support,Auckland,Intermediate,Hybrid,Female,2019-06-01,27,5.4,58200,10900,4.7,4.68,47.6,3,2.99,8,No,No
+E00311,Customer Support,Auckland,Junior,Hybrid,Prefer not to say,2020-08-12,34,4.1,47300,6500,4.46,,34.2,2,,9,No,No
+E00312,Finance,Auckland,Manager,Onsite,Male,2019-11-21,40,10.1,150000,18100,3.2,3.13,0.1,0,4.17,7,No,No
+E00313,Marketing,Remote,Intermediate,Hybrid,Female,2019-11-02,34,1.7,70300,6300,4.62,4.0,30.1,2,2.54,11,No,No
+E00314,Sales,Auckland,Junior,Hybrid,Male,2021-05-15,30,0.2,48100,4700,4.4,4.25,24.5,2,2.76,11,No,Yes
+E00315,Engineering,Wellington,Intermediate,Onsite,Female,2020-03-01,34,4.3,90300,7800,3.72,4.85,35.5,0,4.13,11,No,No
+E00316,Engineering,Auckland,Junior,Remote,Prefer not to say,2021-01-12,23,0.3,77300,2000,4.81,5,32.7,5,3.92,3,No,No
+E00317,Finance,Remote,Senior,Remote,Prefer not to say,2020-03-02,47,10.9,128900,11100,3.33,3.84,11.6,5,3.3,13,No,No
+E00318,Engineering,Remote,Senior,Remote,Male,2018-02-24,30,6.0,117500,15800,4.24,,10.1,5,3.18,12,Yes,No
+E00319,Customer Support,Auckland,Intermediate,Remote,Male,2016-08-22,36,4.0,86300,11200,4.48,,24.7,5,3.82,12,Yes,No
+E00320,Sales,Christchurch,Senior,Onsite,,2019-07-23,34,5.5,100800,16000,4.26,2.81,12.6,0,4.4,9,No,No
+E00321,Marketing,Auckland,Junior,Remote,Prefer not to say,2022-04-15,27,1.0,50700,3400,3.71,3.4,16.4,5,2.89,12,No,No
+E00322,Sales,Remote,Junior,Hybrid,Male,2023-11-03,26,0,54000,1900,3.45,4.08,12.8,2,3.57,6,No,No
+E00323,Data,Auckland,Intermediate,Onsite,,2019-02-06,37,8.3,123600,10500,4.53,,33.9,0,3.44,7,No,Yes
+E00324,HR,Remote,Junior,Remote,Female,2022-03-18,26,2.0,62900,7200,4.58,4.52,21.9,5,2.74,3,No,No
+E00325,Marketing,Hamilton,Intermediate,Onsite,Female,2023-12-13,38,4.7,86500,11000,5,4.09,38.9,1,3.37,11,Yes,Yes
+E00326,HR,Auckland,Junior,Remote,Prefer not to say,2024-08-27,21,0.2,42000,4900,4.61,5,39.2,5,3.38,11,No,No
+E00327,Finance,Remote,Intermediate,Hybrid,Prefer not to say,2019-09-09,37,6.4,113600,12700,5,4.31,38.3,3,3.68,3,Yes,Yes
+E00328,Engineering,Auckland,Intermediate,Hybrid,Male,2016-01-05,30,5.0,105800,16300,4.85,3.99,33.8,2,3.28,13,No,No
+E00329,Engineering,Auckland,Junior,Remote,Male,2020-09-30,22,0,76700,6900,4.45,5,33.9,5,3.39,8,No,No
+E00330,Finance,Auckland,Intermediate,Onsite,Female,2020-03-31,31,4.6,112700,12500,4.26,4.96,34.7,0,3.7,7,No,No
+E00331,Sales,Auckland,Junior,Onsite,Female,2016-03-27,24,1.5,71500,5100,1.77,3.71,0,0,2.85,7,No,No
+E00332,Sales,Wellington,Intermediate,Hybrid,Female,2019-10-16,31,3.1,79100,16800,5,5,46.3,2,3.7,3,No,No
+E00333,Engineering,Auckland,Lead,Hybrid,Prefer not to say,2024-03-02,39,13.5,166200,24200,4.43,4.23,19.1,3,2.65,8,No,No
+E00334,Sales,Auckland,Senior,Hybrid,Female,2022-11-19,32,7.6,115500,18500,4.23,3.26,18.5,2,3.29,7,No,No
+E00335,Marketing,Wellington,Senior,Hybrid,Female,2024-08-17,40,7.9,112300,9400,4.43,3.56,17.2,3,4.07,8,Yes,No
+E00336,Engineering,Auckland,Lead,Onsite,Male,2023-11-29,39,11.5,152800,14000,5,4.73,42.0,0,3.34,3,No,No
+E00337,Customer Support,Wellington,Senior,Hybrid,Male,2018-08-11,32,10.2,103100,7800,5,3.35,37.3,2,2.84,9,No,No
+E00338,Finance,Christchurch,Junior,Onsite,Female,2023-03-08,21,3.6,67700,700,4.75,3.83,30.3,0,4.2,4,No,Yes
+E00339,Engineering,Remote,Senior,Hybrid,Female,2024-12-18,29,8.0,122900,14200,5,,67.9,2,3.78,5,No,No
+E00340,Operations,Christchurch,Junior,Onsite,Male,2024-06-18,24,0,54600,4200,3.04,3.54,5.8,1,3.96,9,No,No
+E00341,Finance,Hamilton,Junior,Hybrid,Male,2023-05-05,29,0,57000,8300,5,5,52.9,2,3.24,3,No,No
+E00342,HR,Auckland,Senior,Onsite,Male,2023-05-19,40,8.3,90500,11400,5,4.09,33.5,0,4.1,5,No,No
+E00343,HR,Auckland,Senior,Hybrid,Male,2020-07-07,37,8.5,122600,16100,4.75,4.09,18.0,2,2.95,9,Yes,No
+E00344,Sales,Wellington,Junior,Hybrid,Female,2018-08-16,32,2.2,58600,8900,4.7,4.96,39.2,2,4.18,3,Yes,No
+E00345,Sales,Wellington,Intermediate,Hybrid,Male,2017-08-02,31,4.8,83300,13700,4.71,5,37.1,3,5,7,No,No
+E00346,Engineering,Remote,Lead,Onsite,,2024-12-04,35,10.3,143900,11000,2.09,3.58,1.6,0,2.97,13,No,No
+E00347,Customer Support,Auckland,Junior,Hybrid,Male,2016-01-02,34,1.1,44800,4100,3.96,5,13.0,2,2.81,3,No,No
+E00348,Engineering,Auckland,Junior,Onsite,Male,2020-03-01,26,1.4,83600,11200,4.15,5,46.4,0,3.29,12,No,No
+E00349,Finance,Christchurch,Junior,Onsite,Male,2023-08-25,31,0,62000,6800,4.37,4.19,26.3,0,3.48,4,No,No
+E00350,Customer Support,Auckland,Junior,Remote,Female,2023-11-16,27,0.3,50100,6100,5,3.51,50.5,4,4.14,13,No,No
+E00351,Data,Auckland,Junior,Hybrid,Male,2016-10-03,28,0.1,68700,1600,1.92,2.0,4.1,2,3.46,11,No,Yes
+E00352,Engineering,Wellington,Senior,Onsite,Prefer not to say,2019-04-06,38,10.8,147200,20400,4.17,3.65,0,0,3.39,10,No,Yes
+E00353,HR,Christchurch,Intermediate,Hybrid,Male,2018-03-23,31,2.7,63800,2800,4.19,4.89,24.8,2,3.46,4,No,No
+E00354,Sales,Auckland,Junior,Hybrid,Female,2016-04-16,29,0.9,75500,9100,3.67,2.8,8.7,2,3.77,12,No,No
+E00355,Data,Auckland,Intermediate,Onsite,Female,2019-12-28,31,4.6,109500,12500,5,4.45,44.3,0,4.25,15,No,No
+E00356,Finance,Wellington,Manager,Hybrid,Prefer not to say,2017-03-30,40,13.7,151500,,4.0,5,19.4,3,3.48,17,No,No
+E00357,Marketing,Auckland,Intermediate,Hybrid,Non-binary,2024-08-22,26,4.8,96400,11100,4.92,,23.7,3,4.47,5,No,No
+E00358,HR,Christchurch,Lead,Onsite,Female,2020-12-26,32,9.9,124700,6600,4.54,4.32,22.3,0,3.51,5,No,No
+E00359,Engineering,Auckland,Junior,Onsite,Female,2022-04-14,29,0,50400,3200,3.88,2.61,18.6,1,3.49,8,No,No
+E00360,Sales,Christchurch,Senior,Onsite,Female,2016-11-02,35,8.4,111900,17200,5,4.62,39.9,0,3.54,3,No,Yes
+E00361,Operations,Wellington,Lead,Hybrid,Male,2023-03-15,32,13.2,127900,7900,2.97,3.86,13.7,2,2.6,7,No,No
+E00362,Engineering,Wellington,Intermediate,Onsite,Female,2020-05-17,28,4.2,107800,12900,4.02,5,42.9,1,3.85,3,No,No
+E00363,Operations,Auckland,Senior,Hybrid,Male,2019-08-26,28,9.1,97900,12000,4.36,4.48,28.4,2,2.85,13,No,Yes
+E00364,Data,Auckland,Junior,Remote,Male,2019-09-17,27,2.0,92300,2100,2.6,4.78,21.8,4,2.85,6,No,No
+E00365,Sales,Remote,Intermediate,Hybrid,Prefer not to say,2017-07-11,31,3.2,105900,13400,5,5,38.1,2,3.52,12,No,No
+E00366,Sales,Hamilton,Intermediate,Onsite,Female,2022-03-17,32,5.7,108000,10600,2.67,3.1,0,0,3.37,7,No,No
+E00367,Finance,Auckland,Intermediate,Hybrid,Male,2022-12-27,29,3.5,90000,10700,2.58,3.91,0,2,4.23,4,No,No
+E00368,HR,Wellington,Senior,Hybrid,Female,2017-03-21,32,6.1,114700,10400,4.02,3.86,25.7,2,3.51,12,No,No
+E00369,Finance,Remote,Senior,Onsite,Male,2024-08-12,32,6.9,113900,13200,3.3,4.42,19.7,1,2.87,4,No,No
+E00370,Engineering,Auckland,Intermediate,Onsite,Female,2024-04-03,30,1.8,107600,15200,5,4.49,43.4,0,,7,Yes,No
+E00371,Sales,Wellington,Intermediate,Hybrid,Male,2016-07-14,40,5.2,101700,5100,4.78,5,23.7,2,3.69,10,Yes,No
+E00372,Data,Remote,Lead,Hybrid,Non-binary,2019-04-06,31,12.9,149000,12700,3.6,2.73,18.2,2,2.3,11,No,No
+E00373,Finance,Christchurch,Senior,Onsite,Female,2017-05-10,36,8.3,134600,14900,4.64,2.77,27.5,0,3.2,18,No,No
+E00374,Sales,Auckland,Intermediate,Hybrid,Female,2021-10-20,32,3.5,86800,13400,4.82,4.92,33.6,2,3.4,14,No,Yes
+E00375,Customer Support,Auckland,Intermediate,Hybrid,Male,2019-03-18,33,7.4,68400,9500,4.39,4.25,28.3,2,5,12,Yes,No
+E00376,Operations,Auckland,Intermediate,Remote,Male,2022-07-25,42,7.1,108400,4500,4.16,5,16.5,5,3.48,9,No,No
+E00377,Finance,Remote,Junior,Hybrid,,2018-06-08,26,4.1,68800,8200,5,4.83,41.6,2,3.21,13,No,No
+E00378,Operations,Auckland,Junior,Hybrid,Male,2020-05-29,28,2.4,80800,0,3.31,3.77,14.4,2,3.51,8,No,No
+E00379,Engineering,Auckland,Lead,Hybrid,Female,2020-09-06,41,10.2,161200,15700,4.88,5,34.4,2,3.69,6,No,No
+E00380,Customer Support,Remote,Senior,Hybrid,Male,2017-05-18,24,4.4,97000,9000,4.68,3.72,30.0,2,2.83,12,No,No
+E00381,Data,Auckland,Lead,Onsite,Female,2019-06-25,34,13.9,165300,16500,3.0,3.98,,0,3.88,3,No,Yes
+E00382,Engineering,Wellington,Intermediate,Hybrid,Female,2017-05-12,29,2.7,104800,14400,4.55,,37.8,3,,3,No,No
+E00383,Customer Support,Christchurch,Junior,Hybrid,Female,2019-07-11,27,2.4,47100,5800,3.78,4.06,0,2,5,5,No,No
+E00384,Data,Wellington,Junior,Hybrid,Female,2024-05-11,27,1.8,81500,13000,3.2,3.73,21.9,2,3.66,9,No,Yes
+E00385,Sales,Remote,Intermediate,Hybrid,Female,2024-03-28,27,5.1,102800,7800,4.31,4.97,38.3,3,3.21,3,No,No
+E00386,Marketing,Christchurch,Junior,Hybrid,Female,2023-05-11,25,1.3,54300,3700,5,3.98,45.5,2,4.72,3,No,Yes
+E00387,Data,Wellington,Senior,Remote,Female,2019-09-13,32,6.7,121400,10300,4.24,4.7,27.3,4,3.26,10,No,No
+E00388,Finance,Wellington,Junior,Onsite,Male,2024-10-12,32,2.7,63700,6000,4.79,3.67,18.3,0,3.14,6,No,Yes
+E00389,Marketing,Auckland,Intermediate,Onsite,Male,2021-02-21,34,7.3,93100,3200,3.82,3.42,25.7,0,4.09,12,No,No
+E00390,Engineering,Christchurch,Intermediate,Onsite,Female,2019-02-06,33,2.6,82900,3500,3.96,3.79,16.4,0,3.42,9,No,No
+E00391,Operations,Auckland,Intermediate,Hybrid,Male,2022-12-26,31,6.1,89400,8100,4.69,3.88,27.9,2,2.83,11,No,No
+E00392,Engineering,Remote,Junior,Remote,Male,2017-01-24,25,2.6,78500,4300,3.03,3.91,9.6,4,3.97,3,No,No
+E00393,Operations,Wellington,Junior,Hybrid,Male,2018-09-23,33,2.5,53600,6500,5,5,51.9,2,3.52,14,No,No
+E00394,Operations,Auckland,Senior,Hybrid,Prefer not to say,2024-12-22,32,6.5,108000,11300,3.48,4.39,18.3,2,3.39,3,No,No
+E00395,Operations,Auckland,Intermediate,Onsite,Female,2018-03-20,35,3.2,100400,0,2.79,3.8,3.2,0,3.55,14,No,No
+E00396,Operations,Auckland,Senior,Hybrid,Female,2022-03-27,36,8.0,112500,14500,4.17,4.47,17.4,2,3.01,17,No,No
+E00397,Data,Remote,Senior,Onsite,Male,2016-09-11,22,8.0,141300,11500,3.84,3.88,14.1,0,4.19,18,No,No
+E00398,Marketing,Auckland,Intermediate,Onsite,Female,2022-08-22,27,7.1,84800,7700,2.87,2.68,18.7,1,2.26,18,No,No
+E00399,Marketing,Christchurch,Senior,Hybrid,Male,2020-07-11,34,5.1,98400,11200,5,4.05,42.6,2,2.82,10,Yes,No
+E00400,Data,Remote,Junior,Hybrid,Male,2016-10-16,22,2.6,71600,7000,3.69,4.41,20.9,2,4.19,14,No,No
+E00401,Operations,Auckland,Manager,Remote,Male,2023-11-22,37,8.5,141500,11600,5,4.07,38.2,4,3.57,17,No,No
+E00402,Marketing,Auckland,Senior,Onsite,Male,2016-01-21,35,4.7,102400,14300,5,4.1,36.6,0,3.4,3,Yes,No
+E00403,Data,Hamilton,Junior,Remote,Male,2016-12-20,32,1.2,58000,5100,4.79,4.66,21.8,5,4.04,10,Yes,No
+E00404,Data,Wellington,Senior,Hybrid,Male,2024-08-09,41,9.3,135100,10000,2.95,3.82,18.1,2,3.74,14,No,No
+E00405,Finance,Wellington,Intermediate,Hybrid,Female,2023-02-10,34,3.6,106500,7100,4.33,3.82,42.0,2,3.41,8,No,No
+E00406,Engineering,Hamilton,Intermediate,Hybrid,Female,2018-10-07,41,11.5,128000,14600,5,4.31,35.5,3,3.49,10,No,No
+E00407,Finance,Auckland,Senior,Hybrid,Female,2021-08-26,33,6.0,112000,10600,4.21,4.9,27.5,2,2.76,3,No,No
+E00408,Finance,Christchurch,Lead,Hybrid,,2023-07-18,44,15.3,166300,11700,3.89,4.21,26.8,3,3.49,10,No,No
+E00409,Operations,Auckland,Lead,Hybrid,Female,2021-02-23,36,8.7,136600,15000,5,5,34.6,2,4.29,7,No,No
+E00410,Data,Remote,Junior,Hybrid,,2023-05-05,24,0,74700,12000,4.07,4.59,17.5,2,4.43,9,Yes,No
+E00411,Sales,Auckland,Lead,Hybrid,Female,2017-02-21,50,8.4,135600,17700,3.51,,14.6,3,3.55,8,No,No
+E00412,Customer Support,Remote,Senior,Hybrid,Female,2018-10-31,25,6.4,86400,6100,3.79,3.36,7.9,2,3.41,8,No,No
+E00413,Sales,Auckland,Senior,Onsite,Male,2021-09-07,28,6.4,127800,12000,3.93,3.8,29.0,0,3.2,11,No,Yes
+E00414,Marketing,Auckland,Intermediate,Remote,Male,2023-11-16,26,5.4,62500,5500,3.73,3.68,24.4,5,3.11,8,No,No
+E00415,Marketing,Wellington,Junior,Hybrid,Female,2017-09-23,34,2.4,60100,7800,4.13,3.27,21.2,3,3.1,9,No,Yes
+E00416,Sales,Auckland,Manager,Hybrid,Female,2021-06-24,45,15.7,146900,13800,5,3.86,34.0,2,4.71,16,Yes,No
+E00417,Engineering,Auckland,Intermediate,Remote,,2019-05-20,37,5.5,91100,15800,4.65,4.09,29.4,4,4.33,17,No,No
+E00418,Sales,Auckland,Lead,Hybrid,Female,2017-01-09,37,9.7,133400,20100,5,4.17,24.8,3,4.74,12,No,No
+E00419,Marketing,Auckland,Junior,Remote,Female,2018-09-25,22,0.8,47000,3900,4.22,5,36.0,5,2.97,13,No,Yes
+E00420,Sales,Remote,Intermediate,Onsite,Male,2021-12-13,26,2.4,74100,12000,4.76,,35.6,1,3.31,11,Yes,No
+E00421,Sales,Hamilton,Intermediate,Onsite,Male,2020-01-02,36,3.7,80500,12200,3.35,3.79,30.8,1,3.57,3,No,No
+E00422,Marketing,Christchurch,Senior,Hybrid,Female,2024-02-01,39,9.8,96400,11400,5,4.07,42.5,2,4.13,3,No,No
+E00423,Sales,Wellington,Senior,Hybrid,Male,2024-06-17,38,5.9,113900,17400,5,4.84,34.1,3,4.36,12,Yes,No
+E00424,Customer Support,Hamilton,Intermediate,Hybrid,Female,2023-10-10,27,4.8,73000,8700,4.27,5,38.0,2,3.71,5,No,No
+E00425,Sales,Wellington,Manager,Remote,Male,2024-06-18,34,10.9,126000,20100,4.89,4.42,33.4,5,3.17,9,No,No
+E00426,Engineering,Wellington,Intermediate,Hybrid,Female,2023-11-24,35,6.4,99900,13000,5,,57.5,3,,4,No,No
+E00427,Operations,Wellington,Junior,Onsite,Prefer not to say,2017-01-11,30,0,65100,5400,4.21,,31.8,0,3.88,6,No,No
+E00428,Customer Support,Christchurch,Manager,Hybrid,Female,2024-04-29,41,10.5,119600,9600,4.22,3.29,23.5,2,3.86,12,No,Yes
+E00429,Engineering,Hamilton,Intermediate,Hybrid,Male,2024-04-28,29,5.6,96100,9200,4.01,4.25,14.5,2,3.11,12,No,No
+E00430,Engineering,Wellington,Intermediate,Hybrid,Male,2024-12-11,27,3.1,90100,11900,4.19,3.38,17.0,2,3.12,8,No,No
+E00431,Engineering,Christchurch,Senior,Onsite,Prefer not to say,2021-09-24,40,14.3,140400,14400,5,4.02,50.9,0,2.19,7,Yes,No
+E00432,Engineering,Christchurch,Junior,Hybrid,Prefer not to say,2023-03-27,22,1.7,77900,6400,3.62,4.58,28.0,2,2.66,12,No,No
+E00433,HR,Auckland,Junior,Onsite,Male,2021-02-21,26,0,42000,2000,3.57,3.6,30.1,0,3.45,19,No,No
+E00434,Data,Auckland,Senior,Onsite,Male,2016-10-29,32,7.7,148300,14100,4.47,4.74,15.2,1,4.73,7,No,No
+E00435,Marketing,Auckland,Senior,Hybrid,Male,2023-08-10,30,11.4,105300,400,3.45,5,5.7,3,3.78,3,No,No
+E00436,Engineering,Auckland,Intermediate,Hybrid,Male,2024-06-21,31,4.4,94200,5700,5,4.58,63.9,2,4.1,3,No,No
+E00437,Sales,Auckland,Junior,Hybrid,Female,2023-06-09,26,0,54500,2900,5,4.81,41.0,2,4.21,9,Yes,No
+E00438,Engineering,Auckland,Senior,Onsite,Female,2024-12-29,42,9.6,127300,8100,3.58,2.98,16.4,0,2.59,3,No,No
+E00439,Engineering,Hamilton,Junior,Hybrid,Female,2016-12-16,26,1.5,68700,13100,4.51,5,50.8,3,3.19,13,No,No
+E00440,Engineering,Auckland,Lead,Hybrid,Prefer not to say,2022-10-11,42,11.7,152100,18900,5,5,53.4,3,2.95,4,No,No
+E00441,Data,Auckland,Senior,Hybrid,Female,2024-05-07,33,6.5,133900,13400,3.97,3.93,38.0,2,2.72,16,No,No
+E00442,Marketing,Hamilton,Lead,Hybrid,Female,2022-11-15,34,9.7,111900,14700,4.12,4.34,15.4,3,3.53,3,No,No
+E00443,Engineering,Auckland,Lead,Onsite,Male,2019-04-24,39,10.2,165700,13100,4.28,4.44,28.5,0,2.99,7,No,No
+E00444,Marketing,Remote,Intermediate,Hybrid,Female,2016-06-25,27,2.5,85800,6400,3.86,4.54,18.3,2,5,10,Yes,No
+E00445,Operations,Wellington,Manager,Hybrid,,2022-06-02,41,9.9,133600,15100,5,5,71.3,3,4.56,3,No,No
+E00446,Customer Support,Auckland,Junior,Hybrid,Male,2022-11-20,27,1.2,54600,4800,3.41,4.09,19.3,2,2.8,17,No,No
+E00447,Finance,Auckland,Intermediate,Hybrid,Non-binary,2016-06-06,31,6.5,109700,,3.49,5,10.2,3,5,5,No,No
+E00448,Operations,Christchurch,Senior,Onsite,Male,2016-09-28,40,13.4,125400,9500,4.43,4.51,14.7,1,4.2,14,No,No
+E00449,Customer Support,Remote,Junior,Onsite,,2022-06-03,29,2.4,49600,1600,4.51,2.9,22.2,1,3.57,3,No,No
+E00450,Sales,Auckland,Junior,Onsite,Male,2017-04-14,28,0,64800,10800,3.63,4.23,20.9,0,3.66,11,No,No
+E00451,Engineering,Auckland,Intermediate,Hybrid,Male,2017-10-04,30,2.9,104100,12700,3.15,4.75,7.7,2,4.03,8,No,No
+E00452,Data,Auckland,Intermediate,Hybrid,Female,2021-04-15,31,7.4,114500,9200,3.69,4.09,22.3,3,4.55,15,No,No
+E00453,Finance,Wellington,Senior,Hybrid,Female,2020-11-14,37,6.3,129500,13100,4.4,4.48,21.7,2,3.3,3,No,No
+E00454,Engineering,Remote,Intermediate,Hybrid,,2016-10-01,26,2.5,106200,12700,4.05,5,43.4,3,2.73,14,No,No
+E00455,Sales,Auckland,Intermediate,Hybrid,Female,2020-04-23,35,3.4,89900,9500,3.46,3.54,26.9,2,4.35,15,No,Yes
+E00456,Finance,Hamilton,Intermediate,Hybrid,Male,2019-01-31,29,3.0,81200,5800,3.2,4.61,16.6,2,4.21,7,No,No
+E00457,Engineering,Remote,Intermediate,Remote,Male,2022-12-19,38,6.9,98500,13300,3.75,3.95,14.4,5,,13,No,No
+E00458,Marketing,Remote,Intermediate,Remote,Female,2019-10-10,39,6.2,83700,7300,5,5,57.0,4,2.79,10,No,No
+E00459,Engineering,Auckland,Junior,Hybrid,Female,2019-12-23,26,0,69900,6400,3.97,5,37.7,2,4.83,7,No,No
+E00460,Sales,Auckland,Senior,Hybrid,Female,2022-02-28,39,12.4,128300,13700,4.67,3.2,24.9,2,2.89,9,No,No
+E00461,Engineering,Wellington,Lead,Hybrid,Male,2016-12-29,49,12.5,142200,12200,5,4.56,53.9,2,3.3,10,No,No
+E00462,Engineering,Auckland,Junior,Onsite,Male,2024-06-12,31,1.9,87200,9600,3.88,,31.8,0,3.31,7,No,No
+E00463,Engineering,Auckland,Junior,Remote,,2021-09-20,31,2.0,78900,7300,5,5,50.6,5,3.43,8,No,No
+E00464,Customer Support,Auckland,Junior,Hybrid,Female,2022-02-18,24,3.3,57300,6100,5,5,34.6,2,3.29,9,No,No
+E00465,Customer Support,Auckland,Intermediate,Onsite,Female,2018-10-17,33,6.9,92000,7200,5,4.87,57.9,0,3.04,11,No,No
+E00466,Marketing,Christchurch,Intermediate,Hybrid,Female,2020-12-16,26,4.1,80800,7600,4.54,2.88,19.2,2,3.67,3,No,Yes
+E00467,Sales,Auckland,Intermediate,Hybrid,Female,2020-12-24,30,6.4,115300,9000,4.48,3.28,30.8,2,3.06,13,No,No
+E00468,Operations,Remote,Intermediate,Remote,Male,2022-01-30,30,2.4,52600,4000,4.29,5,,5,3.76,6,No,Yes
+E00469,Operations,Wellington,Junior,Hybrid,Prefer not to say,2022-11-26,34,3.0,56000,8300,3.92,,31.2,2,3.53,16,No,No
+E00470,Marketing,Wellington,Junior,Remote,Female,2018-11-09,33,4.8,77100,3300,3.18,3.77,11.1,5,3.87,3,No,No
+E00471,Sales,Auckland,Lead,Hybrid,Male,2022-03-09,37,9.3,126100,12100,3.43,3.88,0,2,4.39,10,No,No
+E00472,Sales,Hamilton,Intermediate,Onsite,Female,2023-02-04,26,1.9,82900,10500,4.05,4.42,,1,3.83,12,No,No
+E00473,Marketing,Remote,Manager,Hybrid,Male,2016-11-22,40,13.9,134300,14700,5,4.5,32.9,2,3.13,15,No,No
+E00474,Operations,Auckland,Manager,Remote,Male,2023-05-27,46,14.2,134200,,4.28,2.47,16.0,4,3.68,27,No,No
+E00475,Sales,Christchurch,Lead,Remote,Male,2017-12-21,32,13.4,139300,16900,3.96,3.82,19.3,5,3.47,9,No,No
+E00476,Sales,Christchurch,Senior,Remote,Male,2017-06-15,30,4.4,113400,12100,5,5,57.2,4,4.07,12,No,No
+E00477,Customer Support,Auckland,Senior,Onsite,Female,2021-11-04,34,5.2,85600,13700,4.67,3.96,24.6,0,3.71,17,No,No
+E00478,Finance,Christchurch,Senior,Hybrid,Female,2020-09-21,42,7.9,105700,9400,3.83,4.9,17.8,2,3.75,12,No,No
+E00479,Engineering,Remote,Intermediate,Remote,Male,2022-05-05,39,2.9,105200,7500,2.05,2.25,0,5,3.08,10,Yes,No
+E00480,Finance,Auckland,Intermediate,Remote,Female,2023-03-16,28,2.4,108700,11700,4.66,5,44.8,5,,3,No,No
+E00481,Engineering,Remote,Senior,Hybrid,,2021-06-04,34,6.0,115200,11900,5,3.73,38.6,3,4.1,15,Yes,No
+E00482,Customer Support,Auckland,Junior,Remote,Male,2022-04-27,38,3.5,61100,7100,4.77,4.79,45.6,5,2.4,11,No,Yes
+E00483,Data,Remote,Intermediate,Hybrid,Prefer not to say,2017-02-15,28,6.4,117200,13400,3.97,3.22,15.6,2,4.4,9,No,Yes
+E00484,Customer Support,Remote,Senior,Remote,Female,2022-12-14,30,8.2,99400,10500,5,5,48.8,5,3.41,12,No,No
+E00485,Operations,Hamilton,Intermediate,Remote,Female,2018-02-10,27,4.1,90700,11400,4.02,3.34,16.2,5,3.65,14,No,No
+E00486,Customer Support,Wellington,Junior,Remote,Non-binary,2016-10-30,24,4.9,58500,0,4.66,3.57,27.1,5,3.21,5,Yes,No
+E00487,Engineering,Auckland,Junior,Remote,Prefer not to say,2024-04-23,27,0,98700,12700,3.16,3.5,4.1,4,3.03,5,No,No
+E00488,HR,Wellington,Intermediate,Onsite,Male,2024-10-30,32,7.1,89400,11500,5,4.57,40.0,0,3.72,3,No,No
+E00489,Operations,Auckland,Manager,Hybrid,Male,2016-10-10,43,10.2,133600,10900,4.35,4.54,26.4,2,3.01,7,No,No
+E00490,HR,Auckland,Lead,Remote,Female,2022-02-07,40,11.3,123600,14300,5,4.9,50.1,5,4.22,9,Yes,No
+E00491,Engineering,Wellington,Senior,Onsite,Female,2018-04-18,33,8.9,126300,5500,3.06,3.92,14.7,1,3.12,12,No,No
+E00492,Data,Remote,Senior,Hybrid,Male,2019-05-04,29,8.2,119300,8000,3.87,2.65,16.8,3,3.25,9,No,No
+E00493,Marketing,Remote,Intermediate,Hybrid,Female,2019-05-18,29,7.2,53600,7900,4.31,3.84,31.3,2,3.5,14,No,No
+E00494,Operations,Auckland,Senior,Remote,Male,2019-07-08,37,7.1,119400,13700,5,4.88,24.0,4,3.93,3,No,No
+E00495,Finance,Auckland,Junior,Hybrid,Female,2017-06-06,34,2.3,72400,1900,3.68,2.41,5.5,3,3.9,6,No,No
+E00496,Operations,Auckland,Intermediate,Hybrid,Female,2020-08-09,31,3.8,71600,4200,4.2,3.6,26.0,2,3.28,8,No,No
+E00497,Finance,Wellington,Intermediate,Hybrid,Female,2022-05-14,26,2.6,96500,9200,4.77,5,45.0,2,4.76,22,No,No
+E00498,Sales,Hamilton,Intermediate,Hybrid,Male,2020-04-03,24,3.0,88200,12900,4.74,3.81,36.7,3,3.23,7,No,No
+E00499,Engineering,Auckland,Intermediate,Hybrid,Female,2022-05-25,25,2.8,97500,14800,4.28,4.82,25.6,3,4.25,4,No,Yes
+E00500,Finance,Hamilton,Manager,Hybrid,Female,2021-04-07,40,12.1,152600,13400,3.97,3.55,17.7,2,5,19,No,No
+E00501,Marketing,Wellington,Manager,Onsite,Female,2023-04-25,42,8.3,114800,10400,3.94,5,20.2,0,3.16,8,No,No
+E00502,Engineering,Hamilton,Intermediate,Hybrid,Female,2018-06-13,30,2.9,105600,4800,4.6,4.03,29.0,3,4.11,4,No,No
+E00503,Operations,Auckland,Manager,Hybrid,Male,2019-10-29,35,11.5,135900,16200,5,4.82,39.4,2,4.34,15,No,No
+E00504,Engineering,Hamilton,Intermediate,Remote,Male,2022-09-27,31,2.7,77200,3500,4.7,2.79,5.7,4,3.87,5,No,No
+E00505,Sales,Auckland,Intermediate,Onsite,Male,2023-12-21,34,5.8,92200,9000,4.21,4.92,16.3,0,3.66,3,No,No
+E00506,Operations,Remote,Intermediate,Hybrid,Male,2021-09-03,21,2.5,73400,2600,4.05,4.69,26.4,3,3.68,5,No,No
+E00507,Engineering,Remote,Junior,Onsite,Male,2024-01-08,26,0.2,60500,2600,3.99,5,35.7,1,3.46,8,No,No
+E00508,Operations,Wellington,Intermediate,Remote,Female,2016-08-28,30,3.2,83500,3700,4.29,4.76,26.5,4,4.08,12,No,No
+E00509,Engineering,Remote,Senior,Onsite,Male,2024-06-21,32,9.0,121900,10700,4.78,4.35,20.2,0,3.06,4,No,No
+E00510,Engineering,Auckland,Intermediate,Onsite,,2021-08-29,31,5.1,109600,11700,5,4.08,33.6,1,4.06,10,No,No
+E00511,Sales,Hamilton,Junior,Onsite,Prefer not to say,2018-05-01,32,2.5,59900,10000,5,,75.5,0,4.72,9,No,No
+E00512,Customer Support,Auckland,Intermediate,Onsite,Female,2024-07-12,25,0.3,65100,7300,4.72,3.57,41.0,0,3.16,6,No,No
+E00513,Operations,Christchurch,Senior,Onsite,Male,2016-06-02,34,5.0,85400,1100,2.03,3.18,3.1,0,3.5,15,Yes,Yes
+E00514,Sales,Hamilton,Lead,Onsite,Male,2020-04-27,40,9.3,132700,15700,4.49,3.16,5.2,1,4.16,13,No,No
+E00515,HR,Hamilton,Intermediate,Onsite,Female,2021-06-19,30,2.2,80000,9200,3.81,3.41,24.3,0,3.53,3,No,No
+E00516,Engineering,Christchurch,Manager,Hybrid,Prefer not to say,2019-05-12,38,13.1,145300,16300,4.56,3.54,16.1,2,2.86,11,No,No
+E00517,Finance,Auckland,Junior,Remote,Male,2020-06-07,24,0,74200,3400,3.85,3.0,,5,3.93,9,No,Yes
+E00518,Engineering,Remote,Junior,Remote,Female,2018-12-08,22,0,63400,10200,5,5,49.4,5,3.43,10,Yes,No
+E00519,Operations,Auckland,Senior,Onsite,Male,2016-09-17,30,7.9,121200,11600,4.1,4.79,29.6,1,3.01,20,No,No
+E00520,Operations,Remote,Intermediate,Hybrid,Female,2024-05-20,31,4.8,86000,10100,5,5,58.0,3,3.18,11,No,No
+E00521,Engineering,Wellington,Lead,Hybrid,Female,2022-12-22,30,6.3,131100,13500,4.28,5,34.6,2,3.15,7,No,No
+E00522,Engineering,Christchurch,Manager,Hybrid,Prefer not to say,2023-04-16,32,12.7,152500,22000,5,,30.8,2,4.22,19,No,No
+E00523,Marketing,Wellington,Junior,Hybrid,Female,2019-12-24,25,0,49100,,4.45,4.42,33.1,2,4.88,19,No,No
+E00524,Engineering,Wellington,Senior,Onsite,Female,2019-04-04,35,7.8,119500,15100,4.45,4.95,18.0,1,3.95,14,No,No
+E00525,Operations,Remote,Junior,Onsite,Female,2020-04-26,26,3.1,70200,3700,4.69,4.95,39.9,1,3.62,7,No,No
+E00526,Sales,Auckland,Lead,Hybrid,,2017-11-27,35,11.6,131900,17000,3.83,,8.1,2,3.19,4,No,No
+E00527,Sales,Auckland,Intermediate,Onsite,Prefer not to say,2019-03-10,29,4.8,89800,,4.91,4.59,45.9,1,3.35,7,Yes,No
+E00528,Data,Auckland,Intermediate,Remote,Female,2019-12-20,30,1.5,85200,9000,3.04,3.1,16.4,5,2.92,9,No,No
+E00529,Marketing,Hamilton,Junior,Onsite,Female,2020-07-22,24,0,49100,2600,4.91,4.98,43.9,0,2.89,5,No,No
+E00530,Customer Support,Auckland,Manager,Hybrid,Female,2020-10-29,40,13.4,134000,7000,3.17,,3.8,3,3.47,20,No,No
+E00531,Marketing,Remote,Junior,Onsite,Male,2022-04-11,25,3.1,67500,4900,5,5,49.9,1,4.27,22,No,No
+E00532,Customer Support,Remote,Junior,Onsite,Male,2022-10-29,33,0,42000,3600,4.17,4.16,8.9,1,4.03,9,No,No
+E00533,Sales,Auckland,Junior,Remote,Male,2022-05-05,25,2.8,63900,8700,4.07,4.66,27.7,5,3.58,3,No,No
+E00534,Operations,Auckland,Junior,Onsite,Male,2023-05-16,30,6.3,70300,4600,3.77,2.89,8.0,0,3.19,14,No,No
+E00535,Marketing,Remote,Intermediate,Hybrid,Female,2020-06-07,36,3.8,99400,6600,5,4.98,44.2,3,2.59,3,No,No
+E00536,Engineering,Remote,Senior,Hybrid,Male,2020-02-24,38,6.1,123300,12300,3.59,4.8,16.7,3,2.96,3,No,No
+E00537,Customer Support,Auckland,Manager,Onsite,Prefer not to say,2019-12-15,46,12.1,122700,17800,5,,32.9,0,4.77,11,Yes,No
+E00538,Sales,Auckland,Senior,Hybrid,Male,2021-08-12,35,8.7,125300,11700,4.86,4.62,25.3,2,3.34,13,No,No
+E00539,Customer Support,Wellington,Intermediate,Hybrid,Female,2020-01-10,30,2.2,80100,8900,4.55,4.26,18.5,2,3.31,3,No,No
+E00540,Operations,Auckland,Senior,Onsite,Female,2016-01-17,35,9.5,114000,9700,4.76,3.47,27.3,0,4.0,3,No,Yes
+E00541,Sales,Auckland,Intermediate,Hybrid,Female,2017-05-01,29,3.0,65400,3500,4.87,4.3,15.3,2,2.73,4,No,No
+E00542,Sales,Christchurch,Senior,Hybrid,Female,2024-06-28,29,7.1,110700,9500,4.81,3.85,43.9,2,2.72,16,No,No
+E00543,Data,Christchurch,Intermediate,Remote,Non-binary,2021-09-25,37,3.8,92700,7900,4.26,3.89,42.1,5,4.03,19,No,Yes
+E00544,Engineering,Auckland,Intermediate,Hybrid,Non-binary,2021-05-02,31,5.3,124700,8000,2.32,2.8,0,3,4.3,12,No,No
+E00545,Engineering,Christchurch,Senior,Onsite,Male,2022-05-01,40,9.9,140700,16000,4.67,4.41,,1,3.79,3,No,No
+E00546,Engineering,Remote,Senior,Onsite,Female,2022-12-13,30,6.9,130900,18200,5,4.71,32.9,0,3.14,11,No,No
+E00547,Operations,Auckland,Lead,Hybrid,Female,2018-10-28,39,9.9,122900,14400,4.87,4.65,31.4,2,3.57,3,Yes,No
+E00548,Marketing,Auckland,Junior,Onsite,Female,2016-10-25,21,0,55000,12500,4.45,4.14,27.6,1,3.57,4,No,No
+E00549,Marketing,Auckland,Lead,Hybrid,Male,2016-10-18,39,10.8,131400,7200,3.01,5,13.8,2,3.82,3,No,No
+E00550,Sales,Remote,Intermediate,Onsite,Female,2018-07-18,31,6.3,104600,9100,2.86,3.06,18.4,0,4.47,21,No,No
+E00551,Sales,Wellington,Manager,Remote,Female,2024-01-19,38,9.4,135500,19700,3.98,3.49,16.8,4,3.28,12,No,No
+E00552,Operations,Christchurch,Junior,Hybrid,Male,2022-01-29,30,1.9,54200,5700,4.97,4.93,46.1,2,,9,No,No
+E00553,Marketing,Christchurch,Intermediate,Hybrid,Prefer not to say,2016-10-15,36,4.1,94600,3400,4.5,4.99,34.9,2,4.22,12,No,No
+E00554,Operations,Remote,Junior,Onsite,Female,2019-04-20,32,0.3,50900,,3.85,4.19,33.4,0,2.72,13,No,No
+E00555,Customer Support,Wellington,Junior,Remote,Female,2016-09-04,26,1.9,44300,5900,5,5,36.5,5,4.39,5,No,No
+E00556,Customer Support,Auckland,Lead,Onsite,Male,2017-05-19,36,9.9,113700,7500,3.61,4.11,18.5,0,4.67,11,No,No
+E00557,HR,Christchurch,Senior,Onsite,Female,2018-06-01,28,6.2,91200,14000,4.61,5,46.4,0,2.87,16,No,No
+E00558,Engineering,Wellington,Senior,Hybrid,,2017-04-11,27,6.7,125800,7700,2.76,3.94,,2,3.49,16,No,No
+E00559,Engineering,Auckland,Intermediate,Onsite,Male,2016-08-10,30,2.3,95700,11900,5,4.94,46.7,0,4.75,11,No,No
+E00560,Customer Support,Christchurch,Junior,Hybrid,Male,2020-05-12,28,2.1,58700,5000,3.66,3.69,7.1,2,3.54,4,No,No
+E00561,Sales,Christchurch,Junior,Onsite,Female,2022-08-01,21,0,54200,5700,4.54,4.79,41.0,0,3.32,11,No,No
+E00562,Finance,Auckland,Junior,Onsite,Female,2018-02-12,33,3.9,79500,10700,3.72,5,30.4,0,3.66,3,No,No
+E00563,Marketing,Wellington,Intermediate,Onsite,Female,2023-10-23,29,7.0,74500,4900,4.58,2.97,20.6,0,3.64,14,No,No
+E00564,Engineering,Auckland,Intermediate,Onsite,,2020-11-25,27,1.0,99100,9800,4.4,4.44,24.8,1,4.26,11,Yes,No
+E00565,HR,Hamilton,Junior,Hybrid,Female,2024-03-01,24,0,42000,3000,2.91,4.31,17.9,2,3.45,3,Yes,No
+E00566,Marketing,Auckland,Junior,Hybrid,Male,2019-05-04,23,0.2,42800,6400,4.14,4.8,33.4,2,3.91,3,No,No
+E00567,Customer Support,Remote,Intermediate,Onsite,Male,2016-08-16,27,2.7,77000,2300,2.88,4.07,26.3,0,4.27,15,No,No
+E00568,Marketing,Auckland,Intermediate,Onsite,Male,2016-09-21,29,4.1,67200,,3.95,,15.8,0,4.05,4,Yes,No
+E00569,Customer Support,Wellington,Intermediate,Hybrid,Female,2019-07-06,24,2.6,88900,8700,4.74,5,55.7,2,2.76,16,Yes,No
+E00570,Customer Support,Christchurch,Intermediate,Onsite,Male,2021-08-13,29,4.9,69400,5100,3.98,4.52,26.1,0,4.22,15,No,No
+E00571,HR,Wellington,Junior,Hybrid,Female,2016-11-11,29,2.0,61600,8600,4.13,,15.2,2,4.69,8,Yes,No
+E00572,Operations,Wellington,Senior,Remote,Male,2017-07-21,39,8.4,110200,11100,5,4.07,32.1,5,4.03,13,No,No
+E00573,Marketing,Auckland,Intermediate,Remote,Non-binary,2021-08-23,31,6.7,100300,11100,3.3,4.52,8.3,4,4.01,8,No,No
+E00574,Operations,Hamilton,Senior,Hybrid,Female,2024-05-06,33,7.4,83000,10500,4.01,5,23.4,2,3.82,10,No,No
+E00575,Marketing,Auckland,Junior,Onsite,Male,2020-04-06,24,0,69100,6200,4.77,3.09,39.1,0,3.09,6,Yes,No
+E00576,Engineering,Christchurch,Junior,Hybrid,Male,2020-06-12,25,2.0,79900,7400,5,5,50.7,2,3.97,10,No,No
+E00577,Finance,Remote,Senior,Onsite,Prefer not to say,2018-11-01,43,12.4,125500,12100,4.71,3.43,27.9,1,3.46,12,No,No
+E00578,Operations,Auckland,Intermediate,Hybrid,Male,2023-02-22,34,5.8,101000,7800,4.29,4.55,41.4,2,3.42,6,No,No
+E00579,Finance,Wellington,Junior,Remote,Male,2022-01-08,23,0,70900,1400,4.5,4.1,33.0,4,3.45,10,Yes,No
+E00580,Sales,Remote,Senior,Remote,Non-binary,2023-06-11,29,5.8,102700,9900,3.62,4.54,23.2,5,2.61,16,No,No
+E00581,Engineering,Wellington,Intermediate,Hybrid,Male,2023-05-24,31,2.6,88200,8200,3.62,3.85,11.9,3,2.97,10,No,Yes
+E00582,Sales,Auckland,Intermediate,Onsite,Non-binary,2023-10-24,38,5.5,99100,11700,4.67,4.56,19.6,0,4.22,9,No,No
+E00583,Data,Wellington,Junior,Onsite,Male,2017-04-07,33,4.5,80500,10000,4.13,5,34.8,0,3.27,14,No,No
+E00584,Engineering,Christchurch,Intermediate,Hybrid,Male,2023-10-14,36,5.0,101300,8300,4.44,4.26,38.4,2,3.22,17,No,No
+E00585,Data,Christchurch,Intermediate,Hybrid,Male,2019-09-09,24,2.2,85700,,5,5,50.2,3,3.5,3,No,No
+E00586,Engineering,Auckland,Junior,Hybrid,Female,2019-03-28,28,0,95200,12800,3.82,2.92,9.8,2,2.85,8,No,No
+E00587,Data,Remote,Intermediate,Hybrid,Male,2018-05-09,35,4.4,101400,11000,5,4.72,38.5,2,4.33,5,No,No
+E00588,Engineering,Wellington,Intermediate,Onsite,Male,2021-09-11,29,4.4,100800,12800,5,4.17,34.3,0,3.09,11,No,No
+E00589,Sales,Auckland,Intermediate,Hybrid,,2023-03-02,34,3.5,110500,13800,3.14,3.56,7.8,3,3.02,12,No,No
+E00590,Operations,Auckland,Intermediate,Hybrid,Female,2017-09-14,31,5.1,100300,12100,4.52,5,31.8,2,3.74,14,No,No
+E00591,Operations,Remote,Junior,Hybrid,Male,2024-03-01,26,0.3,70300,12900,2.64,3.53,5.6,3,3.78,9,No,No
+E00592,Operations,Christchurch,Intermediate,Onsite,Male,2016-05-21,35,3.4,85900,,4.28,4.28,24.4,0,3.14,12,No,No
+E00593,HR,Auckland,Senior,Hybrid,Female,2019-12-18,33,4.9,103100,9000,3.84,3.24,21.8,3,2.72,19,No,No
+E00594,Customer Support,Auckland,Manager,Onsite,Male,2022-04-20,35,12.3,114400,14400,5,5,62.6,0,3.65,13,No,No
+E00595,HR,Auckland,Senior,Remote,Male,2016-08-02,32,10.2,105500,11200,5,5,73.4,4,4.9,7,No,No
+E00596,Finance,Wellington,Manager,Onsite,Female,2024-11-09,39,11.4,161000,11200,5,3.44,19.5,0,4.18,17,No,No
+E00597,Operations,Auckland,Intermediate,Hybrid,Male,2020-03-30,31,4.3,96500,11800,5,5,48.2,3,3.7,11,No,No
+E00598,Engineering,Christchurch,Senior,Hybrid,,2016-06-03,32,7.3,119300,8600,4.12,3.61,10.0,3,3.92,11,No,No
+E00599,Finance,Auckland,Lead,Onsite,Female,2017-11-04,36,12.2,147600,14300,4.95,4.75,36.4,1,,12,No,No
+E00600,Engineering,Auckland,Intermediate,Remote,Female,2016-08-10,33,4.2,120500,16300,4.66,,30.4,5,3.45,5,No,No
+E00601,Sales,Auckland,Manager,Hybrid,Non-binary,2020-01-16,32,11.5,143700,17200,4.98,3.67,15.8,2,3.7,7,No,No
+E00602,Marketing,Hamilton,Senior,Remote,Female,2016-07-09,31,8.5,99000,12500,2.8,2.59,0,5,3.43,18,No,No
+E00603,Engineering,Christchurch,Junior,Hybrid,Female,2018-10-23,22,0,82400,12900,5,3.54,30.5,3,3.19,15,Yes,No
+E00604,Operations,Remote,Senior,Remote,Male,2024-03-18,38,8.8,97600,9800,5,4.43,42.6,4,3.21,12,No,No
+E00605,Customer Support,Remote,Intermediate,Hybrid,Male,2023-01-09,30,5.4,76200,11400,4.01,4.3,24.9,2,3.08,3,No,Yes
+E00606,Engineering,Remote,Manager,Hybrid,Female,2024-09-24,44,14.6,158000,9600,4.6,,42.0,3,3.24,22,No,No
+E00607,Customer Support,Hamilton,Intermediate,Remote,Female,2017-08-01,32,4.7,68200,6400,3.29,5,14.4,4,3.55,6,No,No
+E00608,Engineering,Auckland,Senior,Hybrid,Male,2021-02-12,33,7.7,114000,11300,5,5,65.7,3,3.72,13,Yes,No
+E00609,Marketing,Wellington,Junior,Onsite,Male,2017-04-23,29,0,68500,1600,4.2,,30.1,1,3.11,6,No,No
+E00610,Engineering,Wellington,Senior,Onsite,Female,2020-05-12,28,7.2,133600,15100,4.73,3.7,37.5,0,3.43,10,No,No
+E00611,Engineering,Auckland,Junior,Hybrid,Female,2018-07-19,32,2.5,89300,7200,5,5,38.1,2,4.08,3,No,No
+E00612,Customer Support,Auckland,Intermediate,Hybrid,Male,2022-08-07,22,3.5,96400,10600,5,4.32,33.3,2,4.35,17,No,No
+E00613,HR,Wellington,Junior,Onsite,Female,2024-08-09,35,3.4,65400,6200,4.23,1.86,0,1,3.51,9,No,Yes
+E00614,Engineering,Auckland,Senior,Hybrid,Female,2016-11-26,37,11.7,152500,12700,3.84,4.07,4.4,2,4.49,10,No,No
+E00615,Engineering,Remote,Senior,Onsite,Male,2018-09-17,42,11.1,131600,16100,4.41,2.82,21.1,1,4.66,7,No,No
+E00616,Operations,Wellington,Intermediate,Hybrid,Female,2020-08-03,32,3.8,100200,10000,4.23,3.72,23.9,3,3.91,6,No,No
+E00617,Engineering,Auckland,Lead,Onsite,Male,2023-01-13,44,12.3,157600,18100,5,5,31.2,1,3.72,14,No,No
+E00618,HR,Wellington,Intermediate,Hybrid,Female,2022-08-10,37,6.0,82200,9300,2.55,3.24,13.0,3,2.91,8,No,No
+E00619,Engineering,Hamilton,Intermediate,Remote,Male,2022-07-05,31,2.4,85300,6400,5,5,54.3,5,2.55,3,No,No
+E00620,Engineering,Auckland,Junior,Hybrid,Female,2016-02-22,26,2.1,73400,1800,3.97,4.32,18.2,2,,13,Yes,No
+E00621,Sales,Remote,Intermediate,Remote,Male,2017-04-17,35,6.6,88800,12700,5,5,54.5,5,4.57,6,No,Yes
+E00622,HR,Auckland,Manager,Hybrid,,2024-06-10,41,12.7,132300,,4.32,4.18,27.9,2,4.11,21,No,No
+E00623,Sales,Wellington,Junior,Remote,Female,2016-11-09,29,3.3,86100,12600,4.31,3.35,,5,3.96,12,No,No
+E00624,Engineering,Wellington,Intermediate,Onsite,Prefer not to say,2024-03-03,23,0,98900,5400,3.52,2.91,21.6,0,2.99,10,No,Yes
+E00625,Engineering,Auckland,Senior,Hybrid,Non-binary,2021-10-21,37,8.3,148100,7600,3.8,3.97,17.4,3,3.36,14,No,No
+E00626,HR,Wellington,Junior,Hybrid,Male,2016-09-06,29,4.9,66600,8000,3.14,,9.2,2,3.35,11,No,No
+E00627,Sales,Christchurch,Senior,Onsite,Male,2018-07-04,36,10.0,115900,14000,4.26,3.43,35.9,0,2.65,11,No,No
+E00628,Data,Auckland,Junior,Hybrid,Male,2019-08-13,29,0,88400,12100,4.3,3.53,23.7,2,3.69,6,No,No
+E00629,Sales,Auckland,Junior,Hybrid,Female,2016-04-22,29,0,70200,7500,4.08,5,21.2,3,3.37,4,No,No
+E00630,Customer Support,Wellington,Intermediate,Hybrid,Male,2020-11-23,25,2.3,72700,4600,3.13,,0,2,3.57,11,No,No
+E00631,Engineering,Wellington,Junior,Hybrid,Male,2020-12-14,29,1.9,74300,6800,3.48,4.04,20.9,3,,8,Yes,Yes
+E00632,Engineering,Auckland,Senior,Hybrid,Female,2020-11-19,32,8.2,121800,13600,5,4.98,30.5,2,3.72,13,No,No
+E00633,Customer Support,Christchurch,Lead,Remote,Female,2023-04-09,43,13.0,115900,13800,4.24,3.0,20.2,5,3.37,3,No,No
+E00634,Engineering,Remote,Junior,Hybrid,Female,2024-11-20,26,0,76100,7900,5,,33.0,2,3.86,13,Yes,Yes
+E00635,Operations,Auckland,Intermediate,Onsite,Male,2016-03-15,31,4.6,84800,6600,4.57,,47.6,1,3.18,6,No,Yes
+E00636,Engineering,Hamilton,Junior,Hybrid,Female,2021-09-17,31,5.5,84200,14200,5,4.18,21.9,2,3.92,12,No,No
+E00637,Sales,Auckland,Senior,Hybrid,Male,2019-08-29,35,8.4,118300,11200,3.2,3.27,0,2,3.61,9,No,No
+E00638,Marketing,Auckland,Junior,Remote,Male,2023-12-28,29,2.2,64200,4200,3.27,2.71,10.6,5,4.51,15,No,Yes
+E00639,Engineering,Auckland,Intermediate,Remote,Prefer not to say,2023-06-11,22,1.8,99300,6200,2.92,3.65,7.5,4,4.11,12,No,No
+E00640,Engineering,Wellington,Senior,Hybrid,Male,2021-07-11,28,8.8,140900,9800,4.43,5,31.3,2,3.97,7,No,No
+E00641,Engineering,Remote,Lead,Onsite,Male,2022-04-28,31,7.5,128400,12800,4.88,,49.2,1,3.68,3,No,No
+E00642,Sales,Christchurch,Senior,Onsite,Male,2018-05-28,37,6.4,94700,13700,4.83,4.15,20.1,1,3.68,4,Yes,No
+E00643,Sales,Christchurch,Senior,Hybrid,Male,2022-08-13,44,9.5,105400,10300,3.78,3.56,23.9,2,2.2,17,No,No
+E00644,Data,Remote,Lead,Onsite,Male,2018-12-20,34,10.4,128900,11200,3.88,4.56,4.9,1,3.51,7,No,No
+E00645,Engineering,Remote,Junior,Onsite,Prefer not to say,2018-07-12,27,0,73800,2600,3.32,2.65,9.9,0,4.15,7,No,No
+E00646,Operations,Auckland,Intermediate,Hybrid,Male,2017-10-25,33,3.8,70800,8300,5,3.02,34.8,2,3.56,4,No,No
+E00647,HR,Remote,Senior,Remote,Prefer not to say,2016-06-19,30,8.1,130800,18200,4.56,4.14,26.1,4,,15,Yes,No
+E00648,Sales,Auckland,Intermediate,Hybrid,Male,2021-03-08,28,3.7,91500,0,2.85,5,,3,3.2,9,No,No
+E00649,HR,Wellington,Junior,Onsite,Male,2024-06-01,27,3.3,57100,1900,3.07,2.41,0,0,3.01,6,No,No
+E00650,Data,Auckland,Junior,Hybrid,Female,2022-01-05,27,3.1,85500,9800,5,,54.1,2,3.67,15,Yes,No
+E00651,Engineering,Auckland,Intermediate,Hybrid,Male,2016-12-29,28,1.4,97100,,5,,58.6,2,3.85,3,No,Yes
+E00652,Sales,Wellington,Intermediate,Onsite,Female,2018-05-12,32,3.9,96000,2800,2.7,4.39,8.3,0,4.23,13,No,No
+E00653,Marketing,Hamilton,Intermediate,Hybrid,Female,2023-07-20,24,1.5,58900,4000,4.4,4.26,18.3,3,3.23,5,Yes,No
+E00654,HR,Wellington,Lead,Hybrid,Male,2024-02-06,43,7.1,127100,,4.02,4.12,26.3,2,2.85,4,No,No
+E00655,HR,Auckland,Intermediate,Hybrid,Female,2021-01-20,25,3.3,71400,5800,5,4.83,35.0,2,3.54,4,No,No
+E00656,Operations,Remote,Junior,Hybrid,Male,2021-08-09,31,0,52700,11900,5,3.98,14.9,2,4.13,13,No,No
+E00657,Engineering,Auckland,Senior,Hybrid,Male,2021-02-08,37,6.5,123900,14900,4.93,4.62,32.6,2,4.76,14,No,No
+E00658,Engineering,Auckland,Intermediate,Hybrid,Male,2023-10-27,22,4.7,120400,15300,4.63,5,39.8,2,4.03,5,No,No
+E00659,Operations,Remote,Senior,Remote,Male,2023-09-24,29,7.7,98100,8300,5,,62.8,5,3.62,3,No,No
+E00660,HR,Auckland,Intermediate,Onsite,Male,2023-04-24,34,5.4,86600,9100,3.51,,24.7,0,2.95,3,No,Yes
+E00661,Engineering,Auckland,Intermediate,Onsite,Female,2016-12-11,38,8.3,113400,10800,4.2,4.69,29.8,0,3.16,6,No,Yes
+E00662,Engineering,Auckland,Lead,Hybrid,Male,2023-10-27,31,8.4,141600,12900,5,4.82,39.6,2,4.54,7,No,No
+E00663,HR,Auckland,Intermediate,Hybrid,Non-binary,2024-05-02,32,3.8,89000,6700,3.94,2.96,13.6,2,5,12,No,No
+E00664,Engineering,Auckland,Intermediate,Remote,Female,2023-05-08,30,2.5,90100,700,3.12,4.09,11.2,4,4.43,12,No,No
+E00665,Operations,Wellington,Lead,Onsite,Male,2019-12-10,37,11.3,144000,8900,5,3.21,53.5,0,3.16,6,No,Yes
+E00666,HR,Auckland,Intermediate,Remote,,2016-02-29,28,1.6,89700,7400,3.58,4.51,32.0,4,5,6,No,No
+E00667,Sales,Christchurch,Senior,Remote,Male,2024-10-16,29,6.2,115900,,4.68,4.68,47.1,5,2.62,9,No,No
+E00668,Customer Support,Wellington,Intermediate,Onsite,Male,2019-03-11,34,3.6,53400,6800,5,4.42,36.0,0,4.15,3,No,No
+E00669,Engineering,Christchurch,Intermediate,Hybrid,Female,2023-10-31,24,2.1,98300,3100,3.7,4.43,40.7,3,3.44,9,No,No
+E00670,Finance,Christchurch,Senior,Hybrid,Male,2017-05-05,26,6.5,117400,11900,3.85,5,17.4,3,3.83,11,No,No
+E00671,Operations,Auckland,Junior,Onsite,Female,2023-06-02,24,1.4,48800,7100,3.3,2.36,0,0,3.63,17,No,No
+E00672,Sales,Christchurch,Senior,Remote,Female,2018-05-13,28,7.9,129800,13800,4.32,4.39,30.6,4,4.07,4,No,No
+E00673,Operations,Hamilton,Intermediate,Remote,Female,2019-06-12,29,7.9,94100,11300,3.69,3.14,4.7,4,3.53,3,Yes,No
+E00674,Operations,Auckland,Senior,Hybrid,Female,2017-09-26,24,8.7,124000,12400,5,4.54,37.4,2,2.15,17,No,No
+E00675,Finance,Auckland,Junior,Hybrid,Male,2022-01-15,21,3.8,67400,9800,3.87,4.52,23.7,2,,6,No,No
+E00676,Engineering,Auckland,Senior,Remote,Male,2023-05-19,42,8.2,136200,12300,4.62,4.43,27.9,5,3.87,6,No,No
+E00677,Sales,Auckland,Intermediate,Onsite,Female,2022-12-06,30,1.0,68000,3400,4.21,4.14,41.2,0,3.62,10,Yes,No
+E00678,Engineering,Auckland,Senior,Hybrid,Male,2018-08-19,32,6.0,109900,10100,3.78,1.76,17.2,2,3.31,13,No,No
+E00679,Finance,Auckland,Intermediate,Onsite,Female,2019-04-10,26,1.3,96200,13500,3.66,3.18,17.4,0,3.27,4,No,No
+E00680,Customer Support,Wellington,Senior,Hybrid,Male,2020-12-28,40,10.5,107200,10300,5,3.93,38.4,3,4.79,7,No,No
+E00681,Customer Support,Wellington,Intermediate,Hybrid,Female,2016-02-28,33,3.8,94400,9700,4.39,5,31.2,2,2.97,17,Yes,No
+E00682,Marketing,Wellington,Intermediate,Hybrid,Prefer not to say,2019-02-03,35,8.6,86400,3700,3.82,4.56,18.8,2,2.81,9,No,No
+E00683,Operations,Auckland,Junior,Onsite,Male,2021-02-02,28,0.5,51200,3200,4.01,4.68,20.1,0,4.09,10,No,No
+E00684,HR,Wellington,Intermediate,Hybrid,Male,2020-03-13,31,3.8,85100,9100,3.29,4.37,13.1,3,3.75,18,No,No
+E00685,Engineering,Wellington,Intermediate,Onsite,Non-binary,2024-05-15,32,4.9,99100,13500,3.88,3.88,4.9,0,3.73,9,No,No
+E00686,Finance,Christchurch,Intermediate,Remote,Female,2018-12-24,33,4.4,74100,10700,2.47,3.61,0,5,2.21,12,No,No
+E00687,HR,Christchurch,Manager,Onsite,,2022-03-05,41,13.5,139000,8400,3.47,3.64,24.4,1,2.83,7,No,No
+E00688,Sales,Remote,Intermediate,Onsite,Male,2019-03-27,28,5.3,94700,9500,3.32,4.96,9.2,0,3.26,7,No,No
+E00689,Sales,Auckland,Intermediate,Hybrid,Male,2023-12-08,30,5.4,86500,11300,5,5,48.7,2,3.74,3,No,No
+E00690,Data,Remote,Manager,Hybrid,Female,2017-02-09,31,13.4,164500,18200,4.2,,6.4,2,,10,No,No
+E00691,HR,Auckland,Intermediate,Remote,Male,2022-01-08,30,1.6,74700,5900,4.16,4.23,19.2,5,3.54,16,Yes,No
+E00692,Customer Support,Wellington,Senior,Remote,Prefer not to say,2019-06-22,36,6.7,91400,9400,5,5,52.1,5,3.95,12,Yes,No
+E00693,Engineering,Auckland,Junior,Onsite,Male,2023-02-08,26,2.4,72900,7200,4.58,4.19,37.3,0,4.18,14,Yes,No
+E00694,Engineering,Remote,Intermediate,Onsite,Male,2016-06-12,25,2.9,112200,9600,4.07,4.76,36.9,0,3.06,4,No,No
+E00695,Finance,Auckland,Intermediate,Hybrid,Male,2019-10-29,29,1.9,85000,5800,4.1,3.01,37.5,3,2.78,16,No,No
+E00696,Marketing,Remote,Junior,Hybrid,Non-binary,2020-02-29,34,2.6,61200,8500,5,4.62,30.3,2,3.11,18,No,Yes
+E00697,Customer Support,Auckland,Intermediate,Remote,Female,2024-10-19,21,1.2,65900,2400,3.26,3.53,21.8,5,3.81,11,No,No
+E00698,Engineering,Auckland,Senior,Hybrid,Male,2022-08-23,39,11.3,145400,10600,3.2,3.67,4.6,2,2.95,12,No,No
+E00699,HR,Remote,Junior,Onsite,Male,2019-02-22,31,3.3,64900,0,4.83,4.47,52.3,0,3.13,9,Yes,No
+E00700,Finance,Wellington,Junior,Onsite,Male,2017-02-09,28,1.4,63000,1300,4.65,5,52.1,0,3.85,4,No,No
+E00701,Sales,Auckland,Intermediate,Onsite,Male,2017-10-01,25,1.3,84400,13700,5,4.83,47.7,0,3.75,3,No,No
+E00702,Engineering,Auckland,Intermediate,Remote,Male,2016-10-14,30,3.6,103400,12800,4.95,4.97,54.9,4,4.12,16,No,No
+E00703,Operations,Wellington,Intermediate,Hybrid,Prefer not to say,2024-05-09,35,3.1,81400,11500,3.6,,15.2,2,,5,No,No
+E00704,Marketing,Wellington,Junior,Hybrid,Male,2021-03-12,30,2.4,70400,7500,4.3,5,4.7,2,3.52,3,No,No
+E00705,Finance,Wellington,Manager,Hybrid,Non-binary,2016-10-12,37,10.4,152400,14600,4.29,4.4,27.0,2,3.6,16,No,Yes
+E00706,Sales,Auckland,Intermediate,Remote,Female,2017-11-12,34,2.3,93500,15600,5,3.97,55.3,5,2.81,15,No,No
+E00707,Sales,Auckland,Senior,Remote,Male,2024-11-06,35,7.0,104200,12800,3.39,2.91,5.3,4,,12,No,No
+E00708,Sales,Remote,Junior,Hybrid,Non-binary,2021-07-29,27,0.6,83400,7900,2.99,4.01,5.9,2,4.66,3,No,No
+E00709,Engineering,Auckland,Intermediate,Hybrid,,2020-02-11,33,3.5,111300,10700,5,3.44,60.4,3,1.97,7,Yes,No
+E00710,HR,Auckland,Junior,Onsite,Male,2016-04-15,26,0.8,47500,2100,2.92,3.82,15.9,1,3.58,13,No,No
+E00711,Operations,Auckland,Intermediate,Remote,,2021-06-25,31,5.7,111900,10000,4.63,4.96,51.6,5,4.07,15,No,No
+E00712,Engineering,Wellington,Junior,Onsite,Male,2021-10-24,37,2.5,74100,7200,2.78,3.21,0,0,3.45,19,No,No
+E00713,Finance,Remote,Intermediate,Onsite,Male,2016-10-19,28,5.6,110700,14000,4.26,5,37.1,1,2.76,7,No,No
+E00714,Marketing,Auckland,Intermediate,Hybrid,Prefer not to say,2020-08-11,33,6.2,82300,6400,5,4.55,39.0,2,2.36,11,Yes,No
+E00715,Customer Support,Auckland,Junior,Hybrid,Female,2020-01-21,24,2.0,42000,0,4.55,2.8,28.6,2,3.88,9,No,No
+E00716,Sales,Auckland,Junior,Hybrid,Male,2017-04-11,31,0,78700,9200,3.5,,29.1,2,2.42,8,No,No
+E00717,Sales,Auckland,Junior,Onsite,Male,2023-08-30,31,1.4,83800,12100,5,4.57,45.3,0,3.37,3,No,No
+E00718,Marketing,Auckland,Intermediate,Remote,Male,2019-11-04,26,4.4,84000,10800,4.0,4.73,37.1,4,3.5,10,No,No
+E00719,Finance,Christchurch,Junior,Hybrid,Male,2019-06-26,31,1.8,71100,7600,5,5,61.9,2,3.72,3,Yes,No
+E00720,Marketing,Auckland,Intermediate,Hybrid,Female,2022-12-06,29,2.5,85500,0,2.47,3.11,3.9,3,3.27,8,No,No
+E00721,Operations,Remote,Senior,Hybrid,Male,2024-08-23,37,5.9,104200,7400,3.48,5,17.5,2,4.73,11,No,No
+E00722,Engineering,Auckland,Lead,Remote,Female,2021-08-14,26,6.6,128800,15400,5,3.98,45.3,5,3.9,9,No,No
+E00723,Operations,Auckland,Intermediate,Hybrid,Male,2017-08-07,27,1.6,72400,7600,4.25,5,36.0,2,4.34,6,Yes,No
+E00724,Customer Support,Wellington,Intermediate,Remote,Female,2022-04-18,29,5.7,69400,4500,5,5,38.0,5,3.36,10,No,No
+E00725,Engineering,Wellington,Senior,Hybrid,Female,2020-04-23,37,6.9,114000,5400,3.73,4.79,25.4,2,2.46,17,No,No
+E00726,Data,Auckland,Senior,Hybrid,Male,2017-01-16,36,6.8,138600,12000,2.97,3.81,0,3,3.31,3,No,No
+E00727,Engineering,Christchurch,Junior,Hybrid,Male,2023-08-01,32,0,62800,6400,3.63,4.76,14.8,2,4.58,3,No,No
+E00728,Operations,Auckland,Lead,Onsite,Male,2021-10-12,39,10.1,141400,11300,3.47,3.85,0,0,4.41,11,No,No
+E00729,Sales,Wellington,Junior,Onsite,,2019-10-29,28,0.1,73700,8600,3.32,4.5,19.6,0,4.87,9,Yes,No
+E00730,Operations,Remote,Junior,Remote,Male,2022-09-03,27,4.1,79000,10800,3.62,4.7,26.5,5,3.59,13,No,Yes
+E00731,Engineering,Auckland,Senior,Hybrid,Male,2024-04-02,31,9.0,111800,10200,4.18,3.75,10.7,2,3.44,4,No,No
+E00732,Finance,Auckland,Senior,Remote,Female,2016-07-12,30,8.7,119700,9700,3.64,2.32,17.5,4,3.52,19,Yes,No
+E00733,Sales,Auckland,Senior,Remote,Male,2018-06-27,29,7.3,109900,17700,5,5,53.3,4,4.01,3,Yes,No
+E00734,Finance,Auckland,Intermediate,Remote,Female,2023-01-09,32,4.1,112700,11000,4.53,5,49.5,5,2.9,9,No,No
+E00735,Finance,Hamilton,Junior,Hybrid,Female,2024-10-25,34,0,54400,0,3.79,3.77,29.1,3,2.71,5,No,No
+E00736,Sales,Auckland,Intermediate,Hybrid,Female,2018-02-03,42,3.0,90200,7000,3.24,2.75,16.2,2,2.66,12,No,No
+E00737,Sales,Christchurch,Junior,Remote,Male,2024-03-28,29,3.0,72800,11600,4.01,,36.9,4,2.88,3,No,Yes
+E00738,Customer Support,Remote,Intermediate,Hybrid,Male,2019-06-20,33,4.4,72700,7100,5,5,26.6,2,3.65,7,No,No
+E00739,Sales,Auckland,Junior,Hybrid,,2017-09-10,23,2.0,58100,,4.07,,20.2,2,2.8,13,No,Yes
+E00740,Data,Christchurch,Intermediate,Onsite,Male,2019-04-03,25,3.9,91300,11800,5,4.65,38.9,1,3.78,9,No,No
+E00741,Engineering,Wellington,Senior,Remote,Female,2024-01-11,35,13.8,145300,15200,4.77,5,24.4,5,4.71,6,No,No
+E00742,Engineering,Remote,Intermediate,Hybrid,Male,2022-01-11,27,2.9,108900,12900,4.93,3.88,29.6,2,3.02,8,Yes,No
+E00743,Engineering,Auckland,Senior,Onsite,Male,2023-01-16,35,10.4,130400,13900,4.72,5,25.1,1,3.73,3,No,No
+E00744,Sales,Auckland,Senior,Remote,Female,2017-05-27,32,6.8,102100,11000,4.84,4.32,14.6,5,2.88,3,No,No
+E00745,Engineering,Christchurch,Senior,Remote,Male,2017-03-22,36,10.9,113100,11400,5,5,,4,4.67,12,No,No
+E00746,Customer Support,Christchurch,Intermediate,Onsite,Female,2021-04-04,29,7.1,87400,5700,4.79,3.19,24.2,0,2.96,13,Yes,No
+E00747,Customer Support,Christchurch,Lead,Remote,Female,2017-12-22,33,10.5,113000,12600,3.44,2.98,2.8,4,3.36,16,No,No
+E00748,Marketing,Wellington,Intermediate,Remote,Female,2018-10-30,31,4.1,84700,9200,5,5,39.2,5,2.87,20,No,No
+E00749,Sales,Wellington,Intermediate,Remote,Non-binary,2022-04-30,36,4.8,99700,15400,4.42,5,22.4,4,3.19,5,No,No
+E00750,Finance,Auckland,Junior,Remote,Male,2016-06-19,29,0.9,59400,4400,4.22,3.69,32.6,4,2.92,13,No,No
+E00751,Marketing,Wellington,Intermediate,Remote,,2020-02-14,39,8.8,111400,15200,4.91,5,39.0,5,4.03,12,Yes,No
+E00752,HR,Auckland,Intermediate,Hybrid,Male,2022-06-03,27,5.4,78400,4100,4.53,3.22,23.6,2,3.4,8,Yes,No
+E00753,Engineering,Auckland,Junior,Onsite,Male,2022-07-19,29,0.6,88100,4300,2.92,3.57,0,0,4.46,5,No,No
+E00754,Engineering,Wellington,Intermediate,Remote,Female,2024-01-15,31,1.3,87500,5400,4.47,3.19,40.9,4,,18,No,Yes
+E00755,Marketing,Remote,Senior,Hybrid,Female,2019-06-16,30,3.6,102700,9800,2.41,2.93,0,2,2.66,16,No,No
+E00756,Finance,Wellington,Senior,Onsite,Male,2024-03-09,40,8.6,131600,15300,4.49,4.84,,0,2.81,6,Yes,No
+E00757,Customer Support,Hamilton,Senior,Remote,Female,2016-11-21,34,6.9,95400,0,4.11,4.73,38.3,5,4.23,12,Yes,No
+E00758,Marketing,Wellington,Junior,Hybrid,Male,2022-09-09,25,0.6,55800,5900,4.62,5,41.2,2,3.73,7,No,Yes
+E00759,Data,Auckland,Intermediate,Hybrid,Male,2024-05-02,34,1.8,90500,7600,2.89,3.48,1.7,3,3.52,4,No,No
+E00760,Customer Support,Auckland,Senior,Remote,Male,2023-01-31,34,6.7,108100,14400,3.54,2.69,14.1,4,4.65,7,No,No
+E00761,Sales,Christchurch,Senior,Onsite,Female,2021-06-18,30,8.0,105900,7900,3.9,4.24,28.8,0,3.16,15,No,No
+E00762,Sales,Hamilton,Senior,Onsite,Male,2016-06-24,40,11.1,123400,16200,5,4.03,39.5,0,1.96,8,Yes,No
+E00763,Marketing,Hamilton,Intermediate,Hybrid,Female,2022-07-31,31,2.0,68000,11800,4.23,3.7,25.9,3,4.29,17,No,Yes
+E00764,Operations,Hamilton,Lead,Hybrid,Male,2016-02-05,35,8.6,127400,14400,5,4.33,28.2,2,4.62,4,No,No
+E00765,Operations,Auckland,Lead,Onsite,Female,2021-01-29,35,12.2,148200,17900,4.09,3.55,18.5,0,3.0,10,No,No
+E00766,Engineering,Hamilton,Intermediate,Hybrid,Male,2020-11-19,27,3.7,94000,4900,3.19,4.28,0,2,3.34,3,No,No
+E00767,Engineering,Auckland,Lead,Hybrid,Female,2019-01-29,27,9.9,145800,13300,4.47,3.1,18.4,2,4.06,5,Yes,No
+E00768,Customer Support,Hamilton,Intermediate,Hybrid,Male,2024-03-16,35,2.3,67500,500,4.71,4.44,43.6,2,3.91,5,No,No
+E00769,Finance,Auckland,Intermediate,Hybrid,Male,2023-10-14,21,5.4,95000,10100,5,5,58.8,2,3.68,9,Yes,No
+E00770,Sales,Christchurch,Lead,Onsite,Male,2021-11-26,38,9.9,120000,12600,5,4.38,52.9,0,2.89,16,No,No
+E00771,Marketing,Christchurch,Intermediate,Onsite,Male,2023-04-17,28,3.3,78300,9100,3.13,3.93,6.5,0,,14,No,No
+E00772,Marketing,Auckland,Lead,Hybrid,Female,2018-05-30,36,10.1,124000,6600,4.34,3.99,19.0,2,3.71,10,Yes,No
+E00773,Engineering,Auckland,Junior,Hybrid,Male,2020-06-21,24,3.0,90900,7400,5,3.97,37.9,2,4.69,10,No,No
+E00774,HR,Christchurch,Senior,Hybrid,Male,2016-05-10,36,8.7,121900,13900,2.96,5,13.5,2,3.03,3,No,No
+E00775,Operations,Wellington,Lead,Onsite,Female,2020-09-04,29,11.4,122900,13700,5,5,62.2,1,3.27,12,No,No
+E00776,Sales,Auckland,Senior,Hybrid,Female,2018-03-17,30,7.9,124900,11600,3.54,4.27,8.5,3,3.11,8,No,Yes
+E00777,Finance,Remote,Senior,Onsite,Female,2024-10-23,41,5.1,104300,5700,5,3.73,33.2,1,2.92,16,No,Yes
+E00778,Sales,Remote,Lead,Hybrid,Female,2024-04-28,30,12.7,135900,15400,2.93,4.01,0.3,2,5,4,No,No
+E00779,Sales,Auckland,Junior,Onsite,Female,2020-07-28,32,0,50400,8200,4.99,4.27,52.9,0,,12,No,No
+E00780,Marketing,Auckland,Intermediate,Onsite,Male,2021-09-29,34,5.8,84700,9500,3.65,5,14.2,0,4.19,3,No,No
+E00781,HR,Auckland,Junior,Remote,Male,2024-10-03,35,4.2,63600,600,3.14,4.24,31.0,5,4.35,6,No,No
+E00782,Customer Support,Wellington,Lead,Onsite,Non-binary,2019-10-07,36,13.2,117400,12400,4.73,3.71,28.0,1,4.14,8,No,No
+E00783,Engineering,Christchurch,Junior,Remote,Female,2019-04-06,29,0.3,73700,9200,5,4.33,46.0,5,2.91,9,Yes,Yes
+E00784,Customer Support,Auckland,Intermediate,Remote,Prefer not to say,2024-07-09,32,2.0,66900,10000,4.93,5,49.9,4,3.85,5,Yes,No
+E00785,Sales,Auckland,Senior,Remote,Female,2021-12-24,31,7.4,102600,14000,4.2,4.74,29.9,4,3.85,5,No,No
+E00786,Operations,Wellington,Manager,Remote,Prefer not to say,2022-02-27,44,13.9,135400,,4.18,4.58,31.4,5,2.68,5,No,No
+E00787,Finance,Remote,Intermediate,Remote,Female,2018-11-09,29,4.8,96700,12500,4.68,4.28,33.5,5,3.16,6,No,No
+E00788,HR,Wellington,Junior,Onsite,Female,2021-02-16,26,0.3,46700,0,4.7,5,31.5,0,3.44,3,No,No
+E00789,Operations,Remote,Intermediate,Onsite,Female,2022-08-18,40,4.0,87700,8000,5,3.92,,0,4.4,3,No,Yes
+E00790,Sales,Auckland,Junior,Hybrid,Male,2024-01-27,23,0,71200,7800,4.45,5,38.8,2,3.5,17,No,Yes
+E00791,Sales,Remote,Lead,Remote,Female,2022-10-04,37,11.8,135300,17800,5,5,33.0,4,3.79,5,No,No
+E00792,Sales,Remote,Intermediate,Remote,Male,2023-10-23,37,9.5,113200,14100,5,5,29.9,4,,8,Yes,No
+E00793,Engineering,Christchurch,Intermediate,Onsite,Male,2019-10-22,23,4.5,108300,13100,5,4.89,64.0,0,3.28,4,No,No
+E00794,Sales,Auckland,Intermediate,Hybrid,Male,2016-07-04,27,3.0,92400,8600,4.12,3.08,23.0,2,3.67,7,No,No
+E00795,Operations,Hamilton,Intermediate,Hybrid,Prefer not to say,2016-09-06,43,8.3,81300,3700,4.02,3.53,20.4,2,3.46,9,No,No
+E00796,HR,Wellington,Intermediate,Onsite,Female,2019-05-08,32,3.3,89600,7800,3.74,2.82,15.8,0,3.84,14,Yes,No
+E00797,Sales,Wellington,Intermediate,Onsite,Male,2021-06-27,32,4.2,82900,8500,4.52,3.61,52.0,0,2.54,18,No,No
+E00798,Marketing,Remote,Junior,Hybrid,Prefer not to say,2024-10-07,32,4.1,62000,7200,5,3.88,44.2,2,3.44,18,No,No
+E00799,Operations,Remote,Junior,Onsite,Female,2016-07-24,34,1.6,68400,6400,3.24,2.63,10.3,0,4.52,14,No,No
+E00800,Sales,Christchurch,Lead,Onsite,,2018-01-17,36,7.5,127000,15400,4.52,3.24,15.6,0,2.4,6,No,No
+E00801,Sales,Wellington,Intermediate,Hybrid,Male,2018-07-27,27,4.8,85700,10400,3.79,3.66,34.5,2,2.89,9,No,No
+E00802,Sales,Wellington,Manager,Onsite,Female,2020-09-21,36,13.2,133000,16800,4.45,5,34.8,1,4.47,13,No,No
+E00803,Operations,Auckland,Senior,Hybrid,Male,2022-10-15,36,10.1,110000,10200,4.79,4.56,30.1,3,2.58,12,No,No
+E00804,Engineering,Remote,Intermediate,Onsite,Male,2020-06-24,39,6.2,115200,10800,4.87,4.94,48.0,0,2.5,3,No,No
+E00805,Finance,Auckland,Senior,Onsite,Female,2018-03-16,35,9.7,122400,15600,5,5,51.0,0,1.69,11,No,No
+E00806,Engineering,Christchurch,Intermediate,Remote,Male,2022-05-01,31,2.9,101600,9500,5,5,40.4,5,4.15,13,No,No
+E00807,Engineering,Auckland,Lead,Remote,Female,2016-04-30,32,6.6,146400,16700,4.23,4.28,18.9,5,4.05,8,No,Yes
+E00808,Sales,Wellington,Intermediate,Hybrid,Male,2020-05-09,22,1.7,85800,14000,3.99,5,5.6,3,4.03,11,No,No
+E00809,Marketing,Auckland,Intermediate,Onsite,Male,2024-06-28,27,5.0,81600,6500,3.43,3.81,17.9,1,3.59,13,No,No
+E00810,Marketing,Remote,Senior,Onsite,Female,2016-09-30,33,7.2,91600,9200,4.06,4.46,17.2,1,3.61,8,No,No
+E00811,Marketing,Christchurch,Junior,Hybrid,Female,2022-07-11,28,0,43600,9800,4.97,3.98,35.7,3,2.13,15,No,No
+E00812,Engineering,Wellington,Junior,Hybrid,Female,2022-12-30,32,3.3,94200,8000,4.96,5,44.8,3,3.67,9,No,Yes
+E00813,HR,Remote,Junior,Onsite,Male,2016-06-10,27,1.1,48700,5400,5,4.96,42.7,0,,10,No,Yes
+E00814,Engineering,Auckland,Intermediate,Hybrid,Female,2017-07-28,27,3.8,116900,9200,3.96,3.68,35.0,2,4.0,9,No,No
+E00815,Sales,Remote,Junior,Hybrid,Male,2022-10-09,34,5.3,99300,10900,2.82,3.63,21.6,2,3.14,6,No,Yes
+E00816,Marketing,Remote,Senior,Hybrid,Female,2022-09-18,36,8.4,115900,9500,3.92,4.33,18.5,3,3.52,3,No,No
+E00817,HR,Christchurch,Intermediate,Onsite,Male,2017-09-07,35,3.3,74100,4500,3.09,3.9,15.2,0,2.09,9,No,No
+E00818,Customer Support,Wellington,Intermediate,Onsite,Prefer not to say,2016-06-13,29,2.5,82200,7500,3.17,3.51,15.4,1,3.54,8,No,No
+E00819,Engineering,Hamilton,Intermediate,Hybrid,,2017-08-26,27,2.2,88200,8800,4.97,5,36.8,3,3.87,3,No,No
+E00820,HR,Christchurch,Manager,Remote,Female,2016-11-12,40,14.9,146700,16300,5,5,50.0,4,4.46,18,No,No
+E00821,Marketing,Auckland,Junior,Onsite,Female,2018-07-20,36,1.2,61200,2500,4.49,4.42,26.8,0,3.83,18,No,No
+E00822,Engineering,Auckland,Intermediate,Hybrid,Prefer not to say,2018-01-04,30,2.8,102900,10200,4.46,,25.1,2,3.8,10,No,No
+E00823,Engineering,Auckland,Lead,Onsite,Prefer not to say,2020-08-19,40,13.3,159200,18100,5,4.46,45.1,1,3.71,11,No,Yes
+E00824,Marketing,Christchurch,Junior,Remote,Female,2018-01-08,31,0.9,52500,5900,4.62,4.65,39.9,5,3.79,3,No,Yes
+E00825,Operations,Auckland,Intermediate,Hybrid,Male,2023-08-03,30,2.1,68900,3000,3.17,3.46,29.8,2,3.39,3,No,No
+E00826,Sales,Auckland,Senior,Remote,Female,2021-02-13,32,8.1,107900,16300,4.91,4.37,,5,,3,Yes,No
+E00827,Engineering,Auckland,Lead,Hybrid,Female,2016-08-28,35,10.9,153200,20800,5,4.59,31.7,2,3.51,5,No,No
+E00828,Marketing,Auckland,Intermediate,Onsite,Male,2018-01-03,25,1.1,80000,5400,4.72,3.52,28.1,0,3.26,8,No,No
+E00829,Engineering,Remote,Intermediate,Remote,Male,2023-12-10,29,5.4,92100,9100,4.17,4.83,15.3,5,3.82,3,No,No
+E00830,Customer Support,Auckland,Junior,Remote,Female,2019-11-06,21,2.6,55900,5200,4.1,,25.4,4,3.47,5,No,No
+E00831,HR,Auckland,Intermediate,Hybrid,Male,2016-05-21,33,3.6,88600,2500,3.61,4.13,30.9,3,2.91,11,No,Yes
+E00832,Engineering,Auckland,Intermediate,Hybrid,Female,2021-02-10,31,3.7,95200,11300,4.52,4.3,49.7,2,3.47,14,No,No
+E00833,Engineering,Christchurch,Intermediate,Remote,Female,2016-04-21,27,3.4,90200,4900,4.1,3.71,0,4,3.78,3,No,No
+E00834,Operations,Remote,Senior,Onsite,Female,2023-07-03,35,4.8,96300,15300,3.96,2.63,,1,3.39,17,Yes,No
+E00835,Sales,Hamilton,Junior,Onsite,Male,2020-02-10,31,0.5,47600,800,3.37,4.4,24.4,0,3.31,3,No,No
+E00836,Operations,Auckland,Intermediate,Remote,Male,2021-06-01,24,2.5,108800,15800,5,5,44.8,5,3.69,11,Yes,No
+E00837,Engineering,Auckland,Lead,Hybrid,Female,2021-10-22,38,14.8,160200,20400,5,4.93,37.9,3,4.03,9,No,No
+E00838,HR,Remote,Intermediate,Hybrid,Female,2020-07-30,23,5.7,74500,8400,3.06,,0,3,3.98,12,No,No
+E00839,Data,Auckland,Senior,Hybrid,Female,2019-07-06,37,9.0,136100,5300,5,4.26,25.3,3,4.22,7,No,No
+E00840,Sales,Auckland,Intermediate,Hybrid,Male,2020-08-09,32,3.6,107800,8700,3.08,3.99,0,3,2.99,11,No,No
+E00841,Data,Christchurch,Intermediate,Onsite,Male,2022-09-01,26,1.7,108300,12800,5,,35.4,1,3.44,17,No,No
+E00842,Engineering,Auckland,Junior,Remote,Male,2018-04-13,26,0.3,66800,1900,3.24,2.63,19.1,5,3.73,11,No,No
+E00843,Engineering,Christchurch,Lead,Hybrid,Prefer not to say,2024-04-13,43,13.8,148900,15300,3.66,5,28.8,2,2.83,13,No,No
+E00844,Marketing,Auckland,Intermediate,Onsite,Male,2022-10-09,34,4.7,88200,7500,4.64,4.55,30.2,1,3.87,13,No,No
+E00845,Data,Remote,Senior,Onsite,Prefer not to say,2016-09-21,40,6.3,120300,10900,5,5,58.2,0,3.36,5,No,No
+E00846,Sales,Wellington,Intermediate,Hybrid,Female,2018-08-03,36,5.4,85600,3700,3.71,4.59,21.9,3,3.28,8,No,No
+E00847,Finance,Auckland,Manager,Hybrid,Male,2021-11-15,41,12.7,146900,9800,3.59,3.9,0,3,3.57,17,No,No
+E00848,HR,Wellington,Junior,Onsite,Female,2019-07-16,28,0.1,53900,4700,4.02,4.35,26.2,0,3.79,7,No,No
+E00849,Data,Remote,Intermediate,Onsite,Female,2019-09-21,33,5.5,92000,11500,4.34,3.55,17.0,0,2.76,7,No,Yes
+E00850,Operations,Auckland,Intermediate,Remote,Male,2019-11-09,23,3.2,81200,13500,4.42,4.9,42.6,4,3.42,9,No,No
+E00851,Customer Support,Auckland,Junior,Onsite,Male,2018-12-01,30,0.5,59700,5800,3.49,3.75,0,0,4.03,6,No,No
+E00852,Sales,Auckland,Intermediate,Hybrid,Male,2020-03-16,26,2.3,90500,6500,4.29,,33.2,3,3.7,3,No,No
+E00853,Finance,Wellington,Manager,Hybrid,Female,2016-04-21,40,11.0,134500,10300,3.29,3.58,18.8,3,3.63,6,No,No
+E00854,Data,Wellington,Senior,Hybrid,Female,2023-07-26,31,8.7,132200,13300,4.58,5,36.5,2,3.49,3,No,No
+E00855,Operations,Wellington,Junior,Hybrid,Male,2021-05-18,28,1.8,58300,2300,3.87,4.06,24.7,3,3.24,7,Yes,No
+E00856,Engineering,Auckland,Junior,Onsite,Female,2017-10-05,32,3.4,100000,9200,3.22,2.55,,1,3.84,7,No,No
+E00857,Customer Support,Wellington,Junior,Hybrid,Male,2016-04-03,28,1.6,61100,10300,4.03,4.99,27.6,2,4.2,8,No,No
+E00858,Marketing,Christchurch,Junior,Hybrid,Prefer not to say,2022-06-08,23,0.1,67400,7900,3.62,3.62,36.6,2,,8,No,No
+E00859,Marketing,Remote,Senior,Hybrid,Female,2017-10-19,41,10.4,121600,13700,5,5,48.1,2,4.16,12,No,No
+E00860,Operations,Auckland,Senior,Hybrid,Female,2023-01-12,32,10.0,125600,11100,4.41,,24.2,2,4.19,11,No,Yes
+E00861,Sales,Auckland,Junior,Remote,Male,2021-02-18,30,4.7,65000,12300,2.44,3.96,8.2,4,5,7,No,No
+E00862,Engineering,Auckland,Intermediate,Hybrid,Female,2023-07-20,29,6.6,92900,8700,5,3.74,18.4,3,,6,No,No
+E00863,Sales,Auckland,Senior,Hybrid,Male,2021-09-25,36,6.9,111100,12000,5,4.74,52.1,2,3.19,16,No,No
+E00864,Data,Auckland,Senior,Onsite,Male,2016-08-11,33,7.7,129400,10400,5,4.61,21.4,0,4.58,3,No,No
+E00865,Engineering,Christchurch,Intermediate,Hybrid,Non-binary,2022-06-22,37,4.9,87900,3800,5,4.83,46.5,2,3.51,3,No,No
+E00866,Sales,Remote,Senior,Hybrid,Male,2018-08-23,35,9.6,124800,14100,4.32,,45.9,2,3.42,10,No,No
+E00867,Data,Wellington,Intermediate,Onsite,Prefer not to say,2019-08-01,38,5.9,104200,3200,4.76,3.36,25.0,1,4.64,6,No,No
+E00868,Customer Support,Auckland,Intermediate,Remote,Female,2016-03-28,33,8.4,85100,6400,4.5,2.95,31.6,5,3.32,10,No,No
+E00869,Operations,Remote,Intermediate,Hybrid,Male,2016-01-17,31,1.8,69900,5000,4.63,3.32,14.7,3,3.71,3,No,No
+E00870,HR,Remote,Junior,Remote,Male,2023-11-27,27,1.2,60200,5600,5,4.64,45.0,4,4.13,11,No,No
+E00871,Sales,Christchurch,Junior,Hybrid,Male,2018-05-30,28,3.0,57200,5200,3.85,4.42,14.5,3,3.61,14,Yes,No
+E00872,Engineering,Auckland,Manager,Hybrid,Male,2020-02-29,43,8.6,149500,10100,2.72,3.69,0,2,2.66,12,No,No
+E00873,Operations,Wellington,Intermediate,Hybrid,Male,2024-07-09,29,3.9,78200,0,3.77,5,21.4,2,3.7,3,No,No
+E00874,Sales,Wellington,Intermediate,Onsite,Male,2019-08-04,33,3.6,89000,7400,3.37,3.0,3.3,0,,9,No,No
+E00875,HR,Auckland,Manager,Hybrid,Prefer not to say,2020-01-05,31,10.1,121400,14100,5,4.74,52.6,3,3.03,15,Yes,No
+E00876,Sales,Auckland,Intermediate,Onsite,Female,2021-03-28,36,7.9,106700,13500,5,3.77,45.8,1,4.87,14,No,No
+E00877,Sales,Christchurch,Intermediate,Hybrid,,2022-07-15,33,5.3,97800,12100,4.96,5,35.7,2,3.57,7,Yes,No
+E00878,Marketing,Auckland,Junior,Onsite,Female,2017-08-27,24,3.6,61300,6200,5,3.68,43.4,0,3.15,14,No,No
+E00879,Finance,Wellington,Senior,Hybrid,Prefer not to say,2018-08-19,34,8.9,115700,6800,3.34,2.72,3.1,2,3.81,6,No,No
+E00880,Engineering,Christchurch,Lead,Onsite,Male,2023-11-29,38,13.2,155900,13400,5,4.58,42.6,1,3.3,3,No,No
+E00881,HR,Auckland,Senior,Onsite,,2017-09-03,30,3.6,96900,8300,4.67,4.34,35.5,0,3.14,3,No,No
+E00882,Marketing,Remote,Intermediate,Hybrid,Male,2022-05-23,29,2.8,72700,6100,3.67,3.77,,2,3.09,4,No,No
+E00883,Sales,Auckland,Intermediate,Remote,Female,2024-09-18,23,0.8,95800,10300,4.7,4.77,48.0,5,4.63,20,No,No
+E00884,Finance,Remote,Junior,Remote,Prefer not to say,2019-08-23,21,1.2,73200,5700,3.48,,16.5,5,2.64,3,No,No
+E00885,Data,Auckland,Junior,Onsite,Female,2020-03-11,31,1.0,74100,2300,3.16,3.91,5.8,1,2.86,3,No,No
+E00886,Finance,Auckland,Senior,Onsite,,2018-03-18,31,6.3,110400,13200,5,3.92,27.1,0,3.91,8,Yes,No
+E00887,Marketing,Auckland,Intermediate,Hybrid,Male,2019-09-20,29,1.6,86400,12400,5,5,54.0,2,3.23,15,No,No
+E00888,Marketing,Auckland,Senior,Hybrid,Male,2017-09-21,42,8.6,119400,17500,3.76,4.34,0,2,3.14,6,No,No
+E00889,HR,Auckland,Senior,Onsite,Male,2019-12-27,37,8.7,114300,11200,3.84,4.77,30.2,0,4.77,16,No,No
+E00890,HR,Christchurch,Manager,Onsite,Female,2023-09-20,37,8.1,128200,12000,5,4.36,36.0,1,4.53,14,No,No
+E00891,Sales,Wellington,Lead,Onsite,Male,2017-01-26,30,9.7,140600,15800,3.95,4.58,15.1,0,4.04,16,No,No
+E00892,Engineering,Auckland,Senior,Onsite,Female,2022-09-20,33,9.1,120100,7700,2.92,2.78,2.6,0,3.7,4,No,No
+E00893,Sales,Wellington,Intermediate,Hybrid,Male,2021-03-15,37,4.1,83800,9200,4.66,4.25,29.9,2,2.73,7,No,No
+E00894,Engineering,Remote,Senior,Hybrid,Male,2016-12-31,38,7.7,107000,9000,3.78,2.37,0,3,4.16,14,No,No
+E00895,Marketing,Auckland,Intermediate,Hybrid,,2020-11-04,28,3.8,76700,11000,5,4.31,35.0,2,3.18,3,No,No
+E00896,Marketing,Christchurch,Senior,Remote,Male,2021-12-26,35,9.3,123400,8000,3.81,3.96,15.0,4,4.11,20,No,No
+E00897,Customer Support,Auckland,Intermediate,Remote,Female,2023-04-02,32,5.1,79300,6800,3.55,3.53,,4,4.42,9,No,Yes
+E00898,Engineering,Auckland,Lead,Onsite,Female,2017-03-29,43,14.7,159200,20200,5,4.94,36.9,0,3.17,3,No,No
+E00899,Engineering,Auckland,Intermediate,Hybrid,Male,2023-08-25,28,3.7,88900,5200,3.58,2.47,25.3,2,2.87,17,No,No
+E00900,Operations,Auckland,Junior,Hybrid,Prefer not to say,2016-07-08,26,0.6,55700,6000,3.46,5,26.7,3,3.28,10,No,No
+E00901,Marketing,Wellington,Senior,Hybrid,Female,2018-09-28,36,9.9,129700,6900,3.33,4.65,0.4,3,3.67,16,No,No
+E00902,Sales,Auckland,Junior,Hybrid,Female,2022-03-05,30,5.3,62200,4400,4.33,3.62,20.5,2,4.51,10,No,No
+E00903,Customer Support,Wellington,Intermediate,Hybrid,Female,2017-12-21,30,3.7,64900,4800,3.78,4.02,21.6,2,2.55,4,No,No
+E00904,Engineering,Remote,Intermediate,Onsite,Male,2023-06-09,33,3.7,111600,7800,5,5,68.9,0,3.13,9,No,No
+E00905,Finance,Christchurch,Intermediate,Hybrid,Prefer not to say,2021-01-22,28,1.9,79000,100,4.79,5,24.0,2,3.25,12,No,No
+E00906,Data,Wellington,Intermediate,Onsite,Female,2022-06-22,35,6.0,106900,13200,2.8,2.39,5.9,0,3.39,8,No,No
+E00907,Finance,Auckland,Intermediate,Hybrid,Male,2019-05-17,37,5.2,98300,11100,5,5,48.3,2,3.41,3,No,No
+E00908,Operations,Hamilton,Senior,Hybrid,Prefer not to say,2022-05-29,38,8.7,106700,12700,3.86,3.41,23.0,3,3.58,14,Yes,No
+E00909,HR,Wellington,Senior,Remote,Female,2019-05-29,34,9.3,96200,7000,3.65,4.02,28.5,4,2.68,14,No,No
+E00910,Marketing,Remote,Intermediate,Hybrid,Male,2022-10-10,39,8.3,86000,7400,4.63,4.61,29.3,3,3.84,13,Yes,Yes
+E00911,Engineering,Wellington,Intermediate,Remote,Male,2021-03-21,31,5.1,98200,5100,3.52,4.76,9.6,4,4.17,13,No,No
+E00912,Sales,Auckland,Junior,Hybrid,,2016-05-21,26,0.1,42000,6500,5,3.81,31.5,2,3.88,17,No,No
+E00913,Sales,Wellington,Intermediate,Hybrid,Prefer not to say,2016-02-18,42,9.3,101900,12700,4.0,4.51,15.2,3,,10,No,No
+E00914,Engineering,Remote,Junior,Hybrid,Male,2016-06-12,30,0,69000,8700,5,5,50.5,2,4.19,9,No,No
+E00915,Operations,Hamilton,Junior,Hybrid,Prefer not to say,2018-11-05,24,2.1,60200,200,2.84,4.1,0,3,2.66,3,No,No
+E00916,Engineering,Hamilton,Intermediate,Onsite,Male,2021-03-05,28,4.2,87500,6300,3.51,4.17,27.7,1,3.28,9,No,No
+E00917,Customer Support,Wellington,Intermediate,Onsite,Male,2021-02-18,23,5.0,78100,6900,5,4.77,53.1,0,2.93,4,No,No
+E00918,Marketing,Remote,Lead,Hybrid,Non-binary,2016-11-03,41,11.8,137400,21700,5,4.77,54.1,3,3.52,7,No,No
+E00919,Engineering,Auckland,Lead,Remote,Female,2020-03-04,38,9.7,151600,9900,4.4,4.17,16.3,4,3.93,6,Yes,No
+E00920,Engineering,Christchurch,Lead,Hybrid,,2024-10-26,36,10.1,147200,13000,4.76,4.78,23.9,2,3.31,3,No,No
+E00921,Engineering,Auckland,Senior,Onsite,Female,2019-01-28,36,9.3,137600,15500,5,3.41,32.6,1,4.41,15,No,No
+E00922,Operations,Wellington,Manager,Onsite,Female,2017-06-06,44,16.6,145600,,4.64,3.9,20.7,0,2.5,22,No,No
+E00923,Engineering,Auckland,Intermediate,Hybrid,Male,2017-08-03,34,5.9,117800,16400,5,4.4,44.7,2,2.92,4,No,No
+E00924,Operations,Auckland,Intermediate,Hybrid,Male,2019-06-06,23,1.5,93000,10600,3.77,5,16.6,2,4.71,11,No,No
+E00925,Sales,Auckland,Junior,Onsite,Female,2017-08-16,36,3.8,76800,8900,4.54,4.14,23.8,0,4.21,9,No,No
+E00926,Sales,Wellington,Intermediate,Hybrid,Female,2021-08-31,29,3.6,90400,11000,3.82,3.99,14.1,2,3.39,13,No,No
+E00927,Data,Auckland,Junior,Onsite,Male,2021-06-27,21,1.3,73000,9700,4.86,3.35,19.4,0,4.64,9,No,No
+E00928,Engineering,Auckland,Intermediate,Remote,Male,2019-10-29,39,6.7,118800,5700,3.96,3.71,13.6,5,3.37,8,No,No
+E00929,Operations,Remote,Intermediate,Remote,Non-binary,2016-10-11,28,4.4,91700,12600,4.24,5,15.0,5,4.56,5,No,No
+E00930,Marketing,Remote,Junior,Onsite,Male,2020-02-05,21,0.1,43300,0,4.85,3.68,36.1,1,3.2,14,No,No
+E00931,Engineering,Christchurch,Intermediate,Hybrid,Male,2023-06-04,27,4.1,100100,14800,4.32,4.7,36.9,2,4.41,11,No,Yes
+E00932,Sales,Auckland,Junior,Onsite,Prefer not to say,2021-05-13,32,0,80500,11700,5,2.58,35.0,0,3.88,9,No,No
+E00933,Sales,Wellington,Lead,Hybrid,Female,2019-03-08,39,9.7,145700,18800,3.9,4.07,12.8,2,4.63,5,No,No
+E00934,Finance,Remote,Senior,Hybrid,Female,2022-05-03,35,6.2,116100,8200,4.41,4.78,27.9,2,3.61,11,Yes,No
+E00935,Engineering,Auckland,Intermediate,Onsite,Male,2023-09-21,28,4.6,99400,11100,3.76,,33.3,0,4.6,8,No,No
+E00936,Engineering,Christchurch,Lead,Hybrid,Non-binary,2017-06-15,37,12.3,138300,13300,5,3.91,43.5,2,3.87,10,No,No
+E00937,Sales,Wellington,Intermediate,Remote,Male,2017-06-30,36,7.4,100100,9800,5,,58.3,4,2.76,10,No,No
+E00938,Sales,Auckland,Senior,Hybrid,Female,2020-09-10,34,9.2,128800,11100,4.18,3.3,22.3,3,,18,No,No
+E00939,Data,Auckland,Junior,Onsite,Female,2023-05-27,29,1.6,94400,9200,3.01,2.59,5.1,0,2.23,15,No,No
+E00940,Engineering,Auckland,Senior,Hybrid,Female,2018-02-01,30,6.5,122400,11800,4.31,5,32.0,3,4.16,7,No,No
+E00941,Finance,Auckland,Junior,Onsite,Female,2018-06-26,22,1.9,70400,4900,5,5,46.8,0,3.47,3,Yes,No
+E00942,Customer Support,Christchurch,Senior,Hybrid,Female,2023-10-13,50,9.9,99700,13300,5,5,62.9,2,3.06,3,No,No
+E00943,Sales,Wellington,Junior,Remote,Male,2024-11-21,21,0,61800,7600,3.81,3.83,19.7,5,2.0,12,No,No
+E00944,Customer Support,Auckland,Senior,Remote,Female,2017-10-29,34,6.6,103600,12900,3.03,,24.6,4,4.44,12,No,No
+E00945,Finance,Wellington,Junior,Onsite,Female,2016-07-09,29,0.3,70800,3000,3.46,,23.7,1,3.71,9,No,No
+E00946,Engineering,Auckland,Junior,Hybrid,Male,2018-10-09,24,0,80400,4400,4.58,3.52,43.4,2,,12,No,No
+E00947,Data,Remote,Manager,Onsite,Male,2019-11-05,40,10.6,153500,10500,4.07,4.48,26.4,0,3.13,8,No,Yes
+E00948,Customer Support,Auckland,Intermediate,Hybrid,Prefer not to say,2018-05-23,35,5.4,63200,8700,4.63,5,27.2,2,,3,No,No
+E00949,Data,Auckland,Intermediate,Hybrid,Male,2018-09-01,36,4.3,116200,13500,4.63,3.44,40.6,3,3.13,9,No,Yes
+E00950,Finance,Hamilton,Lead,Onsite,,2023-01-17,37,9.6,131000,,4.5,4.99,34.4,1,2.95,6,No,No
+E00951,Marketing,Auckland,Junior,Hybrid,Prefer not to say,2023-10-03,23,0,50400,1200,2.52,,,2,2.63,14,No,No
+E00952,Operations,Auckland,Manager,Onsite,Male,2018-08-07,43,12.9,144100,14000,4.78,4.11,38.3,1,2.69,13,No,No
+E00953,Data,Wellington,Senior,Hybrid,Female,2023-08-12,28,4.3,130600,18100,5,5,55.4,3,3.55,5,No,No
+E00954,Data,Remote,Intermediate,Hybrid,Male,2018-08-21,38,5.7,92500,10200,4.86,5,39.9,3,3.16,18,No,No
+E00955,Customer Support,Auckland,Intermediate,Onsite,Female,2022-03-02,31,3.2,71500,4600,5,4.5,37.8,0,4.07,9,No,No
+E00956,Engineering,Auckland,Senior,Hybrid,Male,2022-06-03,36,3.3,115000,14300,5,5,63.8,2,4.45,8,Yes,No
+E00957,Sales,Wellington,Junior,Remote,Non-binary,2024-10-18,39,3.5,54700,13300,4.39,4.23,16.8,5,4.07,3,No,No
+E00958,Engineering,Remote,Intermediate,Remote,Female,2018-08-16,30,4.0,90700,9100,4.1,3.43,17.7,5,3.5,13,No,No
+E00959,Data,Auckland,Senior,Onsite,Male,2018-07-11,38,10.2,145000,11000,3.13,3.88,17.9,1,4.76,19,No,No
+E00960,Operations,Auckland,Senior,Hybrid,Male,2020-01-14,24,3.7,85000,0,3.55,3.64,24.0,3,3.94,17,No,No
+E00961,HR,Auckland,Senior,Remote,,2016-09-24,35,8.0,110900,7900,3.71,5,21.6,5,3.44,5,Yes,No
+E00962,Customer Support,Remote,Senior,Onsite,Female,2019-09-01,38,9.4,126600,,4.73,3.86,16.7,0,4.5,11,No,Yes
+E00963,Sales,Remote,Junior,Onsite,Male,2023-08-16,22,1.9,53500,8700,4.11,4.77,42.7,0,3.51,6,No,No
+E00964,Marketing,Remote,Lead,Remote,Female,2021-11-10,39,10.6,113500,11200,5,4.47,41.4,4,4.44,3,Yes,No
+E00965,Finance,Remote,Junior,Remote,Male,2016-11-20,30,0.9,63800,10200,3.57,5,14.2,5,3.01,10,No,No
+E00966,Marketing,Auckland,Intermediate,Onsite,Prefer not to say,2017-06-06,24,5.4,80200,2500,3.05,,10.6,0,2.67,3,No,No
+E00967,Marketing,Auckland,Intermediate,Onsite,Male,2024-06-23,32,3.8,69000,9000,3.53,3.11,0,1,4.63,15,No,No
+E00968,Operations,Wellington,Intermediate,Remote,Female,2022-11-29,32,6.4,86400,3600,4.04,4.25,8.1,4,2.86,12,No,No
+E00969,Sales,Auckland,Senior,Remote,Female,2021-01-07,42,9.6,120400,18800,3.87,3.12,23.6,4,3.79,13,No,No
+E00970,Operations,Auckland,Intermediate,Hybrid,Female,2020-08-10,39,6.7,82500,7200,5,4.2,49.0,2,5,4,No,No
+E00971,Sales,Wellington,Intermediate,Remote,Female,2016-02-22,29,0.9,75300,7200,4.32,,45.9,4,3.99,12,No,No
+E00972,Sales,Wellington,Intermediate,Hybrid,Non-binary,2021-05-27,29,3.8,97900,9000,3.48,5,36.6,3,2.64,7,Yes,Yes
+E00973,HR,Auckland,Senior,Onsite,Male,2023-08-08,38,14.1,120100,12100,4.14,2.46,8.2,0,3.84,21,No,No
+E00974,Engineering,Wellington,Lead,Onsite,Female,2019-12-15,32,13.0,147200,12900,3.66,4.27,17.4,0,2.46,3,Yes,Yes
+E00975,Sales,Christchurch,Intermediate,Hybrid,Female,2018-03-25,38,4.3,88500,6600,4.55,,29.3,3,4.28,9,No,No
+E00976,Engineering,Auckland,Senior,Remote,Female,2019-12-16,37,6.6,124800,14200,4.69,,31.2,5,3.86,5,No,No
+E00977,Customer Support,Christchurch,Lead,Hybrid,Male,2022-11-13,31,9.9,119600,13900,4.81,4.21,33.4,2,3.98,5,No,No
+E00978,Marketing,Auckland,Junior,Onsite,,2021-08-15,28,1.8,59400,4700,5,,68.9,0,4.06,8,No,No
+E00979,Operations,Auckland,Intermediate,Onsite,Female,2016-11-29,35,5.4,80900,11500,3.73,4.41,18.1,0,2.82,4,No,Yes
+E00980,Sales,Auckland,Senior,Remote,Female,2020-02-07,38,7.2,110200,13800,4.42,2.85,4.6,5,3.66,17,No,No
+E00981,Data,Remote,Senior,Onsite,Prefer not to say,2017-08-28,40,7.8,134400,,2.79,2.77,7.5,0,4.27,9,No,No
+E00982,Engineering,Wellington,Intermediate,Remote,Female,2024-01-21,27,4.0,105600,16400,4.86,5,19.9,4,3.8,3,No,No
+E00983,Data,Remote,Junior,Hybrid,,2022-01-09,33,4.2,91900,11900,4.09,,32.7,2,3.37,6,No,No
+E00984,Operations,Wellington,Senior,Remote,Female,2024-10-26,31,7.3,118700,12300,5,5,30.0,5,3.54,5,No,No
+E00985,Operations,Auckland,Intermediate,Hybrid,Male,2017-05-01,29,3.2,85800,10200,4.29,4.78,22.0,2,4.02,11,No,No
+E00986,Engineering,Wellington,Intermediate,Hybrid,Female,2016-09-23,38,6.1,113900,13000,4.87,4.96,,2,3.13,8,No,No
+E00987,Marketing,Hamilton,Junior,Onsite,,2022-01-05,27,0,55900,5700,2.89,2.34,0,1,4.9,3,No,No
+E00988,Sales,Christchurch,Junior,Hybrid,Female,2023-06-23,34,1.9,54900,6400,4.41,4.63,39.2,2,2.45,13,No,No
+E00989,Finance,Auckland,Intermediate,Remote,Male,2024-03-31,32,5.2,101700,10400,3.67,,12.2,4,3.7,10,No,No
+E00990,Engineering,Remote,Senior,Onsite,Male,2018-01-05,34,9.0,130800,12800,4.01,4.19,28.8,1,3.1,7,No,No
+E00991,Data,Auckland,Junior,Remote,Female,2024-03-05,34,4.5,82200,5700,5,3.81,50.2,4,2.73,17,Yes,No
+E00992,Customer Support,Auckland,Intermediate,Remote,Non-binary,2018-12-29,34,2.7,68400,4200,4.23,5,21.5,4,3.29,4,No,No
+E00993,Engineering,Christchurch,Manager,Hybrid,Non-binary,2024-08-29,41,13.0,156900,23400,5,5,46.6,3,3.9,15,No,No
+E00994,Engineering,Auckland,Intermediate,Onsite,Male,2018-02-11,24,2.4,86500,7300,3.27,3.14,16.3,0,2.75,15,Yes,No
+E00995,Engineering,Auckland,Senior,Hybrid,Male,2019-10-07,33,5.3,121200,16200,4.74,4.08,22.4,2,3.83,5,No,No
+E00996,Finance,Remote,Senior,Hybrid,Male,2021-03-11,36,8.0,130300,17100,5,4.04,22.5,2,4.16,16,No,No
+E00997,Engineering,Auckland,Senior,Onsite,Female,2019-02-24,38,6.8,122600,10100,3.9,3.21,35.5,1,3.4,12,No,No
+E00998,Customer Support,Wellington,Intermediate,Onsite,Non-binary,2018-07-27,35,4.6,74700,9600,5,5,54.8,0,3.46,13,Yes,No
+E00999,Engineering,Auckland,Lead,Remote,Male,2017-04-23,40,10.6,153400,11000,4.52,4.42,27.2,4,3.42,6,No,Yes
+E01000,Finance,Hamilton,Junior,Hybrid,,2021-04-04,29,0,75300,5900,3.1,2.57,23.2,3,3.11,7,No,No
+E01001,Customer Support,Auckland,Junior,Hybrid,Female,2024-07-13,28,2.8,52500,4700,4.17,3.97,29.8,3,4.03,3,No,No
+E01002,Marketing,Remote,Intermediate,Hybrid,Male,2019-04-15,33,2.3,78700,7200,3.43,4.85,24.2,2,2.94,15,No,No
+E01003,Engineering,Auckland,Intermediate,Hybrid,Male,2024-11-08,32,4.3,106500,6800,3.52,5,35.3,3,4.41,3,No,No
+E01004,Customer Support,Hamilton,Manager,Onsite,Female,2019-12-25,34,11.9,131900,14900,4.54,2.3,20.1,0,3.37,17,No,Yes
+E01005,Customer Support,Auckland,Junior,Onsite,Non-binary,2019-10-18,21,0.4,42000,9400,3.27,1.88,12.3,0,3.57,11,No,No
+E01006,Data,Remote,Lead,Hybrid,Male,2018-07-08,32,9.6,156900,,5,4.84,26.5,2,2.28,3,No,No
+E01007,Data,Christchurch,Senior,Hybrid,Female,2016-03-29,37,5.8,127800,,3.01,4.93,17.2,2,2.72,10,No,No
+E01008,Customer Support,Auckland,Intermediate,Onsite,Male,2016-06-10,29,5.5,74800,13600,3.72,3.48,5.5,1,3.34,16,No,No
+E01009,Engineering,Auckland,Junior,Onsite,Prefer not to say,2019-02-26,21,0,68900,8400,3.72,2.91,6.9,0,,9,No,No
+E01010,Customer Support,Hamilton,Senior,Hybrid,Male,2016-10-08,31,8.7,82800,5100,4.76,3.65,33.8,3,3.17,13,No,No
+E01011,Sales,Wellington,Intermediate,Hybrid,Female,2017-12-18,41,4.3,97000,7300,4.26,4.11,21.4,2,3.58,9,No,No
+E01012,Operations,Auckland,Intermediate,Onsite,Female,2018-10-30,25,5.0,91900,8500,3.14,4.13,11.8,0,2.82,7,No,No
+E01013,Sales,Hamilton,Junior,Remote,Prefer not to say,2016-03-02,35,3.9,54600,11000,4.88,3.61,41.1,4,3.69,4,Yes,Yes
+E01014,Operations,Christchurch,Junior,Remote,Male,2018-03-05,22,0,64100,6800,3.54,4.79,23.1,5,,7,No,No
+E01015,Customer Support,Auckland,Senior,Onsite,Male,2024-07-03,43,9.7,110000,10900,3.91,5,23.5,1,4.44,9,No,No
+E01016,Finance,Christchurch,Junior,Hybrid,Prefer not to say,2016-04-22,37,2.7,55500,4000,4.66,5,44.4,2,2.84,5,Yes,No
+E01017,Data,Auckland,Junior,Hybrid,Female,2024-12-06,33,0,69400,10000,4.75,4.91,42.3,2,3.45,9,No,No
+E01018,Engineering,Auckland,Intermediate,Hybrid,Male,2018-03-27,32,6.6,118300,11700,5,5,44.0,3,3.85,9,No,No
+E01019,Data,Auckland,Lead,Onsite,Male,2018-10-05,35,9.1,137300,14900,4.09,,21.1,1,4.4,11,No,Yes
+E01020,Engineering,Christchurch,Intermediate,Hybrid,Male,2016-08-22,26,5.2,94500,16900,3.47,4.04,23.1,2,2.79,14,No,No
+E01021,Data,Remote,Senior,Onsite,Female,2016-01-06,34,7.3,120400,12800,3.38,3.95,18.7,0,3.6,12,Yes,No
+E01022,Engineering,Hamilton,Junior,Hybrid,Male,2023-11-23,26,0,54300,2100,4.23,4.01,23.6,2,3.39,5,No,No
+E01023,Sales,Christchurch,Senior,Hybrid,,2022-06-21,34,8.8,116100,16900,4.19,4.78,21.1,2,3.54,17,No,No
+E01024,Marketing,Remote,Intermediate,Hybrid,Male,2017-11-03,22,0,58700,6000,3.93,,20.8,2,3.19,6,Yes,No
+E01025,Data,Remote,Manager,Hybrid,Female,2016-05-19,33,11.6,150000,12900,5,3.38,14.1,3,2.69,24,Yes,No
+E01026,Operations,Hamilton,Senior,Onsite,Female,2016-05-02,31,4.9,90400,11000,3.47,4.46,22.6,0,4.42,14,Yes,No
+E01027,HR,Hamilton,Junior,Onsite,Male,2022-07-16,37,3.9,49700,7000,4.72,3.92,40.2,0,3.91,6,No,No
+E01028,Operations,Auckland,Senior,Hybrid,Male,2023-03-31,40,9.2,118900,11900,4.68,5,38.7,3,3.8,3,No,No
+E01029,Marketing,Christchurch,Lead,Remote,Prefer not to say,2020-05-10,42,9.5,128900,,4.49,2.62,11.1,5,3.71,11,No,No
+E01030,Engineering,Christchurch,Intermediate,Hybrid,Male,2020-05-27,28,3.8,92500,6200,5,,47.9,2,3.89,11,Yes,No
+E01031,Engineering,Christchurch,Intermediate,Remote,Female,2020-06-04,33,4.4,123500,10500,3.24,4.24,9.7,4,4.46,15,No,No
+E01032,Customer Support,Wellington,Junior,Hybrid,Male,2024-08-01,31,2.3,42000,3700,3.88,3.34,23.1,2,2.34,15,No,No
+E01033,Engineering,Wellington,Lead,Hybrid,Female,2021-05-20,37,12.9,170400,15900,4.92,4.87,33.5,3,2.86,3,No,No
+E01034,Customer Support,Wellington,Intermediate,Onsite,Non-binary,2019-02-17,33,3.3,84900,1900,3.9,3.72,7.1,0,3.65,12,Yes,No
+E01035,Customer Support,Wellington,Junior,Hybrid,Female,2023-10-09,27,0,44700,,3.1,4.37,16.4,2,3.82,13,No,No
+E01036,Engineering,Wellington,Intermediate,Onsite,Male,2017-09-04,26,3.4,88100,7900,3.61,3.61,0,1,3.58,5,No,No
+E01037,Operations,Auckland,Senior,Hybrid,Male,2023-10-15,39,12.2,128400,13600,4.58,4.39,20.3,3,2.61,8,Yes,No
+E01038,Customer Support,Auckland,Senior,Hybrid,Male,2022-12-19,33,10.0,109400,14100,4.74,5,42.2,2,4.61,5,No,No
+E01039,Sales,Auckland,Senior,Hybrid,,2023-08-19,32,8.9,97100,14000,3.4,2.52,0,2,3.28,3,No,No
+E01040,HR,Remote,Intermediate,Hybrid,Prefer not to say,2023-03-04,32,3.3,70500,5100,3.94,3.72,15.4,2,3.09,5,Yes,Yes
+E01041,Finance,Christchurch,Junior,Onsite,Male,2017-08-10,24,0,46700,7100,3.31,2.78,17.9,1,,14,No,Yes
+E01042,Operations,Remote,Intermediate,Onsite,Male,2017-01-25,29,4.4,67400,7200,4.17,2.84,31.7,1,3.07,10,Yes,No
+E01043,Engineering,Hamilton,Intermediate,Hybrid,Female,2017-01-20,21,0.6,77500,8600,3.97,4.9,27.4,3,4.01,3,No,No
+E01044,Operations,Auckland,Intermediate,Onsite,Female,2018-12-12,31,6.5,82500,8400,4.21,2.57,18.7,1,3.59,12,No,No
+E01045,Engineering,Auckland,Senior,Hybrid,,2020-10-25,37,10.1,135400,15300,4.05,4.05,14.8,2,4.11,8,No,No
+E01046,Sales,Auckland,Senior,Remote,Female,2022-03-29,34,6.4,122400,11200,3.83,3.98,21.3,5,2.66,8,No,No
+E01047,Customer Support,Auckland,Intermediate,Onsite,,2024-04-10,34,6.2,73200,4400,4.21,2.93,14.7,0,4.79,12,No,No
+E01048,Marketing,Wellington,Junior,Onsite,Male,2023-08-28,26,4.0,73100,5800,4.07,3.55,29.1,0,3.35,8,No,Yes
+E01049,Marketing,Auckland,Junior,Remote,Female,2017-07-10,23,0.3,67000,,5,4.6,51.7,5,4.88,15,No,No
+E01050,Data,Auckland,Intermediate,Hybrid,Female,2017-02-26,32,5.2,103000,6500,3.07,5,0,2,2.51,3,No,No
+E01051,Data,Wellington,Senior,Onsite,Female,2023-12-20,37,6.5,129800,14000,5,5,53.0,0,2.78,10,No,Yes
+E01052,Sales,Auckland,Lead,Remote,Female,2024-05-16,36,13.7,149100,21600,4.42,5,25.2,5,3.79,12,No,No
+E01053,Operations,Christchurch,Junior,Hybrid,Female,2022-02-28,25,0,42000,0,3.99,4.01,26.4,2,3.6,16,No,No
+E01054,Engineering,Auckland,Senior,Remote,Male,2024-06-04,37,8.2,111500,14900,5,4.04,46.3,5,3.25,17,No,No
+E01055,Engineering,Christchurch,Manager,Hybrid,Male,2017-10-03,46,14.2,141800,15400,4.42,4.4,18.4,3,3.21,16,No,No
+E01056,Customer Support,Wellington,Junior,Hybrid,Male,2019-08-08,31,3.7,57800,6000,3.94,4.31,11.3,2,4.28,6,No,No
+E01057,Operations,Remote,Senior,Onsite,Male,2020-04-09,35,8.9,104900,17200,4.49,4.72,48.6,1,,5,No,No
+E01058,Engineering,Auckland,Lead,Remote,Male,2018-04-05,33,9.4,148600,17600,5,3.64,26.2,4,4.47,13,Yes,No
+E01059,Sales,Wellington,Intermediate,Hybrid,Male,2024-10-28,29,2.3,83200,12000,5,5,69.6,2,,11,No,No
+E01060,Marketing,Wellington,Senior,Hybrid,Male,2017-04-12,30,7.2,105200,12800,5,3.17,37.4,3,3.75,5,No,No
+E01061,Engineering,Auckland,Manager,Onsite,Male,2017-10-28,29,10.4,140900,10000,4.45,4.47,28.3,0,4.59,14,No,No
+E01062,Sales,Auckland,Senior,Hybrid,Female,2020-09-05,34,7.1,117900,13500,5,5,56.8,3,2.51,3,No,No
+E01063,Engineering,Remote,Intermediate,Hybrid,Female,2019-09-05,30,0,77900,10800,5,5,60.5,2,4.05,10,Yes,No
+E01064,Engineering,Remote,Intermediate,Hybrid,Prefer not to say,2020-09-17,30,4.6,87300,7900,4.0,,26.3,2,3.35,12,No,Yes
+E01065,Marketing,Remote,Junior,Hybrid,Male,2019-01-13,21,3.3,78200,10000,3.95,4.33,26.4,2,3.85,5,No,No
+E01066,HR,Hamilton,Lead,Hybrid,Male,2024-01-01,43,9.8,128000,13900,5,4.05,42.0,2,3.4,11,No,No
+E01067,Operations,Remote,Junior,Onsite,Non-binary,2021-07-26,22,3.5,77000,10200,5,5,56.0,1,4.46,6,Yes,No
+E01068,Engineering,Wellington,Senior,Remote,Male,2018-09-29,33,5.8,117500,8300,3.17,4.42,0,4,4.4,7,No,No
+E01069,Customer Support,Christchurch,Senior,Onsite,Female,2020-04-25,38,8.8,93000,4100,4.95,4.81,30.2,0,4.24,3,No,No
+E01070,Customer Support,Auckland,Junior,Onsite,Male,2018-02-23,21,0,56100,8000,3.66,3.32,16.9,1,2.93,3,No,No
+E01071,Sales,Hamilton,Manager,Hybrid,Female,2020-04-07,38,9.6,143500,15100,5,3.78,45.7,3,,10,No,No
+E01072,Operations,Christchurch,Junior,Onsite,Female,2017-11-10,22,0.4,49800,10100,4.74,5,54.4,0,5,15,No,No
+E01073,Sales,Remote,Junior,Onsite,Female,2024-12-05,30,4.6,63200,4800,5,4.96,37.8,1,3.18,15,No,Yes
+E01074,Operations,Wellington,Intermediate,Onsite,Female,2022-08-16,30,6.9,103500,2200,2.92,4.75,14.5,0,3.74,4,No,No
+E01075,Sales,Wellington,Senior,Remote,Female,2023-05-09,32,10.0,105300,7000,5,,47.2,5,2.95,6,No,No
+E01076,Sales,Wellington,Manager,Onsite,Prefer not to say,2023-03-06,38,11.5,143700,14500,3.35,4.65,16.5,0,3.52,15,No,No
+E01077,Marketing,Hamilton,Lead,Hybrid,Female,2023-06-26,34,12.8,121800,14000,5,4.65,29.9,3,3.03,14,No,No
+E01078,Engineering,Remote,Intermediate,Hybrid,Female,2022-10-11,25,1.1,96200,10400,4.17,4.75,13.0,2,4.11,19,Yes,No
+E01079,Engineering,Auckland,Manager,Onsite,Female,2023-07-02,36,10.3,140100,13100,3.75,3.65,19.0,0,3.59,11,No,No
+E01080,Sales,Wellington,Junior,Hybrid,Male,2022-03-11,27,0,54200,8100,4.72,4.36,42.4,2,3.21,14,Yes,No
+E01081,Engineering,Remote,Senior,Onsite,Male,2023-09-10,34,9.4,120600,13700,4.41,4.57,30.1,1,3.88,19,No,No
+E01082,HR,Christchurch,Manager,Onsite,Male,2019-01-09,38,12.2,145700,14900,4.33,4.08,42.8,0,4.03,6,No,Yes
+E01083,Marketing,Christchurch,Intermediate,Onsite,Female,2021-12-02,24,5.8,83600,6800,4.43,,29.3,0,3.13,21,No,No
+E01084,Engineering,Christchurch,Junior,Onsite,Male,2021-07-17,27,0.7,80700,8100,3.81,3.65,26.0,0,2.9,10,No,No
+E01085,Finance,Auckland,Lead,Onsite,Male,2023-10-30,42,9.0,146200,20000,4.75,4.04,50.6,0,2.75,13,No,No
+E01086,Marketing,Auckland,Senior,Remote,Female,2020-11-01,41,7.5,112700,10500,5,5,62.8,5,3.49,3,No,No
+E01087,Operations,Remote,Senior,Remote,Male,2019-04-29,24,7.2,112600,9200,5,4.51,47.5,4,4.01,11,No,No
+E01088,Sales,Auckland,Senior,Hybrid,,2017-06-18,34,9.5,122200,16300,4.81,4.89,38.6,3,3.91,3,Yes,No
+E01089,HR,Hamilton,Lead,Hybrid,,2016-10-21,36,6.5,130700,10600,2.42,1.67,8.6,2,3.58,17,No,No
+E01090,Engineering,Auckland,Intermediate,Hybrid,Male,2017-10-03,31,3.2,102700,7200,5,5,64.9,2,5,15,No,No
+E01091,Finance,Christchurch,Lead,Hybrid,Non-binary,2018-01-02,34,8.2,148200,,3.26,4.36,21.3,3,3.02,12,No,No
+E01092,Engineering,Auckland,Intermediate,Hybrid,Male,2022-03-09,37,9.8,110600,,5,,56.9,3,2.77,5,Yes,No
+E01093,Customer Support,Auckland,Junior,Remote,Prefer not to say,2019-11-09,26,0.4,64500,6000,2.22,3.34,16.9,5,3.25,10,No,No
+E01094,Operations,Auckland,Senior,Hybrid,Female,2024-12-01,42,7.6,115600,13500,4.25,4.46,22.9,3,4.22,15,No,No
+E01095,Engineering,Hamilton,Intermediate,Hybrid,Male,2022-08-25,25,4.6,102500,6300,4.0,3.3,11.3,2,3.54,17,No,Yes
+E01096,Operations,Wellington,Junior,Onsite,Female,2022-02-28,34,6.2,82400,10000,4.83,4.5,35.8,0,3.57,8,No,No
+E01097,Finance,Auckland,Manager,Hybrid,Female,2021-05-14,34,13.4,151600,15900,5,3.66,42.4,2,3.08,20,Yes,Yes
+E01098,Engineering,Remote,Intermediate,Onsite,Male,2023-06-01,28,5.7,113900,,3.98,3.18,25.4,1,2.7,7,Yes,No
+E01099,Marketing,Wellington,Senior,Hybrid,Male,2018-09-23,33,9.1,115200,10200,4.82,5,29.9,2,3.67,11,No,No
+E01100,Marketing,Remote,Junior,Hybrid,Female,2023-09-08,30,1.2,63400,10500,3.7,2.8,20.6,2,3.04,6,No,No
+E01101,Sales,Auckland,Intermediate,Hybrid,Prefer not to say,2019-05-08,34,6.2,101000,9900,4.98,5,34.9,2,4.16,7,No,No
+E01102,Data,Auckland,Lead,Hybrid,Female,2021-06-19,36,10.6,149700,15000,4.5,4.97,41.9,2,4.36,6,No,No
+E01103,HR,Auckland,Intermediate,Hybrid,Female,2022-03-14,31,3.3,77600,7400,4.09,5,32.8,3,3.39,3,No,Yes
+E01104,Engineering,Remote,Intermediate,Onsite,Male,2016-05-01,33,6.4,104000,12300,5,5,39.1,1,3.81,6,No,No
+E01105,Sales,Auckland,Manager,Hybrid,,2022-06-22,43,14.7,148200,15900,4.52,3.86,5.5,3,3.41,8,Yes,No
+E01106,Marketing,Remote,Manager,Onsite,Male,2024-03-16,43,16.0,157100,15100,4.46,3.28,23.0,1,3.94,12,Yes,No
+E01107,Engineering,Remote,Senior,Hybrid,Male,2021-09-14,28,7.7,120100,13400,4.08,3.56,15.6,2,3.17,5,No,Yes
+E01108,Operations,Hamilton,Lead,Hybrid,Male,2017-09-12,35,8.1,122700,,3.21,5,8.9,2,,14,No,No
+E01109,Sales,Auckland,Junior,Hybrid,Male,2023-07-05,23,1.8,66100,5700,2.84,3.09,0.1,2,3.69,6,No,No
+E01110,Customer Support,Auckland,Manager,Hybrid,Female,2021-01-09,34,9.4,127900,13500,4.38,3.73,20.9,3,2.83,12,Yes,No
+E01111,HR,Remote,Junior,Remote,Male,2024-07-27,21,0.5,46700,7700,4.34,5,17.2,5,5,3,No,No
+E01112,Customer Support,Auckland,Senior,Hybrid,Female,2019-07-18,30,6.7,103200,10100,4.65,3.87,20.2,2,2.43,11,No,No
+E01113,Marketing,Wellington,Senior,Remote,Male,2022-06-05,34,4.3,99500,8600,3.5,3.62,15.7,5,3.54,11,No,No
+E01114,Operations,Wellington,Intermediate,Remote,Male,2020-05-28,35,2.9,69900,8800,3.92,4.89,24.4,4,3.81,8,No,No
+E01115,Sales,Auckland,Lead,Hybrid,Male,2021-07-12,28,7.8,134300,14000,5,5,39.0,2,3.26,4,No,No
+E01116,Engineering,Auckland,Intermediate,Onsite,Male,2016-07-02,25,2.6,107000,11600,2.95,3.14,,0,3.16,13,No,No
+E01117,Engineering,Wellington,Lead,Hybrid,Female,2017-12-03,26,8.8,136500,13200,3.92,3.77,11.4,2,,14,No,No
+E01118,Engineering,Auckland,Senior,Onsite,Male,2021-04-10,34,3.3,112200,7000,4.42,4.3,18.1,0,3.12,4,No,No
+E01119,Operations,Auckland,Senior,Hybrid,Female,2018-09-28,33,3.5,97900,10900,5,5,37.0,3,3.47,7,No,No
+E01120,HR,Remote,Intermediate,Hybrid,,2023-08-18,26,1.9,83900,10600,5,4.98,76.3,3,3.23,13,No,No
+E01121,Customer Support,Auckland,Intermediate,Hybrid,Male,2018-12-11,29,4.2,80000,6600,4.69,5,49.9,3,2.9,5,No,No
+E01122,HR,Auckland,Intermediate,Hybrid,Prefer not to say,2021-04-21,27,4.9,87300,11400,3.31,3.94,24.0,2,2.88,6,No,No
+E01123,Engineering,Wellington,Senior,Onsite,Male,2023-03-21,31,8.5,119800,6600,4.96,4.38,48.4,0,2.26,5,Yes,Yes
+E01124,HR,Auckland,Intermediate,Hybrid,Female,2016-11-08,24,3.2,83200,9600,3.89,4.63,8.2,3,3.49,4,No,No
+E01125,Customer Support,Auckland,Manager,Hybrid,Female,2017-10-18,40,10.9,124700,13100,3.03,4.08,21.1,3,3.24,13,No,No
+E01126,Data,Hamilton,Senior,Onsite,Non-binary,2019-07-14,32,6.2,113400,8600,4.4,4.62,34.1,0,4.37,5,Yes,No
+E01127,Finance,Christchurch,Junior,Hybrid,Non-binary,2018-01-14,26,4.8,69600,1600,5,4.92,30.6,2,4.15,3,No,No
+E01128,Operations,Auckland,Intermediate,Remote,Prefer not to say,2023-12-02,32,4.0,89200,9300,5,4.3,44.8,4,3.39,16,No,No
+E01129,Customer Support,Christchurch,Intermediate,Remote,Male,2019-04-01,25,3.9,68800,,4.81,5,42.0,5,4.25,12,Yes,No
+E01130,Engineering,Wellington,Junior,Hybrid,Male,2017-08-24,30,0,89500,11500,1.79,3.95,0.6,2,3.63,8,No,No
+E01131,Engineering,Remote,Intermediate,Hybrid,Female,2024-08-30,28,5.8,70000,7900,3.99,3.71,32.1,3,4.15,3,No,No
+E01132,Engineering,Remote,Junior,Remote,Prefer not to say,2019-08-11,25,0,74700,5800,3.67,4.39,20.2,5,3.89,3,No,No
+E01133,Sales,Remote,Intermediate,Hybrid,Female,2016-05-06,33,5.1,96600,8900,3.69,4.89,33.6,2,3.81,16,No,No
+E01134,HR,Christchurch,Senior,Hybrid,Male,2024-03-20,34,14.5,115900,10200,5,4.12,35.6,2,3.11,9,Yes,No
+E01135,Customer Support,Wellington,Junior,Remote,Male,2022-04-28,21,0.2,45300,1800,4.36,3.4,38.5,4,2.4,5,No,No
+E01136,HR,Hamilton,Intermediate,Hybrid,Female,2024-12-29,32,4.0,79300,6700,5,5,56.7,2,3.53,17,No,No
+E01137,Customer Support,Remote,Junior,Hybrid,Prefer not to say,2021-06-23,30,0.3,42000,3600,5,5,54.5,3,3.82,4,No,No
+E01138,Data,Christchurch,Senior,Remote,Male,2018-03-23,38,9.3,124600,13200,5,5,38.0,4,3.65,3,No,No
+E01139,Marketing,Auckland,Intermediate,Onsite,Female,2016-01-11,21,3.6,89400,7500,3.8,3.25,17.3,1,3.06,3,No,No
+E01140,Engineering,Wellington,Senior,Hybrid,Male,2018-07-18,48,12.3,136300,6800,3.96,4.94,9.0,2,2.92,9,No,Yes
+E01141,Sales,Christchurch,Senior,Onsite,Male,2023-06-02,35,6.9,96200,9200,3.74,4.2,30.1,1,4.24,4,No,No
+E01142,Engineering,Auckland,Junior,Onsite,Female,2016-09-13,26,0,95800,6600,4.36,3.62,15.9,0,5,13,Yes,No
+E01143,Operations,Auckland,Manager,Hybrid,Prefer not to say,2022-11-30,35,9.2,138400,14600,4.06,3.99,7.7,2,2.44,13,No,No
+E01144,Sales,Auckland,Junior,Onsite,Female,2018-12-17,36,4.8,77500,11000,5,5,25.8,0,4.23,9,Yes,No
+E01145,Engineering,Remote,Senior,Remote,Male,2017-04-16,34,12.1,132300,19700,5,5,53.9,5,3.36,11,Yes,No
+E01146,HR,Auckland,Senior,Hybrid,Prefer not to say,2017-01-16,35,7.5,114400,6900,4.54,3.41,15.6,2,4.14,20,No,No
+E01147,Data,Hamilton,Senior,Onsite,Male,2023-10-22,34,7.3,131400,13000,5,5,45.5,0,3.03,4,Yes,Yes
+E01148,Data,Auckland,Intermediate,Hybrid,Male,2016-02-14,37,3.1,90300,8700,5,5,76.6,3,3.72,15,No,No
+E01149,Operations,Auckland,Intermediate,Remote,Female,2024-03-09,30,4.6,78700,13200,4.49,,11.6,5,3.45,3,No,Yes
+E01150,Customer Support,Auckland,Junior,Hybrid,Prefer not to say,2017-09-28,32,3.7,57300,5600,2.91,,3.2,2,4.07,13,No,No
+E01151,Engineering,Wellington,Intermediate,Onsite,Female,2021-07-29,27,3.5,85800,,3.8,3.59,18.4,0,3.0,4,No,No
+E01152,Engineering,Hamilton,Junior,Onsite,Female,2023-05-22,33,3.4,78500,7500,4.8,4.72,32.1,0,3.85,4,Yes,No
+E01153,Operations,Remote,Senior,Onsite,Female,2021-11-22,39,9.1,108900,10100,4.98,4.13,26.5,1,3.97,7,No,No
+E01154,Customer Support,Auckland,Intermediate,Hybrid,Female,2020-05-13,22,2.4,66600,3700,4.09,5,30.2,2,3.9,13,No,No
+E01155,Marketing,Remote,Manager,Hybrid,Female,2017-10-04,39,10.1,125600,14700,5,5,42.8,2,2.96,14,No,No
+E01156,Operations,Hamilton,Senior,Remote,Female,2016-01-05,40,7.4,102800,13400,5,4.08,57.8,4,3.14,3,No,No
+E01157,Sales,Remote,Intermediate,Remote,Female,2024-05-16,45,7.7,108600,12300,5,5,53.2,5,3.82,12,Yes,No
+E01158,Customer Support,Remote,Junior,Hybrid,Male,2024-12-08,31,5.5,71600,5800,4.42,5,35.1,2,4.17,9,Yes,No
+E01159,Marketing,Wellington,Junior,Hybrid,Prefer not to say,2016-12-09,35,2.4,71900,,4.46,3.98,23.5,2,4.05,13,No,No
+E01160,Marketing,Auckland,Manager,Hybrid,,2017-10-15,46,12.9,142800,19100,4.28,4.15,35.3,3,4.53,9,No,No
+E01161,Marketing,Wellington,Manager,Onsite,Prefer not to say,2018-02-18,41,14.3,141700,12100,5,4.9,50.5,1,3.43,22,No,No
+E01162,Finance,Remote,Lead,Onsite,Female,2019-09-05,43,11.1,136000,14500,5,4.56,45.4,0,4.33,8,No,No
+E01163,Sales,Auckland,Intermediate,Onsite,Prefer not to say,2020-06-08,38,2.9,90200,12400,2.63,4.06,14.2,1,3.67,11,Yes,No
+E01164,Engineering,Auckland,Junior,Hybrid,Female,2018-07-07,35,3.6,82700,3300,3.12,4.93,21.8,3,4.52,16,No,No
+E01165,Operations,Auckland,Junior,Hybrid,Male,2019-04-18,31,1.7,65200,5800,4.86,4.36,37.2,2,3.19,9,No,No
+E01166,Sales,Auckland,Junior,Hybrid,Female,2018-05-13,26,0.7,49800,,5,4.77,51.7,2,3.79,14,No,No
+E01167,Finance,Wellington,Junior,Remote,Male,2019-02-22,30,2.4,71100,5800,4.83,4.99,38.3,5,4.34,4,No,No
+E01168,Operations,Wellington,Intermediate,Hybrid,Female,2022-07-06,25,3.1,56200,4500,4.21,4.27,27.9,2,2.74,12,No,No
+E01169,Customer Support,Wellington,Manager,Remote,,2020-05-20,42,12.8,145200,14300,3.48,3.68,3.6,5,3.69,11,No,No
+E01170,Operations,Auckland,Intermediate,Hybrid,Male,2020-11-04,24,3.6,88200,8900,5,5,61.8,2,2.79,4,No,No
+E01171,Operations,Remote,Intermediate,Hybrid,Male,2019-07-03,34,3.9,72800,4100,4.41,4.54,13.7,3,3.51,7,No,No
+E01172,Sales,Hamilton,Senior,Onsite,Female,2018-09-22,39,11.3,123200,10600,4.91,4.81,38.7,0,4.25,16,Yes,No
+E01173,HR,Remote,Junior,Onsite,Male,2022-01-17,29,0,56600,10300,5,4.75,22.0,0,4.17,7,No,No
+E01174,Data,Auckland,Intermediate,Hybrid,,2020-11-04,22,5.0,115700,10100,5,4.84,52.2,2,4.49,11,No,No
+E01175,Operations,Auckland,Junior,Remote,,2020-09-13,24,0.1,72600,8900,3.19,3.29,0,4,3.49,8,No,No
+E01176,Data,Wellington,Junior,Hybrid,Female,2024-02-08,21,1.5,66100,5300,3.82,4.17,37.0,3,3.09,8,No,No
+E01177,Sales,Wellington,Junior,Remote,Female,2023-11-15,26,0,43400,5200,4.34,4.05,15.6,5,3.56,3,No,No
+E01178,Marketing,Auckland,Intermediate,Remote,Female,2023-11-25,28,5.4,84700,11300,3.66,4.04,22.9,4,3.11,16,No,No
+E01179,Engineering,Wellington,Lead,Onsite,Female,2023-01-26,38,11.0,164400,25700,5,3.99,45.9,0,3.55,5,No,No
+E01180,Engineering,Hamilton,Intermediate,Hybrid,Male,2018-02-28,28,1.2,98200,10500,4.78,4.66,28.6,2,3.18,3,No,No
+E01181,Marketing,Auckland,Manager,Remote,Male,2022-12-15,42,11.0,131100,14300,4.56,3.72,20.2,5,3.89,17,No,No
+E01182,Marketing,Auckland,Lead,Hybrid,Prefer not to say,2022-02-02,44,10.8,126300,11100,4.35,4.03,7.4,2,3.77,6,No,No
+E01183,Customer Support,Auckland,Senior,Hybrid,Male,2023-09-27,44,10.8,98600,10600,5,5,49.1,3,4.18,3,No,Yes
+E01184,Customer Support,Wellington,Intermediate,Onsite,Male,2022-10-29,33,7.5,94500,12600,4.31,3.73,23.6,1,3.03,3,No,Yes
+E01185,Operations,Auckland,Junior,Hybrid,Male,2023-10-11,26,0,72800,3700,3.79,3.73,22.9,2,3.66,7,No,No
+E01186,Marketing,Christchurch,Lead,Remote,Female,2023-01-17,39,11.3,152200,16700,4.05,,,5,3.17,16,No,Yes
+E01187,Sales,Wellington,Intermediate,Remote,Female,2017-09-30,28,4.8,101800,11800,5,4.52,49.0,5,3.33,11,Yes,No
+E01188,Engineering,Christchurch,Junior,Remote,Male,2018-06-10,32,0,69800,7100,4.56,5,30.9,5,4.0,12,No,No
+E01189,Marketing,Auckland,Junior,Hybrid,Female,2019-06-07,30,2.2,58100,6300,3.44,4.53,17.6,3,3.06,17,No,No
+E01190,Finance,Wellington,Intermediate,Onsite,Female,2021-12-13,31,5.7,85400,9800,4.3,4.31,28.5,0,,11,No,Yes
+E01191,Engineering,Auckland,Lead,Remote,Male,2016-04-06,31,10.3,133300,16500,3.95,4.55,10.3,4,4.07,16,No,Yes
+E01192,Finance,Remote,Junior,Remote,Female,2019-08-23,24,3.2,71900,800,3.36,4.51,19.8,5,4.13,12,No,No
+E01193,Engineering,Remote,Manager,Onsite,Male,2018-04-22,35,9.1,148200,7400,4.11,4.04,30.7,0,2.18,9,No,No
+E01194,Customer Support,Auckland,Intermediate,Onsite,Male,2022-04-18,36,7.6,81800,11000,5,4.48,36.0,0,3.72,11,No,No
+E01195,Finance,Christchurch,Manager,Onsite,Male,2020-08-29,40,12.5,146100,17400,3.81,3.78,20.7,0,3.07,11,No,No
+E01196,Operations,Auckland,Intermediate,Hybrid,Female,2017-11-09,30,0,70700,8000,4.69,4.91,28.4,2,3.95,15,No,No
+E01197,Engineering,Auckland,Intermediate,Onsite,Male,2023-12-13,30,6.8,117000,5900,5,4.43,59.8,1,2.55,9,Yes,No
+E01198,Data,Wellington,Intermediate,Remote,Female,2019-04-21,34,6.3,114600,9700,4.32,5,32.5,5,3.44,4,No,Yes
+E01199,Operations,Auckland,Junior,Hybrid,Female,2021-11-15,22,0.6,71000,10900,5,5,66.1,2,4.05,6,No,No
+E01200,Operations,Remote,Intermediate,Hybrid,Male,2023-03-24,36,4.0,98700,3200,4.5,4.3,23.9,2,4.06,11,No,No
