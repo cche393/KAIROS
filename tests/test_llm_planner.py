@@ -56,6 +56,29 @@ class LlmPlannerTests(unittest.TestCase):
         self.assertEqual(result["mode"], "fallback")
         self.assertEqual(result["selected_actions"], self.candidate_actions[:2])
         self.assertIn("GROQ_API_KEY is not set", result["warnings"])
+        self.assertNotIn("OPENAI_API_KEY", " ".join(result["warnings"]))
+        request.assert_not_called()
+
+    def test_deterministic_provider_uses_fallback_without_api_key_warning(self):
+        config = {
+            "provider": "deterministic",
+            "model": "",
+            "api_key_name": "",
+            "api_key_configured": False,
+            "warnings": [],
+        }
+        with patch("agent.llm_planner.get_llm_config", return_value=config):
+            with patch("agent.llm_planner._request_llm_plan") as request:
+                result = plan_with_llm(
+                    "Explore this dataset",
+                    self.dataset_profile,
+                    self.candidate_actions,
+                    max_actions=2,
+                )
+
+        self.assertEqual(result["mode"], "fallback")
+        self.assertEqual(result["fallback_cause"], "deterministic_mode")
+        self.assertEqual(result["warnings"], [])
         request.assert_not_called()
 
     def _configured_llm(self):

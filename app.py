@@ -8,8 +8,15 @@ import pandas as pd
 import streamlit as st
 
 from agent.executor import execute_action
+from agent.final_reporter import build_final_report, describe_analysis_run
 from agent.groq_client import get_llm_config
 from agent.llm_planner import plan_with_llm
+from agent.memory_log import (
+    append_log_entry,
+    create_log_entry,
+    export_log_jsonl,
+    summarize_log_entries,
+)
 from agent.observer import inspect_dataset, load_csv
 from agent.planner_helper import describe_planning_scope, recommend_actions
 from agent.result_interpreter import interpret_result
@@ -66,6 +73,7 @@ ARG_LABELS = {
 def main() -> None:
     st.set_page_config(page_title="KAIROS", layout="wide")
     _inject_css()
+    _ensure_analysis_memory_state()
 
     left, right = st.columns([0.9, 3.0], gap="medium")
     with left:
@@ -87,11 +95,11 @@ def _agent_panel() -> tuple[Any, str]:
 
     st.markdown("**Planner mode**")
     llm_config = get_llm_config()
-    provider_name = str(llm_config["provider"]).upper()
-    if llm_config["api_key_configured"]:
-        st.success(f"{provider_name} API configured")
+    status_kind, status_text = _planner_availability_status(llm_config)
+    if status_kind == "success":
+        st.success(status_text)
     else:
-        st.info(f"{provider_name} API not configured")
+        st.info(status_text)
 
     max_actions = st.number_input(
         "Maximum analyses",
@@ -103,6 +111,7 @@ def _agent_panel() -> tuple[Any, str]:
     )
 
     uploaded_file = st.file_uploader("Upload CSV dataset", type=["csv"])
+    _sync_memory_to_uploaded_file(uploaded_file)
     question = st.text_area(
         "Analysis question",
         placeholder="What factors affect salary?",
@@ -126,6 +135,8 @@ def _agent_panel() -> tuple[Any, str]:
             _show_action_cards(bundle["candidate_actions"], empty_message="No candidate analyses were generated.")
         else:
             st.caption("Candidate analyses will appear after KAIROS profiles the dataset.")
+
+    _show_analysis_memory_log()
 
     st.caption("Follow-up conversational analysis can be added here later.")
     st.markdown("</div>", unsafe_allow_html=True)
@@ -156,6 +167,7 @@ def _workspace_panel(uploaded_file: Any, effective_goal: str) -> None:
         bundle["execution_results"],
         bundle.get("goal"),
     )
+    _show_final_report(bundle.get("final_report"))
     st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -181,6 +193,25 @@ def _generate_and_run(uploaded_file: Any, goal: str, max_actions: int) -> None:
     plan = plan_with_llm(goal, profile, candidate_actions, max_actions=max_actions)
     selected_actions = plan["selected_actions"]
     execution_results = [execute_action(df, action, dataset_profile=profile) for action in selected_actions]
+    final_report = build_final_report(
+        user_question=goal,
+        dataset_profile=profile,
+        plan=plan,
+        planning_trace=planning_trace,
+        selected_actions=selected_actions,
+        execution_results=execution_results,
+    )
+    memory_entry = create_log_entry(
+        user_question=goal,
+        dataset_profile=profile,
+        plan=plan,
+        planning_trace=planning_trace,
+        selected_actions=selected_actions,
+        execution_results=execution_results,
+        final_report=final_report,
+    )
+    stored_memory_entry = append_log_entry(st.session_state["analysis_memory_log"], memory_entry)
+    _export_memory_entry(stored_memory_entry)
 
     st.session_state["analysis_bundle"] = {
         "file_key": _file_key(uploaded_file),
@@ -192,7 +223,33 @@ def _generate_and_run(uploaded_file: Any, goal: str, max_actions: int) -> None:
         "plan": plan,
         "selected_actions": selected_actions,
         "execution_results": execution_results,
+        "final_report": final_report,
     }
+
+
+def _ensure_analysis_memory_state() -> None:
+    if "analysis_memory_log" not in st.session_state:
+        st.session_state["analysis_memory_log"] = []
+    if "analysis_memory_file_key" not in st.session_state:
+        st.session_state["analysis_memory_file_key"] = None
+
+
+def _sync_memory_to_uploaded_file(uploaded_file: Any) -> None:
+    _ensure_analysis_memory_state()
+    current_key = _file_key(uploaded_file) if uploaded_file is not None else None
+    previous_key = st.session_state.get("analysis_memory_file_key")
+    if current_key != previous_key:
+        st.session_state["analysis_memory_log"] = []
+        st.session_state["analysis_memory_file_key"] = current_key
+        if previous_key is not None:
+            st.session_state.pop("analysis_bundle", None)
+
+
+def _export_memory_entry(entry: dict[str, Any]) -> None:
+    try:
+        export_log_jsonl([entry])
+    except Exception as exc:
+        st.session_state.setdefault("analysis_memory_export_warnings", []).append(str(exc))
 
 
 def _show_agent_explanation() -> None:
@@ -236,7 +293,7 @@ def _show_agent_explanation() -> None:
     else:
         st.caption("No analyses were selected.")
 
-    _show_messages("Planner warning", plan.get("warnings", []), st.warning)
+    _show_messages("Planner warning", _visible_planner_warnings(plan.get("warnings", [])), st.warning)
     _show_messages("Planner error", plan.get("errors", []), st.error)
 
     with st.expander("Technical planning details", expanded=False):
@@ -286,12 +343,6 @@ def _show_dataset_overview(profile: dict[str, Any], df: pd.DataFrame) -> None:
         _pill_list("Categorical", column_types.get("categorical", []))
     with type_summary_cols[2]:
         _pill_list("Datetime", column_types.get("datetime", column_types.get("datetime_like", [])))
-
-    quality_notes = profile.get("quality_notes", [])
-    if quality_notes:
-        st.markdown("**Data quality notes**")
-        for note in quality_notes[:5]:
-            st.caption(note)
 
     tabs = st.tabs(["Preview", "Columns", "Detected types", "Missing values", "Technical details"])
     with tabs[0]:
@@ -350,6 +401,39 @@ def _show_action_cards(actions: list[dict[str, Any]], empty_message: str) -> Non
                     st.caption("No parameters are required for this analysis.")
 
 
+def _show_analysis_memory_log() -> None:
+    log_entries = st.session_state.get("analysis_memory_log", [])
+    with st.expander("Analysis Memory / Audit Log", expanded=False):
+        if not log_entries:
+            st.caption("No analysis steps have been recorded for this dataset yet.")
+            return
+
+        if st.button("Clear log", use_container_width=True):
+            st.session_state["analysis_memory_log"] = []
+            st.rerun()
+
+        export_warnings = st.session_state.get("analysis_memory_export_warnings", [])
+        _show_messages("Audit log export warning", export_warnings, st.warning)
+
+        for row, raw_entry in zip(summarize_log_entries(log_entries), log_entries):
+            title = row["analysis_type"] or "analysis step"
+            st.markdown(f"**Step {row['step']} - {title.replace('_', ' ').title()}**")
+            st.write(f"Question: {row['user_question']}")
+            st.write(f"Planner: {_planner_mode_label(row['planner_mode'])}")
+            tools = ", ".join(row["selected_tools"]) if row["selected_tools"] else "None"
+            st.write(f"Tools: {tools}")
+            st.write(f"Verification: {row['verification_status']}")
+            st.write(f"Summary: {row['result_summary']}")
+            with st.expander(f"Show raw log entry for step {row['step']}", expanded=False):
+                st.json(raw_entry)
+
+
+def _planner_mode_label(mode: str) -> str:
+    if mode == "llm":
+        return "LLM planner"
+    return "deterministic fallback"
+
+
 def _show_friendly_uses(args: dict[str, Any]) -> None:
     if not args:
         return
@@ -389,13 +473,14 @@ def _show_analysis_results(
                 st.warning("This analysis did not return an execution result.")
                 continue
 
-            status_text = "Executed" if result["executed"] else "Not executed"
-            verification_text = "Verified" if result["verification"]["valid"] else "Blocked during verification"
-            st.markdown("**Execution status**")
-            st.caption(f"{status_text}; {verification_text}. Warnings: {len(result['warnings'])}.")
-
-            _show_messages("Error", result["errors"], st.error)
-            _show_messages("Warning", result["warnings"], st.warning)
+            execution_check = _execution_check_message(result)
+            st.markdown("**Execution check**")
+            st.write(execution_check["summary"])
+            for detail in execution_check["details"]:
+                if result.get("executed"):
+                    st.warning(detail)
+                else:
+                    st.error(detail)
 
             interpretation = None
             if result.get("result") is not None:
@@ -436,6 +521,83 @@ def _show_analysis_results(
                     with tech_tabs[3]:
                         st.write(f"Chart helper: `{chart_action.get('tool', 'unknown_tool')}`")
                         st.json(chart_result)
+
+
+def _show_final_report(final_report: dict[str, Any] | None) -> None:
+    if not isinstance(final_report, dict) or not final_report:
+        return
+
+    st.markdown("### Final Analysis Report")
+    with st.container(border=True):
+        question = final_report.get("question_answered") or DEFAULT_GOAL
+        st.markdown("**Question answered:**")
+        st.write(str(question))
+
+        analyses = final_report.get("analyses_run", [])
+        if analyses:
+            st.markdown("**Analyses run:**")
+            for analysis in analyses:
+                if not isinstance(analysis, dict):
+                    continue
+                st.write(f"- {describe_analysis_run(analysis)}")
+
+        _show_report_list("Key findings", final_report.get("key_findings", []))
+        with st.expander("Limitations and suggested next analyses", expanded=True):
+            _show_report_list("Limitations", final_report.get("limitations", []))
+            _show_report_list(
+                "Suggested next analyses",
+                final_report.get("suggested_next_analyses", []),
+            )
+
+
+def _show_report_list(title: str, values: Any) -> None:
+    items = values if isinstance(values, list) else []
+    st.markdown(f"**{title}:**")
+    if not items:
+        st.caption("No items available.")
+        return
+    for item in items:
+        st.write(f"- {item}")
+
+
+def _visible_dataset_quality_notes(profile: dict[str, Any]) -> list[str]:
+    return []
+
+
+def _execution_check_message(result: dict[str, Any]) -> dict[str, Any]:
+    verification = result.get("verification") if isinstance(result.get("verification"), dict) else {}
+    warnings = _unique_texts(
+        list(verification.get("warnings", []) or []) + list(result.get("warnings", []) or [])
+    )
+    errors = _unique_texts(
+        list(verification.get("errors", []) or []) + list(result.get("errors", []) or [])
+    )
+    if not result.get("executed"):
+        return {
+            "summary": "The analysis could not be executed because the verifier found an incompatible tool or column selection.",
+            "details": errors,
+        }
+    if warnings:
+        return {
+            "summary": "This analysis was executed with verification warnings. The verifier checked column types, dataset structure, and tool compatibility before execution.",
+            "details": warnings,
+        }
+    return {
+        "summary": "This analysis was successfully executed after the verifier confirmed that the selected columns and analysis type were compatible with the dataset structure. No verification warnings were detected.",
+        "details": [],
+    }
+
+
+def _unique_texts(values: list[Any]) -> list[str]:
+    seen = set()
+    unique_values = []
+    for value in values:
+        text = str(value).strip()
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        unique_values.append(text)
+    return unique_values
 
 
 def _analysis_result_pairs(
@@ -858,34 +1020,89 @@ def _action_label(action: dict[str, Any]) -> str:
 
 
 def _planner_status_messages(plan: dict[str, Any], provider_name: str) -> dict[str, str]:
+    provider_label = _provider_label(provider_name)
+    provider_warning_label = _provider_warning_label(provider_name)
     if plan.get("mode") == "llm":
-        return {"mode_text": f"Planner mode: {provider_name} LLM", "warning": ""}
+        return {"mode_text": f"Planner mode: {provider_label} LLM", "warning": ""}
 
     fallback_cause = plan.get("fallback_cause", "")
+    if fallback_cause == "deterministic_mode" or provider_label == "deterministic":
+        return {
+            "mode_text": "Using deterministic planner mode.",
+            "warning": "",
+        }
     if fallback_cause == "no_api_key":
         return {
             "mode_text": "Planner mode: deterministic fallback",
-            "warning": f"{provider_name} API key is not configured; using deterministic fallback.",
+            "warning": f"{provider_warning_label} planner unavailable; using deterministic fallback.",
         }
     if fallback_cause in {"llm_error", "llm_invalid_json"}:
         return {
             "mode_text": "Planner mode: deterministic fallback",
-            "warning": "LLM planner unavailable; using deterministic fallback.",
+            "warning": f"{provider_warning_label} planner unavailable; using deterministic fallback.",
         }
     if fallback_cause == "llm_empty_selection":
         return {
-            "mode_text": f"Planner mode: {provider_name} LLM checked; deterministic fallback used",
+            "mode_text": f"Planner mode: {provider_label} LLM checked; deterministic fallback used",
             "warning": "LLM planner returned no runnable action; using deterministic fallback.",
         }
     if fallback_cause == "llm_invalid_selection":
         return {
-            "mode_text": f"Planner mode: {provider_name} LLM checked; deterministic fallback used",
+            "mode_text": f"Planner mode: {provider_label} LLM checked; deterministic fallback used",
             "warning": "LLM planner returned invalid action indexes; using deterministic fallback.",
         }
     return {
         "mode_text": "Planner mode: deterministic fallback",
         "warning": "",
     }
+
+
+def _planner_availability_status(llm_config: dict[str, Any]) -> tuple[str, str]:
+    provider_label = _provider_label(str(llm_config.get("provider") or ""))
+    if provider_label == "deterministic":
+        return "info", "Using deterministic planner mode."
+    if llm_config.get("api_key_configured"):
+        return "success", f"{provider_label} API configured"
+    return "info", f"{provider_label} API not configured; deterministic fallback available."
+
+
+def _provider_label(provider_name: str) -> str:
+    normalized = str(provider_name or "").strip().lower()
+    if normalized == "groq":
+        return "GROQ"
+    if normalized == "openai":
+        return "OpenAI"
+    if normalized in {"deterministic", "fallback", "local", "no-llm", "none", "off"}:
+        return "deterministic"
+    return str(provider_name or "LLM").strip() or "LLM"
+
+
+def _provider_warning_label(provider_name: str) -> str:
+    normalized = str(provider_name or "").strip().lower()
+    if normalized == "groq":
+        return "Groq"
+    if normalized == "openai":
+        return "OpenAI"
+    return _provider_label(provider_name)
+
+
+def _visible_planner_warnings(messages: list[str]) -> list[str]:
+    visible = []
+    for message in messages or []:
+        text = str(message)
+        if _is_raw_provider_detail(text):
+            continue
+        visible.append(text)
+    return visible
+
+
+def _is_raw_provider_detail(message: str) -> bool:
+    lowered = message.lower()
+    return (
+        "api_key" in lowered
+        or "kairos_llm_model" in lowered
+        or "sdk import failed" in lowered
+    )
 
 
 def _selected_candidate_indexes(

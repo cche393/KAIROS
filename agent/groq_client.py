@@ -8,7 +8,9 @@ from typing import Any
 
 DEFAULT_PROVIDER = "groq"
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
+DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 FALLBACK_GROQ_MODEL = "llama-3.1-8b-instant"
+NO_LLM_PROVIDERS = {"deterministic", "fallback", "local", "no-llm", "none", "off"}
 
 
 def load_environment() -> None:
@@ -25,13 +27,28 @@ def get_llm_config(load_env_file: bool = True) -> dict[str, Any]:
     if load_env_file:
         load_environment()
     provider = os.getenv("KAIROS_LLM_PROVIDER", DEFAULT_PROVIDER).strip().lower() or DEFAULT_PROVIDER
-    model = os.getenv("KAIROS_LLM_MODEL", DEFAULT_GROQ_MODEL).strip() or DEFAULT_GROQ_MODEL
+    if provider in NO_LLM_PROVIDERS:
+        return {
+            "provider": "deterministic",
+            "model": "",
+            "api_key_name": "",
+            "api_key_configured": False,
+            "warnings": [],
+        }
+
+    default_model = DEFAULT_OPENAI_MODEL if provider == "openai" else DEFAULT_GROQ_MODEL
+    model = os.getenv("KAIROS_LLM_MODEL", default_model).strip() or default_model
     warnings = []
     if provider == "groq" and _looks_like_openai_model(model):
         warnings.append(
             f"KAIROS_LLM_MODEL={model} is not a Groq model; using {DEFAULT_GROQ_MODEL}."
         )
         model = DEFAULT_GROQ_MODEL
+    if provider == "openai" and _looks_like_groq_model(model):
+        warnings.append(
+            f"KAIROS_LLM_MODEL={model} is not an OpenAI model; using {DEFAULT_OPENAI_MODEL}."
+        )
+        model = DEFAULT_OPENAI_MODEL
     key_name = _api_key_name(provider)
     return {
         "provider": provider,
@@ -113,9 +130,16 @@ def _request_openai(
 def _api_key_name(provider: str) -> str:
     if provider == "openai":
         return "OPENAI_API_KEY"
-    return "GROQ_API_KEY"
+    if provider == "groq":
+        return "GROQ_API_KEY"
+    return ""
 
 
 def _looks_like_openai_model(model: str) -> bool:
     normalized = model.strip().lower()
     return normalized.startswith(("gpt-", "o1", "o3", "o4"))
+
+
+def _looks_like_groq_model(model: str) -> bool:
+    normalized = model.strip().lower()
+    return normalized.startswith(("llama-", "mixtral-", "gemma-", "deepseek-", "qwen-"))

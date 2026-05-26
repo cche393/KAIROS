@@ -42,6 +42,7 @@ User Query
 -> Verifier / Guard
 -> Deterministic Analysis Tools
 -> Result Interpreter
+-> Final Reporter
 -> Streamlit UI
 ```
 
@@ -192,25 +193,44 @@ Example question-to-analysis behavior:
 
 `agent/result_interpreter.py` turns executed tool outputs into deterministic, human-readable summaries, key findings, cautions, and method notes. These interpretations are grounded only in structured tool results. They do not inspect the raw DataFrame, call an LLM, or invent findings beyond the executed analysis output.
 
+`agent/final_reporter.py` synthesizes the end-of-run `Final Analysis Report` without making another LLM call. It uses the user question, dataset profile metadata, planner trace, selected actions, verifier/executor responses, and deterministic result interpretations to produce a compact structured dictionary with the question answered, analyses run, key findings, limitations, and suggested next analyses. It deliberately avoids raw DataFrame storage and large result tables.
+
 Current guarded execution pipeline:
 
 ```text
-Observer -> Dataset profile -> planner_helper -> optional LLM planner -> Verifier -> Executor -> Cohesive analysis tools
+Observer -> Dataset profile -> planner_helper -> optional LLM planner -> Verifier -> Executor -> Cohesive analysis tools -> Result interpreter -> Final reporter -> Analysis memory log
 ```
 
-The verifier decides whether an action is allowed for the current DataFrame schema and profile. The executor is responsible for running a verified tool action and packaging the result, errors, and warnings for the next workflow step. The result interpreter then formats those tool outputs into readable findings for the UI.
+The verifier decides whether an action is allowed for the current DataFrame schema and profile. The executor is responsible for running a verified tool action and packaging the result, errors, and warnings for the next workflow step. The result interpreter formats individual tool outputs into readable findings, and the final reporter combines the run into a short user-facing synthesis.
 
-## Optional Groq LLM Planner
+`agent/memory_log.py` provides a session-level analysis memory and audit trace. After each user analysis request, KAIROS records a compact log entry containing the question, dataset summary, planner mode, inferred analysis type/focus, selected tools, verification status, warnings, tools run, a short result summary, and a tiny final-report summary. This supports reproducibility and transparency because the demo can show what the agent decided, what it was allowed to run, what happened, and what final conclusion was shown.
 
-The system can run without an API key. If `GROQ_API_KEY` is missing, the LLM planner returns a deterministic fallback that ranks candidate actions using the user question. For example, a specific pair question prioritizes `relationship_analysis`, while a vague request such as `Explore this dataset` uses the scope-aware fallback hierarchy.
+The audit log is intentionally not advanced long-term memory. It does not store the raw DataFrame, full result tables, sample rows, API keys, or large histories for future prompting. During a Streamlit session, entries are kept in `st.session_state.analysis_memory_log` and reset when a different dataset is uploaded or when the user selects clear log. Compact JSONL audit entries are also appended to `logs/analysis_log.jsonl`; `logs/` is ignored by git because these are runtime artifacts.
+
+## Planner Providers
+
+The system can run without an API key. If the configured hosted planner is unavailable, KAIROS returns a deterministic fallback that ranks candidate actions using the user question. For example, a specific pair question prioritizes `relationship_analysis`, while a vague request such as `Explore this dataset` uses the scope-aware fallback hierarchy.
+
+Supported provider modes:
+
+- `groq`: hosted Groq planner. Requires `GROQ_API_KEY`. Default model: `llama-3.3-70b-versatile`.
+- `openai`: hosted OpenAI planner. Requires `OPENAI_API_KEY`. Default model: `gpt-4o-mini`.
+- `deterministic`: no hosted LLM call. No API key is required.
 
 Environment variables:
 
-- `GROQ_API_KEY`: Groq API key used only for optional action selection.
-- `KAIROS_LLM_MODEL`: model name, defaulting to `llama-3.3-70b-versatile`.
-- `KAIROS_LLM_PROVIDER`: provider name, defaulting to `groq`.
+- `KAIROS_LLM_PROVIDER`: `groq`, `openai`, or `deterministic`; defaults to `groq`.
+- `KAIROS_LLM_MODEL`: optional provider-specific model override.
+- `GROQ_API_KEY`: required only when `KAIROS_LLM_PROVIDER=groq`.
+- `OPENAI_API_KEY`: required only when `KAIROS_LLM_PROVIDER=openai`.
 
-Groq-hosted inference avoids local model loading delay. KAIROS uses the hosted LLM only for planning/selection; all statistical computation, validation, charts, tests, correlations, ANOVA, and summaries remain deterministic Python behavior.
+Provider/model guardrails:
+
+- If Groq is selected with a stale OpenAI model such as `gpt-4o-mini`, KAIROS falls back to `llama-3.3-70b-versatile`.
+- If OpenAI is selected with a Groq-only model such as `llama-3.3-70b-versatile`, KAIROS falls back to `gpt-4o-mini`.
+- If a hosted provider has no API key, the normal UI says the provider is unavailable and deterministic fallback is active. Raw environment-variable details stay in technical planning details.
+
+Hosted inference avoids local model loading delay. KAIROS uses a hosted LLM only for planning/selection; all statistical computation, validation, charts, tests, correlations, ANOVA, and summaries remain deterministic Python behavior.
 
 Setup:
 
@@ -242,10 +262,19 @@ streamlit run app.py
 
 `.env` is local and must not be committed. `.env.example` contains placeholders only and is safe to commit. The fallback faster Groq model is `llama-3.1-8b-instant` if you want to change `KAIROS_LLM_MODEL` locally.
 
-If you previously used the OpenAI template, make sure your local `.env` no longer contains `KAIROS_LLM_MODEL=gpt-4o-mini`. For Groq, use:
+If you previously used the OpenAI template, make sure your local `.env` uses a model compatible with the selected provider. For Groq, use:
 
 ```text
+KAIROS_LLM_PROVIDER=groq
 KAIROS_LLM_MODEL=llama-3.3-70b-versatile
+```
+
+For OpenAI, use:
+
+```text
+KAIROS_LLM_PROVIDER=openai
+OPENAI_API_KEY=your_openai_api_key_here
+KAIROS_LLM_MODEL=gpt-4o-mini
 ```
 
 Example usage:
@@ -271,9 +300,13 @@ for action in plan["selected_actions"]:
 3. Select `Generate and run analysis`.
 4. KAIROS profiles the dataset, chooses analyses, runs them through the guarded executor, and displays the results.
 
-The left panel contains the conversational control area and a short explanation of the selected analyses. The right panel contains the dataset preview, dataset overview, verification status, formatted results, actual Streamlit charts for graph-helper outputs, and deterministic result interpretations. The UI does not execute tools directly. Every selected analysis goes through `execute_action`, which calls the verifier before dispatching to the tool registry.
+The left panel contains the conversational control area and a short explanation of the selected analyses. The right panel contains the dataset preview, dataset overview, verification status, formatted results, actual Streamlit charts for graph-helper outputs, deterministic result interpretations, and the final analysis report. The UI does not execute tools directly. Every selected analysis goes through `execute_action`, which calls the verifier before dispatching to the tool registry.
 
-User-facing results are shown as one coherent mini-report per selected analysis: explanation, key findings, embedded chart where useful, detailed table, cautions, and method note. Raw verification data, executor responses, tool names, and full structured payloads remain available in collapsed technical details sections for transparency.
+User-facing results are shown as one coherent mini-report per selected analysis: explanation, a human-readable execution check, key findings, embedded chart where useful, detailed table, cautions, and method note. Raw verification data, executor responses, tool names, and full structured payloads remain available in collapsed technical details sections for transparency.
+
+After the selected analysis cards, the `Final Analysis Report` section summarizes the question answered, analyses run, key findings, data/analysis limitations, and suggested next analyses in natural language. This block is deterministic and reuses existing structured results rather than asking the LLM to summarize the run.
+
+The left panel includes an expandable `Analysis Memory / Audit Log` section. It shows one concise row per analysis step: step number, question, planner mode, analysis type, selected tools, verification status, and result summary. Each step also has a nested raw log entry expander for debugging and assignment evidence.
 
 Install dependencies:
 
@@ -308,7 +341,8 @@ streamlit run app.py --server.port 8502
 Current planner modes:
 
 1. Groq API planner, enabled when `GROQ_API_KEY` is set and the API call succeeds. The UI shows `Planner mode: GROQ LLM`.
-2. Deterministic fallback planner, used when no key is set or the API fails. The UI shows `Planner mode: deterministic fallback`.
+2. OpenAI API planner, enabled when `OPENAI_API_KEY` is set and the API call succeeds. The UI shows `Planner mode: OpenAI LLM`.
+3. Deterministic fallback planner, used when no key is set, when a hosted API fails, or when `KAIROS_LLM_PROVIDER=deterministic`. The UI shows `Planner mode: deterministic fallback` or `Using deterministic planner mode.`
 
 API keys must be supplied through environment variables and must not be committed. The UI displays only whether the configured API provider is available; it never displays the key value.
 
@@ -331,7 +365,14 @@ streamlit run app.py
 
 This uses deterministic fallback planning.
 
-The memory, reflection, and final reporter components are not implemented yet.
+To force deterministic-only mode:
+
+```powershell
+$env:KAIROS_LLM_PROVIDER="deterministic"
+streamlit run app.py
+```
+
+Implemented memory is limited to the session-level analysis memory and audit trace. Reflection and a follow-up conversational analysis loop are still planned extensions.
 
 ## Tests
 
@@ -351,6 +392,8 @@ python -m unittest tests.test_executor
 python -m unittest tests.test_planner_helper
 python -m unittest tests.test_llm_planner
 python -m unittest tests.test_result_interpreter
+python -m unittest tests.test_final_reporter
+python -m unittest tests.test_memory_log
 python -m unittest tests.test_viz_tools
 python -m unittest tests.test_viz_registry_planner
 python -m unittest tests.test_cohesive_analysis

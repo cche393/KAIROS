@@ -4,7 +4,11 @@ from app import (
     _analysis_result_pairs,
     _chart_dataframe,
     _cohesive_analysis_sections,
+    _execution_check_message,
+    _visible_dataset_quality_notes,
+    _planner_availability_status,
     _planner_status_messages,
+    _visible_planner_warnings,
     _top_correlation_chart_frames,
 )
 
@@ -142,6 +146,100 @@ class AppLayoutTests(unittest.TestCase):
         self.assertEqual(status["mode_text"], "Planner mode: GROQ LLM checked; deterministic fallback used")
         self.assertEqual(status["warning"], "LLM planner returned no runnable action; using deterministic fallback.")
         self.assertNotIn("unavailable", status["warning"].lower())
+
+    def test_provider_missing_key_warning_is_user_friendly(self):
+        status = _planner_status_messages(
+            {
+                "mode": "fallback",
+                "fallback_cause": "no_api_key",
+                "errors": [],
+                "warnings": ["GROQ_API_KEY is not set"],
+            },
+            "GROQ",
+        )
+
+        self.assertEqual(status["mode_text"], "Planner mode: deterministic fallback")
+        self.assertEqual(status["warning"], "Groq planner unavailable; using deterministic fallback.")
+        self.assertNotIn("OPENAI_API_KEY", status["warning"])
+        self.assertEqual(_visible_planner_warnings(["GROQ_API_KEY is not set"]), [])
+
+    def test_deterministic_fallback_has_no_api_key_warning(self):
+        status = _planner_status_messages(
+            {
+                "mode": "fallback",
+                "fallback_cause": "deterministic_mode",
+                "errors": [],
+                "warnings": [],
+            },
+            "DETERMINISTIC",
+        )
+
+        self.assertEqual(status["mode_text"], "Using deterministic planner mode.")
+        self.assertEqual(status["warning"], "")
+
+    def test_sidebar_planner_status_is_provider_aware(self):
+        deterministic = _planner_availability_status(
+            {"provider": "deterministic", "api_key_configured": False}
+        )
+        groq = _planner_availability_status(
+            {"provider": "groq", "api_key_configured": False}
+        )
+
+        self.assertEqual(deterministic, ("info", "Using deterministic planner mode."))
+        self.assertEqual(groq, ("info", "GROQ API not configured; deterministic fallback available."))
+        self.assertNotIn("OPENAI", groq[1])
+
+    def test_execution_check_message_is_human_readable_without_warnings(self):
+        message = _execution_check_message(
+            {
+                "executed": True,
+                "verification": {"valid": True, "warnings": []},
+                "warnings": [],
+                "errors": [],
+            }
+        )
+
+        self.assertIn("successfully executed", message["summary"])
+        self.assertIn("No verification warnings were detected.", message["summary"])
+        self.assertEqual(message["details"], [])
+        self.assertNotIn("Executed; Verified", message["summary"])
+
+    def test_execution_check_message_lists_warnings_naturally(self):
+        message = _execution_check_message(
+            {
+                "executed": True,
+                "verification": {
+                    "valid": True,
+                    "warnings": ["employee_id appears to be an identifier column."],
+                },
+                "warnings": ["department has high cardinality."],
+                "errors": [],
+            }
+        )
+
+        self.assertIn("executed with verification warnings", message["summary"])
+        self.assertIn("employee_id appears to be an identifier column.", message["details"])
+        self.assertIn("department has high cardinality.", message["details"])
+
+    def test_execution_check_message_explains_failed_verification(self):
+        message = _execution_check_message(
+            {
+                "executed": False,
+                "verification": {"valid": False, "errors": ["Column not found: missing"]},
+                "warnings": [],
+                "errors": ["Column not found: missing"],
+            }
+        )
+
+        self.assertIn("could not be executed", message["summary"])
+        self.assertEqual(message["details"], ["Column not found: missing"])
+
+    def test_data_quality_notes_are_not_shown_as_standalone_main_section(self):
+        notes = _visible_dataset_quality_notes(
+            {"quality_notes": ["salary has 5.0% missing values."]}
+        )
+
+        self.assertEqual(notes, [])
 
 
 if __name__ == "__main__":
